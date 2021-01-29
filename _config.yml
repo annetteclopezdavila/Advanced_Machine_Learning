@@ -15,9 +15,11 @@ author: Annette Lopez Davila
 
 navbar-links:
   About Me: "aboutme"
-  Pages:
-    - Machine Learning: "https://annetteclopezdavila.github.io/Annette-s-Responses/"
-    - Advanced Machine Learning: "https://annetteclopezdavila.github.io/Advanced-Machine-Learning/"
+  Machine Learning: "https://annetteclopezdavila.github.io/Annette-s-Responses/"
+  Advanced Machine Learning: "https://annetteclopezdavila.github.io/Advanced-Machine-Learning/"
+  #Pages:
+   # - Machine Learning: "https://annetteclopezdavila.github.io/Annette-s-Responses/"
+   # - Advanced Machine Learning: "https://annetteclopezdavila.github.io/Advanced-Machine-Learning/"
   #Author's home: "https://deanattali.com"
 
 # --- Logo --- #
