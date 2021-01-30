@@ -1,2 +1,6 @@
-# Welcome to my Github page for Applied Machine Learning!
-##Project Index
+---
+layout: page
+title: Applied Machine Learning
+---
+
+## Project Repository
