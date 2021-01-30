@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Project 0: Testing Github and Markdown
+title: Sample blog post
+subtitle: Each post also has a subtitle
 ---
 
 ## Headings
-Hello
 Use hashtags for heading size; the more hashtags, the more headings.
 
 *Examples*
