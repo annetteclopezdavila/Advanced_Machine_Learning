@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Project 0
-subtitle: Testing Github and Markdown
+title: Project 0: Testing Github and Markdown
+subtitle: This page will be updated throughout the semester
 ---
 
 ## Headings
