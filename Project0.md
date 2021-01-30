@@ -1,4 +1,7 @@
-# Project 0: Testing Github
+---
+layout: page
+title: Project 0: Testing Github and Markdown
+---
 
 ## Headings
 Use hashtags for heading size; the more hashtags, the more headings.
