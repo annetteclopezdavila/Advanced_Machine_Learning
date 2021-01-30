@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Sample blog post
-subtitle: Each post also has a subtitle
+title: Project 0
+subtitle: Testing Github and Markdown
 ---
 
 ## Headings
