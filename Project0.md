@@ -5,6 +5,7 @@ title: Project 0: Testing Github and Markdown
 
 ## Headings
 Use hashtags for heading size; the more hashtags, the more headings.
+
 *Examples*
 - One Hashtag:
 # Hi
@@ -15,9 +16,11 @@ Use hashtags for heading size; the more hashtags, the more headings.
 
 ## Italicize and Bold
 Use two star symbols for italicized material- one before and one after the word/phrase. 
-- *Hello*
+
+*Hello*
 
 In order to bolden words, place three star symbols before and after the word/phrase.
+
 ***Hi***
 
 ## Code Blocks
@@ -46,6 +49,8 @@ In order to make tables:
 | Two | Three | One |
 ~~~
 It is rendered as:
+
+
 | Col 1 | Col 2 | Col 3 |
 | :------ |:--- | :--- |
 | Five | Six | Four |
