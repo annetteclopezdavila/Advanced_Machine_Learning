@@ -7,3 +7,7 @@ gh-badge: [star, fork, follow]
 tags: [Backpropagation]
 comments: true
 ---
+
+[Presentation Powerpoint](Neural Network MATH.pptx)
+
+[Presentation Paper](AnnetteLopezDavila.pdf)
