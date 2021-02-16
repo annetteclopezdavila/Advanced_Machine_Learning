@@ -486,6 +486,29 @@ print("MAE Neural Network = ${:,.2f}".format(1000*mae_nn))
 ~~~
 The MAE of this particular neural network is $3,895.49. Although some of the LOWESS models performed better, our DNN may be able to get better if we change the architecture.
 
+## Extreme Gradient Boost
+Extreme Gradient Boost attempts to help against overfitting by using gradient boosted decision trees. A booster corrects the errors made by an existing model by sequentially adding until no further improvement can be made. Gradient boosting calculates the residuals of each sample and then decides the best split along a given feature. These splits will create trees with the residual values in each leaf. XGBoosting calculates a gain function which keeps track of improvement in accuracy brought about by a split. Thus, we eventually find a threshold that results in the maximum gain. This process is repeated throughout each of the leaves.
+
+### Python Code
+~~~
+import xgboost as xgb
+model_xgb = xgb.XGBRegressor(objective ='reg:squarederror',n_estimators=100,reg_lambda=20,alpha=1,gamma=10,max_depth=3)
+
+mae_xgb = []
+
+for idxtrain, idxtest in kf.split(dat):
+  X_train = dat[idxtrain,0]
+  y_train = dat[idxtrain,1]
+  X_test  = dat[idxtest,0]
+  y_test = dat[idxtest,1]
+  model_xgb.fit(X_train.reshape(-1,1),y_train)
+  yhat_xgb = model_xgb.predict(X_test.reshape(-1,1))
+  mae_xgb.append(mean_absolute_error(y_test, yhat_xgb))
+print("Validated MAE XGBoost Regression = ${:,.2f}".format(1000*np.mean(mae_xgb)))
+~~~
+
+
+
 
 
 
