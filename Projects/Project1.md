@@ -222,7 +222,7 @@ ax.minorticks_on()
 
 INSERT PICTURE GRAPH EEEEE Kernel
 
-We can see that the LOWESS MAE is smaller than that of the linear regression at $3,888.18. This is still relatively high, but much better than our previous approach.
+We can see that the LOWESS MAE is smaller than that of the linear regression at $3,860.55. This is still relatively high, but much better than our previous approach.
 
 #### Quartic Kernel
 We can do the same steps above with a different kernel and analyze its accuracy:
@@ -290,7 +290,7 @@ ax.minorticks_on()
 ~~~
 INSERT PICTURE OF PLOT
 
-The Quartic Kernel LOWESS offers a MAE of $3,889.25, which is slightly higher than that of the Epanechnikov Kernel.
+The Quartic Kernel LOWESS offers a MAE of $3,889.25, which is a bit higher than that of the Epanechnikov Kernel, thus making it not as accurate.
 
 #### Tri-Cubic Kernel
 We shall now try the Tri-cubic kernel in LOWESS.
@@ -355,9 +355,11 @@ ax.set_title('Boston Housing Prices',fontsize=16,color='purple')
 ax.grid(b=True,which='major', color ='grey', linestyle='-', alpha=0.8)
 ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
-
 ~~~
 
+INSERT iMAGE OF TRICUBIC KERNEL
+
+The MAE of the Tri-Cubic MAE is $3,888.18. This means this model produces almost the same accuracy as the Quartic Kernel for this data.
 
 
 
