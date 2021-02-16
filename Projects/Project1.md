@@ -291,3 +291,75 @@ ax.minorticks_on()
 INSERT PICTURE OF PLOT
 
 The Quartic Kernel LOWESS offers a MAE of $3,889.25, which is slightly higher than that of the Epanechnikov Kernel.
+
+#### Tri-Cubic Kernel
+We shall now try the Tri-cubic kernel in LOWESS.
+~~~
+import numpy as np
+import pandas as pd
+from math import ceil
+from scipy import linalg
+from scipy.interpolate import interp1d
+import matplotlib.pyplot as plt
+
+# Tricubic Kernel
+def tricubic(x):
+  return np.where(np.abs(x)>1,0,70/81*(1-np.abs(x)**3)**3)
+  
+def lowess_kern(x, y, kern, tau):
+    n = len(x)
+    yest = np.zeros(n)
+
+    #Initializing all weights from the kernel function by using only the train data    
+    w = np.array([kern((x - x[i])/(2*tau)) for i in range(n)])     
+    
+    #Looping through all x-points
+    for i in range(n):
+        weights = w[:, i]
+        b = np.array([np.sum(weights * y), np.sum(weights * y * x)])
+        A = np.array([[np.sum(weights), np.sum(weights * x)],
+                    [np.sum(weights * x), np.sum(weights * x * x)]])
+        theta, res, rnk, s = linalg.lstsq(A, b)
+        yest[i] = theta[0] + theta[1] * x[i] 
+
+    return yest
+
+dat = np.concatenate([X_train,y_train.reshape(-1,1)], axis=1)
+#matrix of two columns
+
+# this is sorting the rows based on the first column
+dat = dat[np.argsort(dat[:, 0])]
+
+dat_test = np.concatenate([X_test,y_test.reshape(-1,1)], axis=1)
+dat_test = dat_test[np.argsort(dat_test[:, 0])] 
+
+Yhat_lowess = lowess_kern(dat[:,0],dat[:,1],tricubic,0.05) #CHOOSE KERNEL
+datl = np.concatenate([dat[:,0].reshape(-1,1),Yhat_lowess.reshape(-1,1)], axis=1)
+f = interp1d(datl[:,0], datl[:,1],fill_value='extrapolate')
+yhat = f(dat_test[:,0])
+
+from sklearn.metrics import mean_absolute_error 
+    
+mae_lowess = mean_absolute_error(dat_test[:,1], yhat)
+print("MAE LOWESS = ${:,.2f}".format(1000*mae_lowess))
+
+# Plot outputs
+fig, ax = plt.subplots(figsize=(10,8))
+ax.set_xlim(3, 9)
+ax.set_ylim(0, 51)
+ax.scatter(x=df['rooms'], y=df['cmedv'],s=25)
+ax.plot(dat_test[:,0], yhat, color='orange',lw=3) #LOWESS
+ax.set_xlabel('Number of Rooms',fontsize=16,color='Darkgreen')
+ax.set_ylabel('House Price (Tens of Thousands of Dollars)',fontsize=16,color='Darkgreen')
+ax.set_title('Boston Housing Prices',fontsize=16,color='purple')
+ax.grid(b=True,which='major', color ='grey', linestyle='-', alpha=0.8)
+ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
+ax.minorticks_on()
+
+~~~
+
+
+
+
+
+
