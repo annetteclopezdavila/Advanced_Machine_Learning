@@ -452,7 +452,31 @@ dat_train = dat_train[np.argsort(dat_train[:, 0])]
 dat_test = np.concatenate([X_test,y_test.reshape(-1,1)], axis=1)
 dat_test = dat_test[np.argsort(dat_test[:, 0])]
 ~~~
-Lastly, the neural network's architecture must be designed.
+Lastly, the neural network's architecture must be designed. This particular DNN has four total layers all with the ReLu activation function with exception of the final output layer. The loss function chosen is MSE and the optimizer is Adam.
+
+~~~
+# Create a Neural Network model
+model = Sequential()
+model.add(Dense(128, activation="relu", input_dim=1))
+model.add(Dense(32, activation="relu"))
+model.add(Dense(8, activation="relu"))
+# Since the regression is performed, a Dense layer containing a single neuron with a linear activation function.
+# Typically ReLu-based activation are used but since it is performed regression, it is needed a linear activation.
+model.add(Dense(1, activation="linear"))
+
+# Compile model: The model is initialized with the Adam optimizer and then it is compiled.
+model.compile(loss='mean_squared_error', optimizer=Adam(lr=1e-3, decay=1e-3 / 200))
+
+# Patient early stopping
+es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=1000)
+
+# Fit the model
+history = model.fit(X_train, y_train, validation_split=0.3, epochs=1000, batch_size=100, verbose=0, callbacks=[es])
+
+# Calculate predictions
+yhat_nn = model.predict(dat_test[:,0])
+~~~
+
 
 
 
