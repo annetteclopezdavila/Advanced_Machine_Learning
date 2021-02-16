@@ -98,3 +98,31 @@ lm = LinearRegression()
 lm.fit(X_train, y_train)
 ~~~
 
+### Analyzing our Model
+As mentioned earlier, we can use mean absolute error in order to determine the accuracy of our model. We can import the mean absolute error package from sklearn to determine the deviation from the actual value and predicted value. 
+~~~
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lm.intercept_))
+print("Coefficient: {:,.3f}".format(lm.coef_[0]))
+    
+mae = mean_absolute_error(y_test, lm.predict(X_test))
+print("MAE = ${:,.2f}".format(1000*mae))
+~~~
+We can also plot our linear regression:
+~~~
+fig, ax = plt.subplots(figsize=(10,8))
+ax.set_xlim(3, 9)
+ax.set_ylim(0, 51)
+ax.scatter(x=df['rooms'], y=df['cmedv'],s=25)
+ax.plot(X_test, lm.predict(X_test), color='red') #linear regression
+ax.set_xlabel('Number of Rooms',fontsize=16,color='Darkgreen')
+ax.set_ylabel('House Price (Tens of Thousands of Dollars)',fontsize=16,color='Darkgreen')
+ax.set_title('Boston Housing Prices',fontsize=16,color='purple')
+ax.grid(b=True,which='major', color ='grey', linestyle='-', alpha=0.8)
+ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
+ax.minorticks_on()
+~~~
+
+
+
+
