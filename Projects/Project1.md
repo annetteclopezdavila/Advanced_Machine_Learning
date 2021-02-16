@@ -134,7 +134,14 @@ LOWESS or locally weighted linear regressions are non-parametric regressions in 
 
 Let us say we choose a specific data set point X1 for which we want to predict its Y1 value. We can determine its neighbors by choosing a specific distance which will result in some ordered set A. This set will be converted into another weighted set using a weight/kernel function. The specific weights will depend on what kernel function is chosen. 
 Example: Below we have chosen a tri-cubic function as our weight function. 
+
 INSERT PICTURE OF FUNCTION
-The heights of the kernel function determine the weights at specific points. The neighbors closer to the target point X1 will have higher weights than points further away.
+
+The heights of the kernel function determine the weights at specific points. The neighbors closer to the target point X1 will have higher weights than points further away. In other words, by locally weighing points, we can assign higher importance to training data that is closest to the target point. 
+
+For every target point X1, LOWESS will apply a linear regression that will calculate the corresponding Y1 value. Although this algorithm may work well for regression applications with complex deterministic structures, LOWESS has several disadvantages. Because a model is computed for each point, it is very computationally intensive as well as having a large parameter size. It is still quite volatile to outliers in the data set as well as it cannot be translated into a mathematical formula.
+
+
+
 
 
