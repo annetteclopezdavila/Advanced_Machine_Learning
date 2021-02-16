@@ -75,7 +75,6 @@ Prediction Modeling in Machine Learning requires one to split the data into a tr
 INSERT PICTURE MAE
 
 ## Linear Regression Predictive Model
-Our problem type deems it necessary to derive a continuous numerical value as our predicted value. The nature of our problem thus makes a linear regression algorithm a great candidate as a predictive model.
-
+Our problem type deems it necessary to derive a continuous numerical value as our predicted value. The nature of our problem thus makes a linear regression algorithm a great candidate for our predictive model. Linear Regressions establish a linear relationship between and independent variable x and dependent variable y. Linear Regressions find the line of best fit in the data and use this to predict future values. In order to find the line of best fit, optimization algorithms such as gradient descent are used.
 
 
