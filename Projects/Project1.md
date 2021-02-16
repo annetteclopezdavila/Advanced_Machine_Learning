@@ -289,3 +289,5 @@ ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
 ~~~
 INSERT PICTURE OF PLOT
+
+The Quartic Kernel LOWESS offers a MAE of $3,889.25, which is slightly higher than that of the Epanechnikov Kernel.
