@@ -135,6 +135,6 @@ LOWESS or locally weighted linear regressions are non-parametric regressions in 
 Let us say we choose a specific data set point X1 for which we want to predict its Y1 value. We can determine its neighbors by choosing a specific distance which will result in some ordered set A. This set will be converted into another weighted set using a weight/kernel function. The specific weights will depend on what kernel function is chosen. 
 Example: Below we have chosen a tri-cubic function as our weight function. 
 INSERT PICTURE OF FUNCTION
-
+The heights of the kernel function determine the weights at specific points. The neighbors closer to the target point X1 will have higher weights than points further away.
 
 
