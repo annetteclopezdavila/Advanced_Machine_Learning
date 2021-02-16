@@ -122,7 +122,7 @@ ax.grid(b=True,which='major', color ='grey', linestyle='-', alpha=0.8)
 ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
 ~~~
-
+INSERT PICTURE OF LINEAR REGRESSION
 
 
 
