@@ -363,7 +363,7 @@ The MAE of the Tri-Cubic MAE is $3,888.18. This means this model produces almost
 
 ## Support Vector Regression
 Support Vector Regression lets us define how much error is acceptable in our models in order to find a flexible line of best fit. Rather than minimize error, SVR aims at minimizing the coefficient vectors. The error becomes a constraint rather than an objective function. Some points may fall outside the feasible region, thus necessitating slack variables. The slack variables will represent the deviation from the feasible region, and then will be added to the objective function. This will become hyperparameter C. As C increases, more points are outside the feasible region. Thus, as C increases, MAE tends to decrease. We also need to choose a kernel as a function that maps the data points into a higher dimension. Epsilon will determine the boundary lines of the line of best fit/plane/hyperplane. 
-
+### Modeling with SVR in Python
 ~~~
 from sklearn.model_selection import KFold
 kf = KFold(n_splits=10, shuffle=True, random_state=2021)
@@ -422,7 +422,7 @@ will produce better output for the model. In order to measure error, a loss func
 far away the combination of weights and biases is from the optimal solution. There are many loss functions that can be used in neural networks; Mean Squared Error and Cross Entropy Loss are
 two of the most common
 
-### Coding a Neural Network in Python
+### Modeling a Neural Network in Python
 We must first import all necessary libraries.
 ~~~
 import keras
@@ -489,7 +489,7 @@ The MAE of this particular neural network is $3,895.49. Although some of the LOW
 ## Extreme Gradient Boost
 Extreme Gradient Boost attempts to help against overfitting by using gradient boosted decision trees. A booster corrects the errors made by an existing model by sequentially adding until no further improvement can be made. Gradient boosting calculates the residuals of each sample and then decides the best split along a given feature. These splits will create trees with the residual values in each leaf. XGBoosting calculates a gain function which keeps track of improvement in accuracy brought about by a split. Thus, we eventually find a threshold that results in the maximum gain. This process is repeated throughout each of the leaves.
 
-### Python Code
+### Modeling with XGBoost in Python
 ~~~
 import xgboost as xgb
 model_xgb = xgb.XGBRegressor(objective ='reg:squarederror',n_estimators=100,reg_lambda=20,alpha=1,gamma=10,max_depth=3)
@@ -506,6 +506,15 @@ for idxtrain, idxtest in kf.split(dat):
   mae_xgb.append(mean_absolute_error(y_test, yhat_xgb))
 print("Validated MAE XGBoost Regression = ${:,.2f}".format(1000*np.mean(mae_xgb)))
 ~~~
+The MAE results as $4,136.63, thus putting it in range with the other models.
+
+## Conclusion
+- Linear Regression: $4,109.44
+- Epanechnikov Kernel LOWESS : $3,860.55
+- Quartic Kernel LOWESS: $3,889.25
+- Tri-Cubic Kernel LOWESS: $3,888.18
+- 
+
 
 
 
