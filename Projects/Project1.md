@@ -70,9 +70,12 @@ INSERT PICTURE OF PLOT
 The plot seems to show at first glance a positive increasing linear trend. However, we also note that there are large clusters and a lot of noise, possibly making this a difficult dataset to model.
 
 ## Prediction Modeling
-Prediction Modeling in Machine Learning requires one to split the data into a training set and testing set. The parameters chosen are largely dependent on the problem at hand and the data set itself. There are many types of prediction models we can apply to data, some being more accurate than others. One way to measure a model's accuracy is through the MAE or Mean Absolute Error. This error metric is essentially the sum of all absolute errors in the model's predictions. Absolute Errors take the absolute value of the difference between an actual value and the predicted value. On a plot, we can measure the MAE as the average vertical distance between each point and the predicted line. 
+Prediction Modeling in Machine Learning requires one to split the data into a training set and testing set. The parameters chosen are largely dependent on the problem at hand and the data set itself. There are many types of prediction models we can apply to data, some being more accurate than others. One way to measure a model's accuracy is through the MAE or Mean Absolute Error. This error metric is essentially the sum of all absolute errors in the model's predictions. Absolute Errors take the absolute value of the difference between an actual value and the predicted value. On a plot, we can measure the MAE as the average vertical distance between each point and the predicted line. The smaller the error, the better the predictive model.
 
 INSERT PICTURE MAE
 
-##Linear Regression Predictive Analysis
+## Linear Regression Predictive Model
+Our problem type deems it necessary to derive a continuous numerical value as our predicted value. The nature of our problem thus makes a linear regression algorithm a great candidate as a predictive model.
+
+
 
