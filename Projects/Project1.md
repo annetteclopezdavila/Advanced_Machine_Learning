@@ -77,6 +77,10 @@ INSERT PICTURE MAE
 ## Linear Regression Predictive Model
 Our problem type deems it necessary to derive a continuous numerical value as our predicted value. The nature of our problem thus makes a linear regression algorithm a great candidate for our predictive model. Linear Regressions establish a linear relationship between and independent variable x and dependent variable y. Linear Regressions find the line of best fit in the data and use this to predict future values. In order to find the line of best fit, optimization algorithms such as gradient descent are used. Outliers in the data may cause overfitting of the linear regression, thus lowering the overal testing accuracy.
 
+Linear Regression models are statistical models, but how do they differ from statistical analysis? While in statistics we calculate the unknowns using statistical formulas, linear regression in machine learning only uses optimization algorithms. For example, assuming we have several dimensions of variables, statistical analysis will tell us to find our beta values (correlation coefficients) and any constants or intercepts. Machine learning will find these values by simply minimizing error.
+
+Linear Regression not only helps one predict variables but also quantify the impact independent variables have on the dependent variable as well as identifying the most important variables.
+
 ### Modeling Linear Regressions in Python
 In order to begin with our model, we must first indicate our independent and dependent variables and seperate the data into training and testing sets.
 ~~~
