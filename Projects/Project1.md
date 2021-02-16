@@ -389,3 +389,8 @@ print("Validated MAE Support Vector Regression = ${:,.2f}".format(1000*np.mean(m
 ~~~
 
 After running the code, the MAE for SVR(poly) is $23,994.88. This means that we may need to modify the parameters or type of model. When we try the linear SVR model, we have an MAE of $4,546.70. This is still a relatively high MAE, but under $5,000. Lastly, if we run the SVR (rbf), we get an MAE of $4,242.04. Thus, the best kernel for this data set is the linear kernel.
+
+## Neural Network
+Neural Networks are made up of neurons, or small units which hold a number. These neurons are connected to each other in layers and are assigned an activation value. Each activation number is multiplied with a corresponding weight which describes connection strength from node to node. A neural network has an architecture of input nodes, output nodes, and hidden layers. For each node in a proceeding layer, the weighted sum is computed:
+
+INSERT PICTURE HERE
