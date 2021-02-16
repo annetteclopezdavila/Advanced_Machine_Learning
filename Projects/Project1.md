@@ -123,6 +123,7 @@ ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
 ~~~
 INSERT PICTURE OF LINEAR REGRESSION
+The Model has an MAE of $4,109.44. Our linear regression model has a rather high MAE, thus making this a weak learner. Because of the clustering of data points in an unlinear fashion, our model may have lost accuracy trying to fit such points.
 
 
 
