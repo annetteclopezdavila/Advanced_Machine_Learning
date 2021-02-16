@@ -199,8 +199,29 @@ datl = np.concatenate([dat[:,0].reshape(-1,1),Yhat_lowess.reshape(-1,1)], axis=1
 f = interp1d(datl[:,0], datl[:,1],fill_value='extrapolate')
 yhat = f(dat_test[:,0])
 ~~~
+We can assess the accuracy in terms of the MAE and compare it to our Linear Regression:
+~~~
+from sklearn.metrics import mean_absolute_error 
 
+print("Intercept: {:,.3f}".format(lm.intercept_))
+print("Coefficient: {:,.3f}".format(lm.coef_[0]))
+    
+mae_lowess = mean_absolute_error(dat_test[:,1], yhat)
+print("MAE LOWESS = ${:,.2f}".format(1000*mae_lowess))
 
+# Plot outputs
+fig, ax = plt.subplots(figsize=(10,8))
+ax.set_xlim(3, 9)
+ax.set_ylim(0, 51)
+ax.scatter(x=df['rooms'], y=df['cmedv'],s=25)
+ax.plot(dat_test[:,0], yhat, color='orange',lw=3) #LOWESS
+ax.set_xlabel('Number of Rooms',fontsize=16,color='Darkgreen')
+ax.set_ylabel('House Price (Tens of Thousands of Dollars)',fontsize=16,color='Darkgreen')
+ax.set_title('Boston Housing Prices',fontsize=16,color='purple')
+ax.grid(b=True,which='major', color ='grey', linestyle='-', alpha=0.8)
+ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
+ax.minorticks_on()
+~~~
 
 
 
