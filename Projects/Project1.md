@@ -422,5 +422,38 @@ will produce better output for the model. In order to measure error, a loss func
 far away the combination of weights and biases is from the optimal solution. There are many loss functions that can be used in neural networks; Mean Squared Error and Cross Entropy Loss are
 two of the most common
 
+### Coding a Neural Network in Python
+We must first import all necessary libraries.
+~~~
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Dropout
+from sklearn.metrics import r2_score
+from keras.optimizers import Adam
+from keras.callbacks import EarlyStopping
+from sklearn.preprocessing import LabelEncoder 
+~~~
+The variables/features must be designated, and the training and testing data must be split.
+~~~
+X = np.array(df['rooms']).reshape(-1,1)
+y = np.array(df['cmedv']).reshape(-1,1)
+dat = np.concatenate([X,y.reshape(-1,1)], axis=1)
+
+from sklearn.model_selection import train_test_split as tts
+X_train, X_test, y_train, y_test = tts(X, y, test_size=0.3, random_state=2021)
+
+y_train = y_train.reshape(len(y_train),)
+y_test = y_test.reshape(len(y_test),)
+
+dat_train = np.concatenate([X_train,y_train.reshape(-1,1)], axis=1)
+dat_train = dat_train[np.argsort(dat_train[:, 0])]
+
+dat_test = np.concatenate([X_test,y_test.reshape(-1,1)], axis=1)
+dat_test = dat_test[np.argsort(dat_test[:, 0])]
+~~~
+Lastly, the neural network's architecture must be designed.
+
+
 
 
