@@ -141,6 +141,58 @@ The heights of the kernel function determine the weights at specific points. The
 
 For every target point X1, LOWESS will apply a linear regression that will calculate the corresponding Y1 value. Although this algorithm may work well for regression applications with complex deterministic structures, LOWESS has several disadvantages. Because a model is computed for each point, it is very computationally intensive as well as having a large parameter size. It is still quite volatile to outliers in the data set as well as it cannot be translated into a mathematical formula.
 
+### Modeling Locally Weighted Linear Regressions in Python
+LOESS regressions only require kernel functions and smoothening/bandwidth parameters. Thus, we must define several kernel functions.
+
+INSERT KERNEL FUNCTIONS PICTURES
+
+#### Epanechnikov Kernel
+We begin by importing necessary libraries:
+~~~
+import numpy as np
+import pandas as pd
+from math import ceil
+from scipy import linalg
+from scipy.interpolate import interp1d
+import matplotlib.pyplot as plt
+~~~
+Next, we must define the Epanechnikov function Pythonically: 
+~~~
+def Epanechnikov(x):
+  return np.where(np.abs(x)>1,0,3/4*(1-np.abs(x)**2)) 
+~~~
+We must also define the LOWESS kernel function which will take in x & y parameters as well as kernel function and bandwidth parameters:
+~~~
+def lowess_kern(x, y, kern, tau):
+    n = len(x)
+    yest = np.zeros(n)
+
+    #Initializing all weights from the kernel function by using only the train data    
+    w = np.array([kern((x - x[i])/(2*tau)) for i in range(n)])     
+    
+    #Looping through all x-points
+    for i in range(n):
+        weights = w[:, i]
+        b = np.array([np.sum(weights * y), np.sum(weights * y * x)])
+        A = np.array([[np.sum(weights), np.sum(weights * x)],
+                    [np.sum(weights * x), np.sum(weights * x * x)]])
+        theta, res, rnk, s = linalg.lstsq(A, b)
+        yest[i] = theta[0] + theta[1] * x[i] 
+
+    return yest
+~~~
+LOWESS Regressions require one to sort the data to create a matrix:
+~~~
+dat = np.concatenate([X_train,y_train.reshape(-1,1)], axis=1) #matrix of two columns
+
+# this is sorting the rows based on the first column
+dat = dat[np.argsort(dat[:, 0])]
+
+dat_test = np.concatenate([X_test,y_test.reshape(-1,1)], axis=1)
+dat_test = dat_test[np.argsort(dat_test[:, 0])]
+~~~
+
+ 
 
 
 
