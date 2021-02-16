@@ -476,6 +476,16 @@ history = model.fit(X_train, y_train, validation_split=0.3, epochs=1000, batch_s
 # Calculate predictions
 yhat_nn = model.predict(dat_test[:,0])
 ~~~
+In order to measure the accuracy of our model, we will be using MAE once again:
+~~~
+from sklearn.metrics import mean_absolute_error
+
+yhat_nn = model.predict(dat_test[:,0])
+mae_nn = mean_absolute_error(dat_test[:,1], yhat_nn)
+print("MAE Neural Network = ${:,.2f}".format(1000*mae_nn))
+~~~
+The MAE of this particular neural network is $3,895.49. Although some of the LOWESS models performed better, our DNN may be able to get better if we change the architecture.
+
 
 
 
