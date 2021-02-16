@@ -202,9 +202,6 @@ yhat = f(dat_test[:,0])
 We can assess the accuracy in terms of the MAE and compare it to our Linear Regression:
 ~~~
 from sklearn.metrics import mean_absolute_error 
-
-print("Intercept: {:,.3f}".format(lm.intercept_))
-print("Coefficient: {:,.3f}".format(lm.coef_[0]))
     
 mae_lowess = mean_absolute_error(dat_test[:,1], yhat)
 print("MAE LOWESS = ${:,.2f}".format(1000*mae_lowess))
@@ -223,5 +220,7 @@ ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
 ~~~
 
+INSERT PICTURE GRAPH EEEEE Kernel
 
+We can see that the LOWESS MAE is smaller than that of the linear regression at $3,888.18. This is still relatively high, but much better than our previous approach.
 
