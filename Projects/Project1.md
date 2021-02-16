@@ -361,6 +361,8 @@ INSERT iMAGE OF TRICUBIC KERNEL
 
 The MAE of the Tri-Cubic MAE is $3,888.18. This means this model produces almost the same accuracy as the Quartic Kernel for this data.
 
+## Support Vector Regression
+Support Vector Regression lets us define how much error is acceptable in our models in order to find a flexible line of best fit. Rather than minimize error, SVR aims at minimizing the coefficient vectors. The error becomes a constraint rather than an objective function. Some points may fall outside the feasible region, thus necessitating slack variables. The slack variables will represent the deviation from the feasible region, and then will be added to the objective function. This will become hyperparameter C. As C increases, more points are outside the feasible region. Thus, as C increases, MAE tends to decrease. 
 
 
 
