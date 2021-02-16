@@ -84,5 +84,5 @@ from sklearn.model_selection import train_test_split
 X = np.array(df['rooms']).reshape(-1,1)
 y = np.array(df['cmedv']).reshape(-1,1)
 ~~~
-
+We will choose a test size of 0.3.
 
