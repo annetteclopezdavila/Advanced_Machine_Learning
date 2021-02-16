@@ -22,3 +22,27 @@ The Boston Housing dataset is a collection from the U.S. Census Service concerni
 15. tract - year
 16. longitude
 17. latitude
+
+### Establishing a Data Frame
+In order to access the data in Colab, we must first upload the dataset to google drive and then mount the drive on Colab:
+~~~
+from google.colab import drive
+drive.mount('/content/drive')
+~~~
+Once the data is accessible, we must import the libraries needed to create a data frame:
+~~~
+import numpy as np
+import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+~~~
+Then, we create the data frame. If we do not need to clean it up or make any adjustments, we can move on to the next step:
+~~~
+df = pd.read_csv('drive/MyDrive/BostonHousingPrices.csv')
+~~~
+
+
+
+This particular project will explore the relationship between rooms and housing prices.
+
+## Visualizing the Data
