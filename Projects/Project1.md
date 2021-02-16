@@ -1,4 +1,4 @@
-# Project 0
+# Project 1
 
 Comparing the performance of different regressors with the goal of predicting housing prices from the number of rooms.
 Dataset Used: Boston Housing Data
@@ -68,3 +68,8 @@ plt.show()
 ~~~
 INSERT PICTURE OF PLOT
 The plot seems to show at first glance a positive increasing linear trend. However, we also note that there are large clusters and a lot of noise, possibly making this a difficult dataset to model.
+
+## Prediction Modeling
+Prediction Modeling in Machine Learning Requires one to split the data into a training set and testing set. The parameters chosen are largely dependent on the problem at hand and the data set itself.s
+##Linear Regression Predictive Analysis
+
