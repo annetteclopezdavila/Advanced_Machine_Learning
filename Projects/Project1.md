@@ -191,8 +191,15 @@ dat = dat[np.argsort(dat[:, 0])]
 dat_test = np.concatenate([X_test,y_test.reshape(-1,1)], axis=1)
 dat_test = dat_test[np.argsort(dat_test[:, 0])]
 ~~~
+Lastly, we must call the Lowess Function with its corresponding kernel (Epanechnikov) and a bandwidth of 0.05 and predict on the test set.
+~~~
+Yhat_lowess = lowess_kern(dat[:,0],dat[:,1],Epanechnikov,0.05) #CHOOSE KERNEL
+datl = np.concatenate([dat[:,0].reshape(-1,1),Yhat_lowess.reshape(-1,1)], axis=1)
 
- 
+f = interp1d(datl[:,0], datl[:,1],fill_value='extrapolate')
+yhat = f(dat_test[:,0])
+~~~
+
 
 
 
