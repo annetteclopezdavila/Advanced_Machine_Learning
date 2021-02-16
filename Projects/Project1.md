@@ -84,5 +84,17 @@ from sklearn.model_selection import train_test_split
 X = np.array(df['rooms']).reshape(-1,1)
 y = np.array(df['cmedv']).reshape(-1,1)
 ~~~
-We will choose a test size of 0.3.
+We will choose a test size of 0.3 and random state 2021 in order to have consistency across all models. 
+~~~
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+
+y_train = y_train.reshape(len(y_train),)
+y_test = y_test.reshape(len(y_test),)
+~~~
+Lastly, we will apply the linear regression model from the sklearn library.
+~~~
+from sklearn.linear_model import LinearRegression
+lm = LinearRegression()
+lm.fit(X_train, y_train)
+~~~
 
