@@ -394,8 +394,21 @@ After running the code, the MAE for SVR(poly) is $23,994.88. This means that we 
 Neural Networks are made up of neurons, or small units which hold a number. These neurons are connected to each other in layers and are assigned an activation value. Each activation number is multiplied with a corresponding weight which describes connection strength from node to node. A neural network has an architecture of input nodes, output nodes, and hidden layers. For each node in a proceeding layer, the weighted sum is computed:
 
 INSERT PICTURE HERE
+
 The weighted inputs are added with a bias term in order for the output to be meaningfully active.
+
 INSERT
+
+
 The weights and biases of each node are then multiplied against their corresponding activation number. This is repeated throughout the nodes in the hidden layers.
+The function 𝑧𝑖
+is linear in nature; thus, a nonlinear activation function is applied for more
+complex performance. Activation functions commonly used include sigmoid functions,
+piecewise functions, gaussian functions, tangent functions, threshold functions, or ReLu
+functions.
+
+INSERT ACTIVATION FUNCTION
+
+
 
 
