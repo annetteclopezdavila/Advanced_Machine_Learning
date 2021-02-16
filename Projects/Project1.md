@@ -401,6 +401,7 @@ INSERT
 
 
 The weights and biases of each node are then multiplied against their corresponding activation number. This is repeated throughout the nodes in the hidden layers.
+### The Activation Function
 The function 𝑧𝑖
 is linear in nature; thus, a nonlinear activation function is applied for more
 complex performance. Activation functions commonly used include sigmoid functions,
@@ -409,6 +410,17 @@ functions.
 
 INSERT ACTIVATION FUNCTION
 
+Activation function choice depends on the
+range needed for the data, error, and speed.
+Without an activation function, the neural
+network behaves like a linear regression
+model.
+
+### The Loss Function
+A neural network may have thousands of parameters. Some combinations of weights and biases
+will produce better output for the model. In order to measure error, a loss function is necessary. The loss function tells the machine how
+far away the combination of weights and biases is from the optimal solution. There are many loss functions that can be used in neural networks; Mean Squared Error and Cross Entropy Loss are
+two of the most common
 
 
 
