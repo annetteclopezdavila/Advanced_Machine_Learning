@@ -224,3 +224,48 @@ INSERT PICTURE GRAPH EEEEE Kernel
 
 We can see that the LOWESS MAE is smaller than that of the linear regression at $3,888.18. This is still relatively high, but much better than our previous approach.
 
+#### Quartic Kernel
+We can do the same steps above with a different kernel and analyze its accuracy:
+~~~
+import numpy as np
+import pandas as pd
+from math import ceil
+from scipy import linalg
+from scipy.interpolate import interp1d
+import matplotlib.pyplot as plt
+
+def Quartic(x):
+  return np.where(np.abs(x)>1,0,15/16*(1-np.abs(x)**2)**2) 
+  
+def lowess_kern(x, y, kern, tau):
+    n = len(x)
+    yest = np.zeros(n)
+
+    #Initializing all weights from the kernel function by using only the train data    
+    w = np.array([kern((x - x[i])/(2*tau)) for i in range(n)])     
+    
+    #Looping through all x-points
+    for i in range(n):
+        weights = w[:, i]
+        b = np.array([np.sum(weights * y), np.sum(weights * y * x)])
+        A = np.array([[np.sum(weights), np.sum(weights * x)],
+                    [np.sum(weights * x), np.sum(weights * x * x)]])
+        theta, res, rnk, s = linalg.lstsq(A, b)
+        yest[i] = theta[0] + theta[1] * x[i] 
+
+    return yest
+    
+dat = np.concatenate([X_train,y_train.reshape(-1,1)], axis=1)
+#matrix of two columns
+
+# this is sorting the rows based on the first column
+dat = dat[np.argsort(dat[:, 0])]
+
+dat_test = np.concatenate([X_test,y_test.reshape(-1,1)], axis=1)
+dat_test = dat_test[np.argsort(dat_test[:, 0])]  
+    
+Yhat_lowess = lowess_kern(dat[:,0],dat[:,1],Quartic,0.05) #CHOOSE KERNEL
+datl = np.concatenate([dat[:,0].reshape(-1,1),Yhat_lowess.reshape(-1,1)], axis=1)
+f = interp1d(datl[:,0], datl[:,1],fill_value='extrapolate')
+yhat = f(dat_test[:,0])
+
