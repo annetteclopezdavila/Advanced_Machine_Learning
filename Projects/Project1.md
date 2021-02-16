@@ -364,6 +364,29 @@ The MAE of the Tri-Cubic MAE is $3,888.18. This means this model produces almost
 ## Support Vector Regression
 Support Vector Regression lets us define how much error is acceptable in our models in order to find a flexible line of best fit. Rather than minimize error, SVR aims at minimizing the coefficient vectors. The error becomes a constraint rather than an objective function. Some points may fall outside the feasible region, thus necessitating slack variables. The slack variables will represent the deviation from the feasible region, and then will be added to the objective function. This will become hyperparameter C. As C increases, more points are outside the feasible region. Thus, as C increases, MAE tends to decrease. 
 
+~~~
+from sklearn.model_selection import KFold
+kf = KFold(n_splits=10, shuffle=True, random_state=2021)
 
+from sklearn.svm import SVR
+
+svr_rbf = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=.1)
+svr_lin = SVR(kernel='linear', C=100, gamma='auto')
+svr_poly = SVR(kernel='poly', C=100, gamma='auto', degree=4, epsilon=.1,coef0=1)
+
+model = svr_poly
+
+mae_svr = []
+
+for idxtrain, idxtest in kf.split(dat):
+  X_train = dat[idxtrain,0]
+  y_train = dat[idxtrain,1]
+  X_test  = dat[idxtest,0]
+  y_test = dat[idxtest,1]
+  model.fit(X_train.reshape(-1,1),y_train)
+  yhat_svr = model.predict(X_test.reshape(-1,1))
+  mae_svr.append(mean_absolute_error(y_test, yhat_svr))
+print("Validated MAE Support Vector Regression = ${:,.2f}".format(1000*np.mean(mae_svr)))
+~~~
 
 
