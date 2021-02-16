@@ -362,7 +362,7 @@ INSERT iMAGE OF TRICUBIC KERNEL
 The MAE of the Tri-Cubic MAE is $3,888.18. This means this model produces almost the same accuracy as the Quartic Kernel for this data.
 
 ## Support Vector Regression
-Support Vector Regression lets us define how much error is acceptable in our models in order to find a flexible line of best fit. Rather than minimize error, SVR aims at minimizing the coefficient vectors. The error becomes a constraint rather than an objective function. Some points may fall outside the feasible region, thus necessitating slack variables. The slack variables will represent the deviation from the feasible region, and then will be added to the objective function. This will become hyperparameter C. As C increases, more points are outside the feasible region. Thus, as C increases, MAE tends to decrease. 
+Support Vector Regression lets us define how much error is acceptable in our models in order to find a flexible line of best fit. Rather than minimize error, SVR aims at minimizing the coefficient vectors. The error becomes a constraint rather than an objective function. Some points may fall outside the feasible region, thus necessitating slack variables. The slack variables will represent the deviation from the feasible region, and then will be added to the objective function. This will become hyperparameter C. As C increases, more points are outside the feasible region. Thus, as C increases, MAE tends to decrease. We also need to choose a kernel as a function that maps the data points into a higher dimension. Epsilon will determine the boundary lines of the line of best fit/plane/hyperplane. 
 
 ~~~
 from sklearn.model_selection import KFold
@@ -375,7 +375,6 @@ svr_lin = SVR(kernel='linear', C=100, gamma='auto')
 svr_poly = SVR(kernel='poly', C=100, gamma='auto', degree=4, epsilon=.1,coef0=1)
 
 model = svr_poly
-
 mae_svr = []
 
 for idxtrain, idxtest in kf.split(dat):
@@ -389,4 +388,4 @@ for idxtrain, idxtest in kf.split(dat):
 print("Validated MAE Support Vector Regression = ${:,.2f}".format(1000*np.mean(mae_svr)))
 ~~~
 
-
+After running the code, the MAE for SVR(poly) is $23,994.88. This means that we may need to modify the parameters or type of model. When we try the linear SVR model, we have an MAE of $4,546.70. This is still a relatively high MAE, but under $5,000. Lastly, if we run the SVR (rbf), we get an MAE of $4,242.04. Thus, the best kernel for this data set is the linear kernel.
