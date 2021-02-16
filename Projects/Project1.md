@@ -127,7 +127,14 @@ ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
 ~~~
 INSERT PICTURE OF LINEAR REGRESSION
-The Model has an MAE of $4,109.44. Our linear regression model has a rather high MAE, thus making this a weak learner. Because of the clustering of data points in an unlinear fashion, our model may have lost accuracy trying to fit such points.
+The Model has an MAE of $4,109.44. Our linear regression model has a rather high MAE, thus making this a weak learner. Because of the clustering of data points in an unlinear fashion, our model may have lost accuracy trying to fit such points. 
+
+## Kernel Weighted Local Regression
+LOWESS or locally weighted linear regressions are non-parametric regressions in which the simplicity of a linear regression is combined with the flexibility of non linear regression. LOWESS regressions are used when there are non-linear relationships between variables. In essence, linear functions using weighted least squares are fitted only on local sets of data, thus building up to a function that describes the overall variation. For each value of x, the value of f(x) is estimated using its neighboring known values. 
+
+Let us say we choose a specific data set point X1 for which we want to predict its Y1 value. We can determine its neighbors by choosing a specific distance which will result in some ordered set A. This set will be converted into another weighted set using a weight/kernel function. The specific weights will depend on what kernel function is chosen. 
+Example: Below we have chosen a tri-cubic function as our weight function. 
+INSERT PICTURE OF FUNCTION
 
 
 
