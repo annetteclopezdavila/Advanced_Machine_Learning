@@ -66,7 +66,7 @@ ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
 plt.show()
 ~~~
-INSERT PICTURE OF PLOT
+![plot](Capture2.PNG)
 The plot seems to show at first glance a positive increasing linear trend. However, we also note that there are large clusters and a lot of noise, possibly making this a difficult dataset to model.
 
 ## Prediction Modeling
