@@ -41,7 +41,7 @@ Then, we create the data frame. If we do not need to clean it up or make any adj
 df = pd.read_csv('drive/MyDrive/BostonHousingPrices.csv')
 ~~~
 
-![Data Frame](Capture.PNG)
+![Data Frame](annetteclopezdavila.github.io/Capturannetteclopezdavila.github.io/e.PNG)
 
 This particular project will explore the relationship between rooms and housing prices.
 
