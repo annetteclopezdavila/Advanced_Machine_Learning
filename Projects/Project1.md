@@ -139,16 +139,18 @@ LOWESS or locally weighted linear regressions are non-parametric regressions in 
 Let us say we choose a specific data set point X1 for which we want to predict its Y1 value. We can determine its neighbors by choosing a specific distance which will result in some ordered set A. This set will be converted into another weighted set using a weight/kernel function. The specific weights will depend on what kernel function is chosen. 
 Example: Below we have chosen a tri-cubic function as our weight function. 
 
-INSERT PICTURE OF FUNCTION
+![tri](tricubic.PNG)
 
 The heights of the kernel function determine the weights at specific points. The neighbors closer to the target point X1 will have higher weights than points further away. In other words, by locally weighing points, we can assign higher importance to training data that is closest to the target point. 
+
+![tricubic](tri-cubic.PNG)
 
 For every target point X1, LOWESS will apply a linear regression that will calculate the corresponding Y1 value. Although this algorithm may work well for regression applications with complex deterministic structures, LOWESS has several disadvantages. Because a model is computed for each point, it is very computationally intensive as well as having a large parameter size. It is still quite volatile to outliers in the data set as well as it cannot be translated into a mathematical formula.
 
 ### Modeling Locally Weighted Linear Regressions in Python
 LOESS regressions only require kernel functions and smoothening/bandwidth parameters. Thus, we must define several kernel functions.
 
-INSERT KERNEL FUNCTIONS PICTURES
+![kernel](KERNELS.PNG)
 
 #### Epanechnikov Kernel
 We begin by importing necessary libraries:
@@ -224,7 +226,7 @@ ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
 ~~~
 
-INSERT PICTURE GRAPH EEEEE Kernel
+![kernele](eEEEE kernel.PNG)
 
 We can see that the LOWESS MAE is smaller than that of the linear regression at $3,860.55. This is still relatively high, but much better than our previous approach.
 
@@ -292,7 +294,8 @@ ax.grid(b=True,which='major', color ='grey', linestyle='-', alpha=0.8)
 ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
 ~~~
-INSERT PICTURE OF PLOT
+
+![quartic](quartic.PNG)
 
 The Quartic Kernel LOWESS offers a MAE of $3,889.25, which is a bit higher than that of the Epanechnikov Kernel, thus making it not as accurate.
 
@@ -361,12 +364,14 @@ ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
 ~~~
 
-INSERT iMAGE OF TRICUBIC KERNEL
+![tri](tri cubic func.PNG)
 
 The MAE of the Tri-Cubic MAE is $3,888.18. This means this model produces almost the same accuracy as the Quartic Kernel for this data.
 
 ## Support Vector Regression
 Support Vector Regression lets us define how much error is acceptable in our models in order to find a flexible line of best fit. Rather than minimize error, SVR aims at minimizing the coefficient vectors. The error becomes a constraint rather than an objective function. Some points may fall outside the feasible region, thus necessitating slack variables. The slack variables will represent the deviation from the feasible region, and then will be added to the objective function. This will become hyperparameter C. As C increases, more points are outside the feasible region. Thus, as C increases, MAE tends to decrease. We also need to choose a kernel as a function that maps the data points into a higher dimension. Epsilon will determine the boundary lines of the line of best fit/plane/hyperplane. 
+
+![svr](SVR.PNG)
 
 ### Modeling with SVR in Python
 ~~~
@@ -396,14 +401,15 @@ print("Validated MAE Support Vector Regression = ${:,.2f}".format(1000*np.mean(m
 After running the code, the MAE for SVR(poly) is $23,994.88. This means that we may need to modify the parameters or type of model. When we try the linear SVR model, we have an MAE of $4,546.70. This is still a relatively high MAE, but under $5,000. Lastly, if we run the SVR (rbf), we get an MAE of $4,242.04. Thus, the best kernel for this data set is the rbf kernel.
 
 ## Neural Network
+![nn](neural networks.PNG)
+
 Neural Networks are made up of neurons, or small units which hold a number. These neurons are connected to each other in layers and are assigned an activation value. Each activation number is multiplied with a corresponding weight which describes connection strength from node to node. A neural network has an architecture of input nodes, output nodes, and hidden layers. For each node in a proceeding layer, the weighted sum is computed:
 
-INSERT PICTURE HERE
+![sum](weighted sum.PNG)
 
 The weighted inputs are added with a bias term in order for the output to be meaningfully active.
 
-INSERT
-
+![sum2](weighted sum 2.PNG)
 
 The weights and biases of each node are then multiplied against their corresponding activation number. This is repeated throughout the nodes in the hidden layers.
 ### The Activation Function
@@ -413,7 +419,7 @@ complex performance. Activation functions commonly used include sigmoid function
 piecewise functions, gaussian functions, tangent functions, threshold functions, or ReLu
 functions.
 
-INSERT ACTIVATION FUNCTION
+![activation](activation functions.PNG)
 
 Activation function choice depends on the
 range needed for the data, error, and speed.
