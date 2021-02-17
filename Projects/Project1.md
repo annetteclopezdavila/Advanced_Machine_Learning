@@ -67,12 +67,14 @@ ax.minorticks_on()
 plt.show()
 ~~~
 ![plot](Capture2.PNG)
+
+
 The plot seems to show at first glance a positive increasing linear trend. However, we also note that there are large clusters and a lot of noise, possibly making this a difficult dataset to model.
 
 ## Prediction Modeling
 Prediction Modeling in Machine Learning requires one to split the data into a training set and testing set. The parameters chosen are largely dependent on the problem at hand and the data set itself. There are many types of prediction models we can apply to data, some being more accurate than others. One way to measure a model's accuracy is through the MAE or Mean Absolute Error. This error metric is essentially the sum of all absolute errors in the model's predictions. Absolute Errors take the absolute value of the difference between an actual value and the predicted value. On a plot, we can measure the MAE as the average vertical distance between each point and the predicted line. The smaller the error, the better the predictive model.
 
-INSERT PICTURE MAE
+![MAE](https://secureservercdn.net/160.153.137.16/70j.58d.myftpupload.com/wp-content/uploads/2019/03/mae-equation-2.png)
 
 ## Linear Regression Predictive Model
 Our problem type deems it necessary to derive a continuous numerical value as our predicted value. The nature of our problem thus makes a linear regression algorithm a great candidate for our predictive model. Linear Regressions establish a linear relationship between and independent variable x and dependent variable y. Linear Regressions find the line of best fit in the data and use this to predict future values. In order to find the line of best fit, optimization algorithms such as gradient descent are used. Outliers in the data may cause overfitting of the linear regression, thus lowering the overal testing accuracy.
@@ -126,7 +128,9 @@ ax.grid(b=True,which='major', color ='grey', linestyle='-', alpha=0.8)
 ax.grid(b=True,which='minor', color ='grey', linestyle='--', alpha=0.2)
 ax.minorticks_on()
 ~~~
-INSERT PICTURE OF LINEAR REGRESSION
+[Linear Regression](Linear Regression Prediction.PNG)
+
+
 The Model has an MAE of $4,109.44. Our linear regression model has a rather high MAE, thus making this a weak learner. Because of the clustering of data points in an unlinear fashion, our model may have lost accuracy trying to fit such points. 
 
 ## Kernel Weighted Local Regression
