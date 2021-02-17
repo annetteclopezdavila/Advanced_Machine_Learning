@@ -521,8 +521,8 @@ The MAE results as $4,136.63, thus putting it in range with the other models.
 - Neural Network: $3,895.49
 - XGBOOST: $4,136.63
 
-As can be seen by the data, the LOwESS models had the best accuracy for this data set in terms of mean absolute error. In particular, the Epanechnikov Kernel LOWESS had the best results with an MAE of $3,860.55. The Neural Network's error was quite close to the other LOWESS models, signifying that if improved, it may be a good candidate for prediction of this data set. The worst model by far was the SVR model with a polynomial kernel.
-
+As can be seen by the data, the LOwESS models had the best accuracy for this data set in terms of mean absolute error. In particular, the Epanechnikov Kernel LOWESS had the best results with an MAE of $3,860.55. The Neural Network's error was quite close to the other LOWESS models, signifying that if improved, it may be a good candidate for prediction of this data set. The worst model by far was the SVR model with a polynomial kernel. This could possibly be explained by the fact that polynomial kernels tend to overfit many types of data.
+Although the overall goal of this project was classified as a regression model problem, I would argue that the overfitting could largely be due to the models being univariate and also ignoring the very important factor of time. This problem could perhaps be reshaped as a forecasting problem, as inflation and deflation that occur over time could be creating confusion in the data. 
 
 
 
