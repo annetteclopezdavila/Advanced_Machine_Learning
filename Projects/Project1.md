@@ -1,4 +1,7 @@
-# Project 1
+---
+layout: page
+title: Project 1
+---
 
 Comparing the performance of different regressors with the goal of predicting housing prices from the number of rooms.
 Dataset Used: Boston Housing Data
