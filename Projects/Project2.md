@@ -40,6 +40,20 @@ X=df2.drop('Target', axis=1)
 y=df2['Target']
 ~~~
 
+## Correlation
+
+In order to later understand regularization techniques, the correlation of the features must be analyzed.
+
+~~~
+corr_matrix=np.corrcoef(X)
+corr_matrix
+
+import seaborn as sns
+plt.figure(figsize=(200,200))
+sns.heatmap(X.corr(), vmax=1, vmin=-1, cmap="spring", annot=True,fmt='.2f')
+plt.show()
+~~~
+
 
 
 
