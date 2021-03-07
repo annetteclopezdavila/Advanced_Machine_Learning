@@ -150,7 +150,10 @@ max(lm.coef_)
 #min coefficient
 min(lm.coef_)
 ~~~
+Max:
 ![image](https://user-images.githubusercontent.com/67920563/110247039-1f013100-7f38-11eb-8ae3-7b088b83bb2b.png)
+
+Min:
 ![image](https://user-images.githubusercontent.com/67920563/110247040-232d4e80-7f38-11eb-93b0-4f8cea58cd88.png)
 
 
