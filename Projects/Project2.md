@@ -67,9 +67,24 @@ Feature selection is defined as the selection of features that best contribute t
 
 Let us assume we have a model Y with equation Y=F(X1, X2,...,Xp). In weighted linear regression, this equation is multiplied by certain weights which define the sparsity pattern of the data. An error term is also added into the equation:
 
+
 #INSERT WEIGHTED LINEAR REGRESSION PIC
 
 Our goal is to minimize the squared error by obtaining weights that will do so. Our error term will be found by subtracting the predicted valaues from the observed values and then squared.
+
+#PUT IN ERROR TERM PICTURE
+
+The sum of squared errors can also be expressed in matrix form, since our data sets tend to have hundreds/thousands of items. Thus, in matrix notation, the sum of squared errors is the same as transposing two error vectors.
+
+#PUT IN TRANSPOSED
+
+Putting in the equatoin for error we have: 
+
+#PUT IN EQUATION TRANSPOSE
+
+Then, the partial derivatives of the weights are taken:
+![image](https://user-images.githubusercontent.com/67920563/110245159-10af1700-7f30-11eb-89b4-516ac163064e.png)
+
 
 
 ## Lasso Regression/ L1 Regularization
