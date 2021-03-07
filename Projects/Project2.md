@@ -507,6 +507,84 @@ for i in range(200):
   ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110248980-bb7c0100-7f41-11eb-820c-d7d435d7863e.png)
 
+## ElasticNet
+~~~
+from sklearn.linear_model import  ElasticNet
+lel = ElasticNet(alpha=0.01)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+lel.fit(X_train,y_train)
+yhat_lel=lel.predict(X_test)
+#Turn continuous variables into discrete
+ylist=[]
+for output in yhat_lel:
+  if output<4.5:
+    output=round(output)
+    ylist.append(output)
+  else:
+    output=4
+    ylist.append(output)
+
+y_hat_lel_rounded=np.array(ylist)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110249049-085fd780-7f42-11eb-9a36-fe203a3f56d3.png)
+~~~
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lel.intercept_))
+    
+mae = mean_absolute_error(y_test, y_hat_lel_rounded)
+print("MAE = {:,.2f}".format(mae))
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110249094-5e347f80-7f42-11eb-8531-53bbd5cf94f8.png)
+~~~
+print('Coefficients:')
+lel.coef_
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110249110-7a382100-7f42-11eb-9b1a-b4a308a85ef3.png)
+~~~
+list=[]
+count=-1
+counted_list=[]
+A=lel.coef_
+for a in A:
+  count=count+1
+  if a!=0:
+    list.append(a)
+    counted_list.append(count)
+#Features
+for c in counted_list:
+  print(X.columns[c])
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110249135-9c31a380-7f42-11eb-8440-9e0eadb7eae8.png)
+~~~
+import matplotlib.pyplot as plt
+maeEN=[]
+for i in range(200):
+  lel = ElasticNet(alpha=i)
+
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+  lel.fit(X_train,y_train)
+  yhat_lel=lel.predict(X_test)
+  #Turn continuous variables into discrete
+  ylist=[]
+  for output in yhat_lel:
+    if output<4.5:
+      output=round(output)
+      ylist.append(output)
+    else:
+      output=4
+      ylist.append(output)
+
+  y_hat_lel_rounded=np.array(ylist)
+  maeEN.append(mean_absolute_error(y_test, y_hat_lel_rounded))
+  plt.scatter(range(200),maeEN)
+  ~~~
+  ![image](https://user-images.githubusercontent.com/67920563/110249163-cedb9c00-7f42-11eb-88bf-7c4da7d4ba6e.png)
+
+
+
+
+
 
 
 
