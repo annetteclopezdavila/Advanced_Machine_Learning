@@ -482,6 +482,30 @@ Max:
 Min:
 ![image](https://user-images.githubusercontent.com/67920563/110248928-71931b00-7f41-11eb-9f9e-99e8df4bc729.png)
 
+~~~
+import matplotlib.pyplot as plt
+maeSLR=[]
+for i in range(200):
+  lr = Ridge(alpha=i)
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+  lr.fit(ss.fit_transform(X_train),y_train)
+  scaled_yhat_lr=lr.predict(ss.fit_transform(X_test))
+  #Turn continuous variables into discrete
+  ylist=[]
+  for output in scaled_yhat_lr:
+    if output<4.5:
+      output=round(output)
+      ylist.append(output)
+    else:
+      output=4
+      ylist.append(output)
+
+  y_hat_lr_rounded=np.array(ylist)
+  
+  maeSLR.append( mean_absolute_error(y_test, y_hat_lr_rounded))
+  plt.scatter(range(200),maeSLR)
+  ~~~
+![image](https://user-images.githubusercontent.com/67920563/110248980-bb7c0100-7f41-11eb-820c-d7d435d7863e.png)
 
 
 
