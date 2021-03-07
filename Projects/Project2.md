@@ -581,6 +581,44 @@ for i in range(200):
   ~~~
   ![image](https://user-images.githubusercontent.com/67920563/110249163-cedb9c00-7f42-11eb-88bf-7c4da7d4ba6e.png)
 
+## Standardized ElasticNet
+~~~
+from sklearn.linear_model import ElasticNet
+from sklearn.preprocessing import StandardScaler
+ss = StandardScaler()
+lel = ElasticNet(alpha=0.01)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+lel.fit(ss.fit_transform(X_train),y_train)
+yhat_lel=lel.predict(ss.fit_transform(X_test))
+#Turn continuous variables into discrete
+ylist=[]
+for output in yhat_lel:
+  if output<4.5:
+    output=round(output)
+    ylist.append(output)
+  else:
+    output=4
+    ylist.append(output)
+
+y_hat_lel_rounded=np.array(ylist)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110249191-f92d5980-7f42-11eb-85a6-ad083f8a9fe1.png)
+~~~
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lel.intercept_))
+    
+mae = mean_absolute_error(y_test, y_hat_lel_rounded)
+print("MAE = {:,.2f}".format(mae))
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110249194-08aca280-7f43-11eb-8987-4eb281292927.png)
+~~~
+print('Coefficients:')
+lel.coef_
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110249211-1f52f980-7f43-11eb-9970-3ac4af8deb8f.png)
+~~~
+
 
 
 
