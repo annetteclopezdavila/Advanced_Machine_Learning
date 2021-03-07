@@ -436,7 +436,50 @@ for i in range(1000):
   
   ![image](https://user-images.githubusercontent.com/67920563/110248715-8de28800-7f40-11eb-9040-dcb123e49954.png)
 
+## Standardized Ridge Regression Application
+~~~
+from sklearn.preprocessing import StandardScaler
+ss = StandardScaler()
 
+lr = Ridge(alpha=0.01)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+lr.fit(ss.fit_transform(X_train),y_train)
+scaled_yhat_lr=lr.predict(ss.fit_transform(X_test))
+#Turn continuous variables into discrete
+ylist=[]
+for output in scaled_yhat_lr:
+  if output<4.5:
+    output=round(output)
+    ylist.append(output)
+  else:
+    output=4
+    ylist.append(output)
+
+y_hat_lr_rounded=np.array(ylist)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110248784-d1d58d00-7f40-11eb-8a0e-cb33c676b82e.png)
+
+~~~
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lr.intercept_))
+    
+mae = mean_absolute_error(y_test, y_hat_lr_rounded)
+print("MAE = {:,.2f}".format(mae))
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110248808-eade3e00-7f40-11eb-8580-2cbb987d49a8.png)
+~~~
+print('Coefficients:')
+lr.coef_
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110248842-03e6ef00-7f41-11eb-953d-31548e7a768d.png)
+~~~
+max(lr.coef_)
+min(lr.coef_)
+~~~
+Max:
+![image](https://user-images.githubusercontent.com/67920563/110248909-60e2a500-7f41-11eb-909a-6090b68cba68.png)
+Min:
+![image](https://user-images.githubusercontent.com/67920563/110248928-71931b00-7f41-11eb-9f9e-99e8df4bc729.png)
 
 
 
