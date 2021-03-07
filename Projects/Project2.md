@@ -57,6 +57,7 @@ corr_matrix=np.corrcoef(X)
 corr_matrix
 
 import seaborn as sns
+import matplotlib.pyplot as plt
 plt.figure(figsize=(200,200))
 sns.heatmap(X.corr(), vmax=1, vmin=-1, cmap="spring", annot=True,fmt='.2f')
 plt.show()
@@ -88,9 +89,11 @@ Putting in the equatoin for error we have:
 ![image](https://user-images.githubusercontent.com/67920563/110245268-74d1db00-7f30-11eb-9156-0e7130ffec68.png)
 
 Then, the partial derivatives of the weights are taken:
+
 ![image](https://user-images.githubusercontent.com/67920563/110245159-10af1700-7f30-11eb-89b4-516ac163064e.png)
 
 And the equation is set to zero to obtain the global minimum:
+
 ![image](https://user-images.githubusercontent.com/67920563/110245366-ba8ea380-7f30-11eb-8613-6a577782912f.png)
 
 Thus, this becomes are solution to the linear regression.
@@ -240,6 +243,35 @@ for c in counted_list:
   print(X.columns[c])
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110247485-7ef8d700-7f3a-11eb-9782-3339ffb6c32e.png)
+
+~~~
+#test other alphas
+import matplotlib.pyplot as plt
+maeLS=[]
+for i in range(100):
+  ls = Lasso(alpha=i)
+
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+  ls.fit(X_train,y_train)
+  yhat_ls=ls.predict(X_test)
+  #Turn continuous variables into discrete
+  ylist=[]
+  for output in yhat_ls:
+    if output<4.5:
+      output=round(output)
+      ylist.append(output)
+    else:
+      output=4
+      ylist.append(output)
+
+  y_hat_ls_rounded=np.array(ylist)
+
+  maeLS.append(mean_absolute_error(y_test, y_hat_ls_rounded))
+  plt.scatter(range(100),maeLS)
+  ~~~
+  
+  
+![image](https://user-images.githubusercontent.com/67920563/110247573-eb73d600-7f3a-11eb-90ca-3d6ebe6565d9.png)
 
 
 
