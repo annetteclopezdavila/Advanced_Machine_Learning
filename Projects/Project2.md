@@ -156,6 +156,7 @@ Max:
 Min:
 ![image](https://user-images.githubusercontent.com/67920563/110247040-232d4e80-7f38-11eb-93b0-4f8cea58cd88.png)
 
+We can see from the data that the our coefficients have a rather wide range and our MAE is high. Let us see what happens when we apply regularization to our model.
 
 ## Regularization Embedded Models
 When we are working with large datasets such as this one, too many features may create *bias* and *variance* in our results. Bias is defined as the inability for the model to capture the true relationship of the data and while variance is defined as the difference in fit between the training and testing sets. For example, a model has high variance if the model predicts the training set very accurately but fails to do so in the testing set (overfitting). In order to reduce bias and variance, feature selection, regularization, boosting, and bagging techniques can be applied.
