@@ -392,6 +392,25 @@ print("Intercept: {:,.3f}".format(lr.intercept_))
 mae = mean_absolute_error(y_test, y_hat_lr_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/110248580-e1a0a180-7f3f-11eb-94fd-c1133636c995.png)
+
+~~~
+print('Coefficients:')
+lr.coef_
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110248619-0c8af580-7f40-11eb-9439-daea4be4e5a1.png)
+
+~~~
+max(lr.coef_)
+min(lr.coef_)
+~~~
+Max:
+![image](https://user-images.githubusercontent.com/67920563/110248636-2593a680-7f40-11eb-89a9-5bde7fa59e93.png)
+Min:
+![image](https://user-images.githubusercontent.com/67920563/110248650-33492c00-7f40-11eb-8429-76a0556296e0.png)
+
+
+
 
 
 
