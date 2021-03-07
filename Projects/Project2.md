@@ -54,7 +54,7 @@ sns.heatmap(X.corr(), vmax=1, vmin=-1, cmap="spring", annot=True,fmt='.2f')
 plt.show()
 ~~~
 
-#INSERT CORRELATION MATRIX
+![image](https://user-images.githubusercontent.com/67920563/110245203-376d4d80-7f30-11eb-95a8-e4e7c4f7b0c9.png)
 
 
 Although it is somewhat hard to tell about the nature of specific correlations due to the anount of features in the dataset, we can see that the majority of the data has a mild correlation relationship (dominance of peachy coral pink color). 
@@ -67,20 +67,20 @@ Feature selection is defined as the selection of features that best contribute t
 
 Let us assume we have a model Y with equation Y=F(X1, X2,...,Xp). In weighted linear regression, this equation is multiplied by certain weights which define the sparsity pattern of the data. An error term is also added into the equation:
 
+![image](https://user-images.githubusercontent.com/67920563/110245246-5a97fd00-7f30-11eb-8237-5d0c5e905a61.png)
 
-#INSERT WEIGHTED LINEAR REGRESSION PIC
 
 Our goal is to minimize the squared error by obtaining weights that will do so. Our error term will be found by subtracting the predicted valaues from the observed values and then squared.
 
-#PUT IN ERROR TERM PICTURE
+![image](https://user-images.githubusercontent.com/67920563/110245255-64b9fb80-7f30-11eb-99be-54c820605cce.png)
 
 The sum of squared errors can also be expressed in matrix form, since our data sets tend to have hundreds/thousands of items. Thus, in matrix notation, the sum of squared errors is the same as transposing two error vectors.
 
-#PUT IN TRANSPOSED
+![image](https://user-images.githubusercontent.com/67920563/110245261-6d123680-7f30-11eb-8469-6d8ab378cf77.png)
 
 Putting in the equatoin for error we have: 
 
-#PUT IN EQUATION TRANSPOSE
+![image](https://user-images.githubusercontent.com/67920563/110245268-74d1db00-7f30-11eb-9156-0e7130ffec68.png)
 
 Then, the partial derivatives of the weights are taken:
 ![image](https://user-images.githubusercontent.com/67920563/110245159-10af1700-7f30-11eb-89b4-516ac163064e.png)
