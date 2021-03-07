@@ -182,8 +182,54 @@ By adding in an extra cost term, the weights will be penalized. Lasso Regression
 
 This type of regularization should not be applied to a dataset with a low number of features as it will possibly drop features that are essential to the model. Lasso regularization also does not work well with features that are highly correlated, as it may drop correlated groups. The solution will be sparse as a large proportion of features will have a weight of zero.
 
+## Lasso Regression Application
+~~
+from sklearn.linear_model import Lasso
+ls = Lasso(alpha=0.01)
 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+ls.fit(X_train,y_train)
+yhat_ls=ls.predict(X_test)
 
+#Turn continuous variables into discrete
+ylist=[]
+for output in yhat_ls:
+  if output<4.5:
+    output=round(output)
+    ylist.append(output)
+  else:
+    output=4
+    ylist.append(output)
+
+y_hat_ls_rounded=np.array(ylist)
+
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(ls.intercept_))
+    
+mae = mean_absolute_error(y_test, y_hat_ls_rounded)
+print("MAE = {:,.2f}".format(mae))
+
+print('Coefficients')
+ls.coef_
+
+#get features that work
+list=[]
+count=-1
+counted_list=[]
+A=ls.coef_
+for a in A:
+  count=count+1
+  if a!=0:
+    list.append(a)
+    counted_list.append(count)
+
+print(list)
+print(counted_list)
+
+#Features
+for c in counted_list:
+  print(X.columns[c])
+~~~
 
 
 
