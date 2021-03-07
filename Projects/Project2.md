@@ -136,6 +136,10 @@ print("Intercept: {:,.3f}".format(lm.intercept_))
 mae = mean_absolute_error(y_test, y_hat_lm_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
+Predicted Values:
+![image](https://user-images.githubusercontent.com/67920563/110247412-30e3d380-7f3a-11eb-8d89-5ed59080d54f.png)
+
+
 ![image](https://user-images.githubusercontent.com/67920563/110246942-b9ad4000-7f37-11eb-948e-7d66ffc78e59.png)
 
 ~~~
@@ -183,7 +187,7 @@ By adding in an extra cost term, the weights will be penalized. Lasso Regression
 This type of regularization should not be applied to a dataset with a low number of features as it will possibly drop features that are essential to the model. Lasso regularization also does not work well with features that are highly correlated, as it may drop correlated groups. The solution will be sparse as a large proportion of features will have a weight of zero.
 
 ## Lasso Regression Application
-~~
+~~~
 from sklearn.linear_model import Lasso
 ls = Lasso(alpha=0.01)
 
@@ -202,16 +206,24 @@ for output in yhat_ls:
     ylist.append(output)
 
 y_hat_ls_rounded=np.array(ylist)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110247383-042fbc00-7f3a-11eb-9b28-ed093ed0c37f.png)
 
+~~~
 from sklearn.metrics import mean_absolute_error 
 print("Intercept: {:,.3f}".format(ls.intercept_))
     
 mae = mean_absolute_error(y_test, y_hat_ls_rounded)
 print("MAE = {:,.2f}".format(mae))
-
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110247468-64266280-7f3a-11eb-849b-23d45de3ba92.png)
+~~~
 print('Coefficients')
 ls.coef_
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110247447-5c66be00-7f3a-11eb-886c-4ad787557cbf.png)
 
+~~~
 #get features that work
 list=[]
 count=-1
@@ -223,13 +235,11 @@ for a in A:
     list.append(a)
     counted_list.append(count)
 
-print(list)
-print(counted_list)
-
 #Features
 for c in counted_list:
   print(X.columns[c])
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/110247485-7ef8d700-7f3a-11eb-9782-3339ffb6c32e.png)
 
 
 
