@@ -107,7 +107,7 @@ otherwise known as:
 
 By adding in an extra cost term, the weights will be penalized. Lasso Regression will find the closed form solution to this equation in order to derive the weights. 
 
-This type of regularization should not be applied to a dataset with a low number of features as it will possibly drop features that are essential to the model.
+This type of regularization should not be applied to a dataset with a low number of features as it will possibly drop features that are essential to the model. Lasso regularization also does not work well with features that are highly correlated, as it may drop correlated groups. The solution will be sparse as a large proportion of features will have a weight of zero.
 
 
 
