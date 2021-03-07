@@ -361,6 +361,40 @@ for i in range(100):
 ![image](https://user-images.githubusercontent.com/67920563/110248069-4c041280-7f3d-11eb-8143-ddae046d5d5c.png)
 
 
+## Ridge Regression Application
+
+~~~
+#Apply Ridge
+from sklearn.linear_model import Ridge
+
+lr = Ridge(alpha=0.01)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+lr.fit(X_train,y_train)
+yhat_lr=lr.predict(X_test)
+#Turn continuous variables into discrete
+ylist=[]
+for output in yhat_lr:
+  if output<4.5:
+    output=round(output)
+    ylist.append(output)
+  else:
+    output=4
+    ylist.append(output)
+
+y_hat_lr_rounded=np.array(ylist)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110248492-7ce54700-7f3f-11eb-9569-90d19662d405.png)
+
+~~~
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lr.intercept_))
+    
+mae = mean_absolute_error(y_test, y_hat_lr_rounded)
+print("MAE = {:,.2f}".format(mae))
+~~~
+
+
+
 
 
 
