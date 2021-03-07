@@ -93,6 +93,8 @@ When we are working with large datasets such as this one, too many features may 
 Feature selection is defined as the selection of features that best contribute to the accuracy of the model. Regularization will add constraints that lower the size of the coefficients in order to make the model less complex and avoid it from fitting variables that are not as important. This will penalize the loss function by adding a regularization term and minimize the sum of square residuals with constraints on the weight vector.
 
 ## Lasso Regression/ L1 Regularization
+![image](https://user-images.githubusercontent.com/67920563/110245856-03dff280-7f33-11eb-8569-ec6d2f9211c9.png)
+
 Lasso Regression will produce a model with high accuracy and a subset of the original features. Lasso regression puts in a constraint where the sum of absolute values of coefficients is less than a fixed value. Thus, it will lower the size of the coefficients and lead some features to have a coefficient of 0, essentially dropping it from the model.
 
 Looking back at our model without regularization, we saw that our coefficients were found with the formula:
