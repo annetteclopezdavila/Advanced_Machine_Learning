@@ -54,6 +54,17 @@ sns.heatmap(X.corr(), vmax=1, vmin=-1, cmap="spring", annot=True,fmt='.2f')
 plt.show()
 ~~~
 
+#INSERT CORRELATION MATRIX
+
+
+Although it is somewhat hard to tell about the nature of specific correlations due to the anount of features in the dataset, we can see that the majority of the data has a mild correlation relationship (dominance of peachy coral pink color). 
+
+# Regularization and Feature Selection
+## Regularization Embedded Models
+When we are working with large datasets such as this one, too many features may create *bias* and *variance* in our results. Bias is defined as the inability for the model to capture the true relationship of the data and while variance is defined as the difference in fit between the training and testing sets. For example, a model has high variance if the model predicts the training set very accurately but fails to do so in the testing set (overfitting). In order to reduce bias and variance, feature selection, regularization, boosting, and bagging techniques can be applied.
+
+Feature selection is defined as the selection of features that best contribute to the accuracy of the model.
+
 
 
 
