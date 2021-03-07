@@ -2,7 +2,7 @@
 layout: page
 title: Project 2
 ---
-Comparing the performance of Regularization Methods on different data sets. 
+Comparing the Performance of Regularization Methods. 
 
 # Introducing the Data
 ## Costa Rican Household Poverty Level Prediction- IDB
@@ -99,6 +99,55 @@ Thus, this becomes are solution to the linear regression.
 
 Note: I was so excited about finding this dataset that I did not realize that it addressed a classification problem rather than a linear regression. It was not until I finished the majority of the coding that I realized that the linear models predicted on a continuous scale rather than a discrete scale. Thus, I was seeing predicted values like 1.6 rather than 2. In order to try to make up for this error, I decided to round the values to their integers. This led to a lot more error than would have occurred with a different X and y.  
 
+~~~
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+#split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+
+lm = LinearRegression()
+
+#fit the variables to model
+lm.fit(X_train, y_train)
+
+#predict output by inputting test variable
+yhat_lm=lm.predict(X_test)
+
+#Turn continuous variables into discrete
+ylist=[]
+for output in yhat_lm:
+  if output<4.5:
+    output=round(output)
+    ylist.append(output)
+  else:
+    output=4
+    ylist.append(output)
+    
+#round
+y_hat_lm_rounded=np.array(ylist)
+
+#MAE 
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lm.intercept_))
+    
+mae = mean_absolute_error(y_test, y_hat_lm_rounded)
+print("MAE = {:,.2f}".format(mae))
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110246942-b9ad4000-7f37-11eb-948e-7d66ffc78e59.png)
+
+~~~
+lm.coef_
+~~~
+
+~~~
+#max coefficient (range)
+max(lm.coef_)
+
+#min coefficient
+min(lm.coef_)
 ~~~
 
 
