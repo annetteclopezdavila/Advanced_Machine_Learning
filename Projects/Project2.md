@@ -406,8 +406,36 @@ min(lr.coef_)
 ~~~
 Max:
 ![image](https://user-images.githubusercontent.com/67920563/110248636-2593a680-7f40-11eb-89a9-5bde7fa59e93.png)
+
 Min:
 ![image](https://user-images.githubusercontent.com/67920563/110248650-33492c00-7f40-11eb-8429-76a0556296e0.png)
+
+~~~
+import matplotlib.pyplot as plt
+maeLR=[]
+for i in range(1000):
+  lr = Ridge(alpha=i)
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+  lr.fit(X_train,y_train)
+  yhat_lr=lr.predict(X_test)
+  #Turn continuous variables into discrete
+  ylist=[]
+  for output in yhat_lr:
+    if output<4.5:
+      output=round(output)
+      ylist.append(output)
+    else:
+      output=4
+      ylist.append(output)
+
+  y_hat_lr_rounded=np.array(ylist)
+  
+  maeLR.append(mean_absolute_error(y_test, y_hat_lr_rounded))
+  plt.scatter(range(1000),maeLR)
+  ~~~
+  
+  ![image](https://user-images.githubusercontent.com/67920563/110248715-8de28800-7f40-11eb-9040-dcb123e49954.png)
+
 
 
 
