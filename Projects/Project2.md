@@ -358,6 +358,7 @@ for i in range(100):
   maeSLS.append(mean_absolute_error(y_test, y_hat_ls_rounded))
   plt.scatter(range(100),maeSLS)
   ~~~
+![image](https://user-images.githubusercontent.com/67920563/110248069-4c041280-7f3d-11eb-8143-ddae046d5d5c.png)
 
 
 
