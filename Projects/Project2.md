@@ -141,6 +141,7 @@ print("MAE = {:,.2f}".format(mae))
 ~~~
 lm.coef_
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/110247032-13156f00-7f38-11eb-9b03-b5f50334989d.png)
 
 ~~~
 #max coefficient (range)
@@ -149,6 +150,8 @@ max(lm.coef_)
 #min coefficient
 min(lm.coef_)
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/110247039-1f013100-7f38-11eb-8ae3-7b088b83bb2b.png)
+![image](https://user-images.githubusercontent.com/67920563/110247040-232d4e80-7f38-11eb-93b0-4f8cea58cd88.png)
 
 
 ## Regularization Embedded Models
