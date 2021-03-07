@@ -478,6 +478,7 @@ min(lr.coef_)
 ~~~
 Max:
 ![image](https://user-images.githubusercontent.com/67920563/110248909-60e2a500-7f41-11eb-909a-6090b68cba68.png)
+
 Min:
 ![image](https://user-images.githubusercontent.com/67920563/110248928-71931b00-7f41-11eb-9f9e-99e8df4bc729.png)
 
