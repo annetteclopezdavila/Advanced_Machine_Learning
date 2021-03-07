@@ -273,6 +273,69 @@ for i in range(100):
   
 ![image](https://user-images.githubusercontent.com/67920563/110247573-eb73d600-7f3a-11eb-90ca-3d6ebe6565d9.png)
 
+## Standardized Lasso Regression Application
+
+~~~
+from sklearn.linear_model import Lasso
+from sklearn.preprocessing import StandardScaler
+ss = StandardScaler()
+ls = Lasso(alpha=0.01)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+ls.fit(ss.fit_transform(X_train),y_train)
+yhat_ls=ls.predict(ss.fit_transform(X_test))
+#Turn continuous variables into discrete
+ylist=[]
+for output in yhat_ls:
+  if output<4.5:
+    output=round(output)
+    ylist.append(output)
+  else:
+    output=4
+    ylist.append(output)
+
+y_hat_ls_rounded=np.array(ylist)
+y_hat_ls_rounded
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110247700-8a98cd80-7f3b-11eb-9928-2f5165e914bc.png)
+
+~~~
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(ls.intercept_))
+    
+mae = mean_absolute_error(y_test, y_hat_ls_rounded)
+print("MAE = {:,.2f}".format(mae))
+~~~~
+![image](https://user-images.githubusercontent.com/67920563/110247734-b9af3f00-7f3b-11eb-8143-df049088af10.png)
+
+~~~
+print('Coefficients')
+ls.coef_
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110247769-da779480-7f3b-11eb-8b2d-346b8de26855.png)
+
+~~~
+#get features that work
+list=[]
+count=-1
+counted_list=[]
+A=ls.coef_
+for a in A:
+  count=count+1
+  if a!=0:
+    list.append(a)
+    counted_list.append(count)
+
+#Features
+for c in counted_list:
+  print(X.columns[c])
+~~~
+
+
+
+
+
+
 
 
 
