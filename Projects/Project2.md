@@ -232,7 +232,7 @@ y_hat_ls_rounded=np.array(ylist)
 Our predicted values are:
 ![image](https://user-images.githubusercontent.com/67920563/110247383-042fbc00-7f3a-11eb-9b28-ed093ed0c37f.png)
 
-Let us apply cross-validation analysis
+Let us find the mean absolute error to compare the model on the training and testing set:
 ~~~
 from sklearn.metrics import mean_absolute_error 
 print("Intercept: {:,.3f}".format(ls.intercept_))
@@ -241,12 +241,15 @@ mae = mean_absolute_error(y_test, y_hat_ls_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110247468-64266280-7f3a-11eb-849b-23d45de3ba92.png)
+
+The weighted coefficients are:
 ~~~
 print('Coefficients')
 ls.coef_
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110247447-5c66be00-7f3a-11eb-886c-4ad787557cbf.png)
 
+Since Lasso Regression eliminates certain features, we can derive the ones that are left:
 ~~~
 #get features that work
 list=[]
@@ -265,6 +268,7 @@ for c in counted_list:
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110247485-7ef8d700-7f3a-11eb-9782-3339ffb6c32e.png)
 
+We can also test other alpha values that may make our predictions better:
 ~~~
 #test other alphas
 import matplotlib.pyplot as plt
@@ -295,6 +299,7 @@ for i in range(100):
 ![image](https://user-images.githubusercontent.com/67920563/110247573-eb73d600-7f3a-11eb-90ca-3d6ebe6565d9.png)
 
 ## Standardized Lasso Regression Application
+Looking at our data, we can observe that the values are not nearly in the same ranges. Thus, we can standardize our data to attempt to make our model better. We apply the same steps while standardizing our features:
 
 ~~~
 from sklearn.linear_model import Lasso
@@ -329,6 +334,7 @@ print("MAE = {:,.2f}".format(mae))
 ~~~~
 ![image](https://user-images.githubusercontent.com/67920563/110247734-b9af3f00-7f3b-11eb-8143-df049088af10.png)
 
+We can see that standardizing our data improves our MAE greatly at the same alpha (from 0.32 to 0.23).
 ~~~
 print('Coefficients')
 ls.coef_
@@ -380,6 +386,8 @@ for i in range(100):
   plt.scatter(range(100),maeSLS)
   ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110248069-4c041280-7f3d-11eb-8143-ddae046d5d5c.png)
+
+We see a similar trend in the standardized and non-standardized forms of Lasso regression; the MAE plateaus below 0.22 as alpha goes to infinity.
 
 
 ## Ridge Regression Application
@@ -633,6 +641,7 @@ mae = mean_absolute_error(y_test, y_hat_lel_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110249194-08aca280-7f43-11eb-8987-4eb281292927.png)
+
 ~~~
 print('Coefficients:')
 lel.coef_
