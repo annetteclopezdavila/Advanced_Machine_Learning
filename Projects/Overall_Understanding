@@ -8,8 +8,12 @@ What is cross-validation? How to do it right?
     -test the model to check effectiveness on the kth fold
     -repeat through each k and record average k accuracy as the cross validation accuracy
 Is it better to design robust or accurate algorithms?
+  - One wants to walk the line between an algorithm that will be fairly accurate across all input data and one that isn't overly complex to the point where it overfits (identifies patters in the training data that do not exist in test set)
+  - balance bias and variance
 How to define/select metrics?
 Explain what regularization is and why it is useful. What are the benefits and drawbacks of specific methods, such as ridge regression and lasso?
+- Ridge:
+- Lasso:
 Explain what a local optimum is and why it is important in a specific context, such as K-means clustering. What are specific ways of determining if you have a local optimum problem? What can be done to avoid local optima?
 Assume you need to generate a predictive model using multiple regression. Explain how you intend to validate this model
 Explain what precision and recall are. How do they relate to the ROC curve?
