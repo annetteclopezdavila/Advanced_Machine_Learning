@@ -187,7 +187,7 @@ When we are working with large datasets such as this one, too many features may 
 
 Feature selection is defined as the selection of features that best contribute to the accuracy of the model. Regularization will add constraints that lower the size of the coefficients in order to make the model less complex and avoid it from fitting variables that are not as important. This will penalize the loss function by adding a regularization term and minimize the sum of square residuals with constraints on the weight vector.
 
-## Lasso Regression/ L1 Regularization
+# Lasso Regression/ L1 Regularization
 ![image](https://user-images.githubusercontent.com/67920563/110245856-03dff280-7f33-11eb-8569-ec6d2f9211c9.png)
 
 Lasso Regression will produce a model with high accuracy and a subset of the original features. Lasso regression puts in a constraint where the sum of absolute values of coefficients is less than a fixed value. Thus, it will lower the size of the coefficients and lead some features to have a coefficient of 0, essentially dropping it from the model.
@@ -389,6 +389,13 @@ for i in range(100):
 
 We see a similar trend in the standardized and non-standardized forms of Lasso regression; the MAE plateaus below 0.22 as alpha goes to infinity.
 
+# Ridge Regression/L2 Regularization
+
+![image](https://user-images.githubusercontent.com/67920563/110421214-0ba2b280-806b-11eb-8244-81be15b5293d.png)
+
+Ridge Regression shares many conceptual similarities with Lasso Regression; it also adds on a penalty to the loss function. The regularization term is the sum of squares of all the feature weights. Unlike Lasso Regression, this type of regression will make the weights smaller but never zero. Ridge regession is not good for data with a lot of outliers, as it blows up the error differences of the outliers and the regularization term tries to fix it by penalizing the weights. Ridge regression is also better when all the features influence the output and all the weights are roughly the same size. This regularization technique does not offer feature selection and has a non sparse solution.
+
+One can solve for the weighted term of ridge regression by
 
 ## Ridge Regression Application
 
