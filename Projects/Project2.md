@@ -115,7 +115,9 @@ Thus, this becomes are solution to the linear regression.
 
 ## Linear Regression Application of the IDB Dataset
 
-Note: I was so excited about finding this dataset that I did not realize that it addressed a classification problem rather than a linear regression. It was not until I finished the majority of the coding that I realized that the linear models predicts on a continuous scale rather than a discrete scale. Thus, I was seeing predicted values like 1.6 rather than 2. In order to try to make up for this error, I decided to round the values to their integers. This led to a lot more error than would have occurred with a different X and y. I have decided to keep the error in since this is the second time I have made this error in a Machine Learning Project, so I would like to keep this as a reminder to understand the dataset before running into the application phase.
+Note: I was so excited about finding this dataset that I did not realize that it addressed a classification problem rather than a linear regression. It was not until I finished the majority of the coding that I realized that the linear models predicts on a continuous scale rather than a discrete scale. Thus, I was seeing predicted values like 1.6 rather than 2. In order to try to make up for this error, I decided to round the values to their integers. This led to a lot more error/less accuracy than would have occurred with a different X and y. I have decided to keep the error in since this is the second time I have made this error in a Machine Learning Project, so I would like to keep this as a reminder to understand the dataset before running into the application phase.
+
+Before applying any regularization, let us examine a linear regression model on the data:
 
 ~~~
 import numpy as np
@@ -205,6 +207,8 @@ By adding in an extra cost term, the weights will be penalized. Lasso Regression
 This type of regularization should not be applied to a dataset with a low number of features as it will possibly drop features that are essential to the model. Lasso regularization also does not work well with features that are highly correlated, as it may drop correlated groups. The solution will be sparse as a large proportion of features will have a weight of zero.
 
 ## Lasso Regression Application
+We can first fit our data to a lasso regression:
+
 ~~~
 from sklearn.linear_model import Lasso
 ls = Lasso(alpha=0.01)
@@ -225,8 +229,10 @@ for output in yhat_ls:
 
 y_hat_ls_rounded=np.array(ylist)
 ~~~
+Our predicted values are:
 ![image](https://user-images.githubusercontent.com/67920563/110247383-042fbc00-7f3a-11eb-9b28-ed093ed0c37f.png)
 
+Let us apply cross-validation analysis
 ~~~
 from sklearn.metrics import mean_absolute_error 
 print("Intercept: {:,.3f}".format(ls.intercept_))
