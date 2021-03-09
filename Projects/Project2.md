@@ -268,7 +268,7 @@ for c in counted_list:
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110247485-7ef8d700-7f3a-11eb-9782-3339ffb6c32e.png)
 
-We can also test other alpha values that may make our predictions better:
+It can be noticed that we chose an arbitrary penalty term (alpha value) in this example. In order to choose alpha, we must use cross validation. The alpha value that gives us the least variance is the optimal value. We can thus test other alpha values that may make our predictions better:
 ~~~
 #test other alphas
 import matplotlib.pyplot as plt
@@ -404,7 +404,7 @@ One can solve for the weighted term of ridge regression by finding the closed fo
 
 
 ## Ridge Regression Application
-
+Ridge Regression has a similar application code wise as Lasso Regression:
 ~~~
 #Apply Ridge
 from sklearn.linear_model import Ridge
@@ -427,6 +427,7 @@ y_hat_lr_rounded=np.array(ylist)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110248492-7ce54700-7f3f-11eb-9569-90d19662d405.png)
 
+We are able to calculate the MAE on unstandardized data:
 ~~~
 from sklearn.metrics import mean_absolute_error 
 print("Intercept: {:,.3f}".format(lr.intercept_))
@@ -436,6 +437,7 @@ print("MAE = {:,.2f}".format(mae))
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110248580-e1a0a180-7f3f-11eb-94fd-c1133636c995.png)
 
+We see that unstandardized Ridge and Lasso regularization produce the same MAE for this dataset.
 ~~~
 print('Coefficients:')
 lr.coef_
