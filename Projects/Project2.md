@@ -390,12 +390,18 @@ for i in range(100):
 We see a similar trend in the standardized and non-standardized forms of Lasso regression; the MAE plateaus below 0.22 as alpha goes to infinity.
 
 # Ridge Regression/L2 Regularization
-
-![image](https://user-images.githubusercontent.com/67920563/110421214-0ba2b280-806b-11eb-8244-81be15b5293d.png)
+![image](https://user-images.githubusercontent.com/67920563/110421480-997e9d80-806b-11eb-97d9-8052466197bb.png)
 
 Ridge Regression shares many conceptual similarities with Lasso Regression; it also adds on a penalty to the loss function. The regularization term is the sum of squares of all the feature weights. Unlike Lasso Regression, this type of regression will make the weights smaller but never zero. Ridge regession is not good for data with a lot of outliers, as it blows up the error differences of the outliers and the regularization term tries to fix it by penalizing the weights. Ridge regression is also better when all the features influence the output and all the weights are roughly the same size. This regularization technique does not offer feature selection and has a non sparse solution.
 
-One can solve for the weighted term of ridge regression by
+Ridge regression's loss function is defined as:
+
+![image](https://user-images.githubusercontent.com/67920563/110421214-0ba2b280-806b-11eb-8244-81be15b5293d.png)
+
+One can solve for the weighted term of ridge regression by finding the closed form solution using the derivative. We end up with the form:
+
+![image](https://user-images.githubusercontent.com/67920563/110421550-b7e49900-806b-11eb-935f-4a572c281d6c.png)
+
 
 ## Ridge Regression Application
 
