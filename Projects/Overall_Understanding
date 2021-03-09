@@ -1,5 +1,12 @@
-Machine Learning & Mathematics
+# Machine Learning & Mathematics
 What is cross-validation? How to do it right?
+  - Estimate performance/accuracy of model
+  - Holdout Method: Split data into testing (20/30%) and training sets(70/80%) in order to see how the model will work on data it has never seen before
+  - K Fold Corss Validation: Dataset is divided into k number of datasets and the holdout method is repeated k number of times.
+    - split data into k number of folds
+    -buil model on k-1 folds of the dataset
+    -test the model to check effectiveness on the kth fold
+    -repeat through each k and record average k accuracy as the cross validation accuracy
 Is it better to design robust or accurate algorithms?
 How to define/select metrics?
 Explain what regularization is and why it is useful. What are the benefits and drawbacks of specific methods, such as ridge regression and lasso?
