@@ -68,6 +68,21 @@ plt.show()
 
 Although it is somewhat hard to tell about the nature of specific correlations due to the anount of features in the dataset, we can see that the majority of the data has a mild correlation relationship (dominance of peachy coral pink color). 
 
+In order to further verify that the data is weakly correlated, we can apply a one sample t-test with a two sided pvalue. 
+~~~
+from scipy import stats
+def tstat_corr(r,n):
+  t = r*np.sqrt(n-2)/np.sqrt(1-r**2)
+  pval = stats.t.sf(np.abs(t), n-1)*2  # two-sided pvalue = Prob(abs(t)>tt)
+  print('t-statistic = %6.3f pvalue = %6.4f' % (t, pval))
+  
+ tstat_corr(0.02,len(X)) #put in an r value from matrix
+ ~~~
+ One of the lowest correlation values in the heatmap was chosen as the r value. We are left with the following results:
+ ![image](https://user-images.githubusercontent.com/67920563/110415773-7f8b8d80-8060-11eb-9b10-009ebf673340.png)
+ 
+ The t-value measures the size of the difference relatie to the variation in the data. The greater t is, the greater the chance is that there is a significant difference between the data. Our p value is extremly high at about 0.8, thus telling us that the data is most likely weakly correlated.
+
 # Regularization and Feature Selection
 ## Finding the Weights Mathematically without Regularization
 
