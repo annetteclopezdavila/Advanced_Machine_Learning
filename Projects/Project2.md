@@ -588,6 +588,8 @@ for i in range(200):
   ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110248980-bb7c0100-7f41-11eb-820c-d7d435d7863e.png)
 
+Note that at an alpha value of about 90-150, the MAE decreases to 0.15. This so far has been the lowest recorded MAE, proving that this may indeed be a good model for our data.
+
 ## ElasticNet
 ~~~
 from sklearn.linear_model import  ElasticNet
