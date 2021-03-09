@@ -418,7 +418,7 @@ We see a similar trend in the standardized and non-standardized forms of Lasso r
 # Ridge Regression/L2 Regularization
 ![image](https://user-images.githubusercontent.com/67920563/110421480-997e9d80-806b-11eb-97d9-8052466197bb.png)
 
-Ridge Regression shares many conceptual similarities with Lasso Regression; it also adds on a penalty to the loss function. The regularization term is the sum of squares of all the feature weights. Unlike Lasso Regression, this type of regression will make the weights smaller but never zero. Ridge regession is not good for data with a lot of outliers, as it blows up the error differences of the outliers and the regularization term tries to fix it by penalizing the weights. Ridge regression is also better when all the features influence the output and all the weights are roughly the same size. This regularization technique does not offer feature selection and has a non sparse solution. It should be noted that ridge regression can hel solve models in which there are less data points than parameters.
+Ridge Regression shares many conceptual similarities with Lasso Regression; it also adds on a penalty to the loss function. The regularization term is the sum of squares of all the feature weights. Unlike Lasso Regression, this type of regression will make the weights smaller but never zero. Ridge regession is not good for data with a lot of outliers, as it blows up the error differences of the outliers and the regularization term tries to fix it by penalizing the weights. Ridge regression is also better when all the features influence the output and all the weights are roughly the same size. This regularization technique does not offer feature selection and has a non sparse solution. It should be noted that ridge regression can hel solve models in which there are less data points than parameters. Ridge regression will penalize large weight coefficients more than the smaller ones as opposed to Lasso regression which penalizes each coefficient uniformly.
 
 Ridge regression's loss function is defined as:
 
@@ -593,8 +593,13 @@ Note that at an alpha value of about 90-150, the MAE decreases to 0.15. This so 
 # Ridge vs Lasso
 Let us more clearly compare the two regularization techniques:
 
+![image](https://user-images.githubusercontent.com/67920563/110428563-75c15480-8077-11eb-8391-70dce71dabc9.png)
 
-## ElasticNet
+
+# ElasticNet
+ElasticNet regression combines L1 and L2 regularization:
+![image](https://user-images.githubusercontent.com/67920563/110429057-60005f00-8078-11eb-86e2-68f4411a0672.png)
+This particular model combines feature elimination with coefficient reduction to create a better model; ElasticNet will also do well with highly correlated data. When variables are correlated, Ridge regression will shrink the two coefficients towards each other while Lasso will overlook one variable and drop it. ElasticNet will avoid such problems by combining both models.
 ~~~
 from sklearn.linear_model import  ElasticNet
 lel = ElasticNet(alpha=0.01)
