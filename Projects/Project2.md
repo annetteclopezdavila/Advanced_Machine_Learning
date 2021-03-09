@@ -470,6 +470,7 @@ lr.coef_
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110248619-0c8af580-7f40-11eb-9439-daea4be4e5a1.png)
 
+Our range of weights decreases from the non-regularized linear regression coefficients, but does not decrease as much as Lasso Regression:
 ~~~
 max(lr.coef_)
 min(lr.coef_)
@@ -507,9 +508,10 @@ for i in range(1000):
   
   ![image](https://user-images.githubusercontent.com/67920563/110248715-8de28800-7f40-11eb-9040-dcb123e49954.png)
   
-  It can be noted that as alpha gets bigger, y is less sensitive to the features. 
+  It can be noted that as alpha gets bigger, y is less sensitive to the features. The optimal alpha value drops below an MAE of 0.20 when alpha is about 250. This so far has presented the best model.
 
 ## Standardized Ridge Regression Application
+We repeat the process with standardization:
 ~~~
 from sklearn.preprocessing import StandardScaler
 ss = StandardScaler()
@@ -532,6 +534,8 @@ y_hat_lr_rounded=np.array(ylist)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110248784-d1d58d00-7f40-11eb-8a0e-cb33c676b82e.png)
 
+The MAE has increased above all models including the non-regularized model, thus showing that this may not be an adequate structure for our data.
+
 ~~~
 from sklearn.metrics import mean_absolute_error 
 print("Intercept: {:,.3f}".format(lr.intercept_))
@@ -545,6 +549,8 @@ print('Coefficients:')
 lr.coef_
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110248842-03e6ef00-7f41-11eb-953d-31548e7a768d.png)
+
+Although our MAE has increased, the range of values of weight coefficients is still lower than the original model.
 ~~~
 max(lr.coef_)
 min(lr.coef_)
@@ -554,6 +560,8 @@ Max:
 
 Min:
 ![image](https://user-images.githubusercontent.com/67920563/110248928-71931b00-7f41-11eb-9f9e-99e8df4bc729.png)
+
+Trying different penalty values we get:
 
 ~~~
 import matplotlib.pyplot as plt
