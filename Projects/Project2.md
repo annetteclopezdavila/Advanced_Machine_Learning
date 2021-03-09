@@ -590,6 +590,10 @@ for i in range(200):
 
 Note that at an alpha value of about 90-150, the MAE decreases to 0.15. This so far has been the lowest recorded MAE, proving that this may indeed be a good model for our data.
 
+# Ridge vs Lasso
+Let us more clearly compare the two regularization techniques:
+
+
 ## ElasticNet
 ~~~
 from sklearn.linear_model import  ElasticNet
