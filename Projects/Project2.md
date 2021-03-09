@@ -249,6 +249,20 @@ ls.coef_
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110247447-5c66be00-7f3a-11eb-886c-4ad787557cbf.png)
 
+Let us examine the range of the coefficients:
+
+~~~
+min(ls.coef_)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110425678-be2a4380-8072-11eb-8af3-7378eefe5884.png)
+
+~~~
+max(ls.coef_)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110425689-c2566100-8072-11eb-981c-3fbfcca260f1.png)
+
+We can see that the range of the coefficients has decreased greatly compared to the non regularized model.
+
 Since Lasso Regression eliminates certain features, we can derive the ones that are left:
 ~~~
 #get features that work
@@ -340,6 +354,18 @@ print('Coefficients')
 ls.coef_
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110247769-da779480-7f3b-11eb-8b2d-346b8de26855.png)
+
+Let us look at the range of our coefficients:
+~~~
+min(ls.coef_)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110426139-8e2f7000-8073-11eb-80c7-4d670fe48835.png)
+~~~
+max(ls.coef_)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110426146-925b8d80-8073-11eb-81cd-743a291b6763.png)
+
+Thus, we can see that the standardized Lasso Regression decreased the range of weights in comparison to the non standardized Lasso Regression.
 
 ~~~
 #get features that work
