@@ -785,6 +785,29 @@ for i in range(200):
 
 Square Root Lasso Regularization is a type of lasso that addresses noise in the data. A square root lasso model can fit potentially high-dimensional data. This type of model chooses an equilibrium with a sparse regression method by iteratively estimating the noise level via the mean residual square and the penalty in proportion to noise level.
 
+## Application of Square Root Lasso in Python
+Let us now try to apply Square Root Lasso in python. We can calculate the MAE using cross-validation:
+~~~
+! pip install --upgrade Cython
+! pip install --upgrade git+https://github.com/statsmodels/statsmodels
+import statsmodels.api as sm
+
+from sklearn.metrics import mean_absolute_error as MAE
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split as tts
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+
+model = sm.OLS(y_train,X_train)
+result = model.fit_regularized(method='sqrt_lasso', alpha=0.01)
+yhat_test = result.predict(X_test)
+MAE(y_test,yhat_test)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110671461-84edf280-819c-11eb-9ad0-d5c6df414c23.png)
+
+Our MAE is 0.69 at alpha 0.01.
+
+
 
 
 
