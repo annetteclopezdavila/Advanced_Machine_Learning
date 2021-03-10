@@ -781,9 +781,9 @@ for i in range(200):
 
 # Square Root Lasso/ Scaled Lasso
 
+![image](https://user-images.githubusercontent.com/67920563/110669373-43f4de80-819a-11eb-8b7b-94e2d1c08b9e.png)
 
-
-Square Root Lasso Regularization is a type of lasso that addresses noise in the data. A square root lasso model can fit potentially high-dimensional data. This type of model estimates the regression coefficients by choosing an equilibrium with a sparse regression method by estimating the noise level via 
+Square Root Lasso Regularization is a type of lasso that addresses noise in the data. A square root lasso model can fit potentially high-dimensional data. This type of model chooses an equilibrium with a sparse regression method by iteratively estimating the noise level via the mean residual square and the penalty in proportion to noise level.
 
 
 
