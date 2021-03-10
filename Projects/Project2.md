@@ -906,7 +906,8 @@ min(result.params)
 max(result.params)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110685474-511ac900-81ac-11eb-93f3-914183b4f28d.png)
-Our range of coefficients is not high, but due to our large MAE, this model may be largely biased.
+Our range of coefficients is not high, but due to our large MAE, this model is not adequate for our data.
+Let us examine other alpha values:
 ~~~
 maeSSL=[]
 for i in range(200):
@@ -914,13 +915,13 @@ for i in range(200):
   result = model.fit_regularized(method='sqrt_lasso', alpha=0.5)
   yhat_test = result.predict(Xs_test)
   maeSSL.append(MAE(y_test,yhat_test))
-~~~
-~~~
+
 plt.scatter(range(200),maeSSL)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110675017-76a1d580-81a0-11eb-9d2b-bb2224dddee0.png)
+![image](https://user-images.githubusercontent.com/67920563/110688949-23d01a00-81b0-11eb-974f-379112c17dfd.png)
 
 
+As we can see, increasing or decreasing the alpha values did not have an impact on our MAE.
 
 
 
