@@ -620,6 +620,8 @@ for output in yhat_lel:
 y_hat_lel_rounded=np.array(ylist)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110249049-085fd780-7f42-11eb-9a36-fe203a3f56d3.png)
+
+Our MAE becomes:
 ~~~
 from sklearn.metrics import mean_absolute_error 
 print("Intercept: {:,.3f}".format(lel.intercept_))
@@ -628,11 +630,19 @@ mae = mean_absolute_error(y_test, y_hat_lel_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110249094-5e347f80-7f42-11eb-8531-53bbd5cf94f8.png)
+
+The MAE is about the same as our linear regression model at this alpha. Let us see the range of coefficients:
 ~~~
 print('Coefficients:')
 lel.coef_
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110249110-7a382100-7f42-11eb-9b1a-b4a308a85ef3.png)
+~~~
+min(lel.coef_)
+max(lel.coef_)
+~~~
+Our range has shrunk to a difference of about 0.6. This is a great improvement from the non regularized model. We can also note that several features have coefficients of zero, meaning they have been deemed less necessary by the model.
+
 ~~~
 list=[]
 count=-1
@@ -648,6 +658,8 @@ for c in counted_list:
   print(X.columns[c])
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110249135-9c31a380-7f42-11eb-8440-9e0eadb7eae8.png)
+
+Let us examine other alphas to see if there is a better MAE:
 ~~~
 import matplotlib.pyplot as plt
 maeEN=[]
@@ -672,8 +684,12 @@ for i in range(200):
   plt.scatter(range(200),maeEN)
   ~~~
   ![image](https://user-images.githubusercontent.com/67920563/110249163-cedb9c00-7f42-11eb-88bf-7c4da7d4ba6e.png)
+  
+  From the graph we see that we can achieve a lower MAE once we increase the value of alpha. The graph plateaus at an MAE of less than 0.225.
+  
 
 ## Standardized ElasticNet
+Let us examine if standardizing the data can improve our results:
 ~~~
 from sklearn.linear_model import ElasticNet
 from sklearn.preprocessing import StandardScaler
@@ -704,6 +720,8 @@ mae = mean_absolute_error(y_test, y_hat_lel_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110249194-08aca280-7f43-11eb-8987-4eb281292927.png)
+
+Our MAE at the same alpha is much lower than the unstandardized data.
 
 ~~~
 print('Coefficients:')
