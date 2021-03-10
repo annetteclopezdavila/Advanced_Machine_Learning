@@ -924,7 +924,10 @@ plt.scatter(range(200),maeSSL)
 
 As we can see, increasing or decreasing the alpha values did not have an impact on our MAE.
 
+# SCAD
+The last feature selection method we have is SMoothly Clipped Absolute Deviations (SCAD). 
 
+SCAD suffers from bias but encourages sparsity, thus allowing for larger weights. This type of penalty relaxes the rate of penalization as the absolute value of the weight coefficient increases, unlike Lasso regularization which increases the penalty with respect to the weight.
 
 
 
