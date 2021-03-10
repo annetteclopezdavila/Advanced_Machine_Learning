@@ -729,9 +729,14 @@ lel.coef_
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110249211-1f52f980-7f43-11eb-9970-3ac4af8deb8f.png)
 ~~~
-max(lel.coef_)
+min(lel.coef_)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110684453-2ed47b80-81ab-11eb-9a76-798616ee3515.png)
+~~~
 max(lel.coef_)
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/110684433-28460400-81ab-11eb-9687-5744fd8e2e3f.png)
+
 Our range of coefficients has shrunk by over 100%, going from a difference of ~0.6 to ~0.3
 
 ~~~
@@ -805,11 +810,22 @@ MAE(y_test,yhat_test)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110671461-84edf280-819c-11eb-9ad0-d5c6df414c23.png)
 
-Our MAE is 0.69 at alpha 0.01.
+Our MAE is 0.69 at alpha 0.01, which is our highest MAE out of all the models. Let us look at the range of the coefficients:
 ~~~
 result.params
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110674528-fa0ef700-819f-11eb-8477-de0c7f4ffa9e.png)
+~~~
+min(result.params)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110684312-fe8cdd00-81aa-11eb-8e02-4b308341c58f.png)
+~~~
+max(result.params)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110684328-051b5480-81ab-11eb-88fc-b703ac8321bf.png)
+We can see from the results that the range of coefficients has increased; this type of regularization may not be adequate for our model.
+
+Let us examine other alpha values to see if we can improve our results:
 ~~~
 maeSL=[]
 for i in range(200):
@@ -817,28 +833,40 @@ for i in range(200):
   result = model.fit_regularized(method='sqrt_lasso', alpha=i)
   yhat_test = result.predict(X_test)
   maeSL.append(MAE(y_test,yhat_test))
- ~~~
- 
- ~~~
  plt.scatter(range(200),maeSL)
  ~~~
   ![image](https://user-images.githubusercontent.com/67920563/110674675-1f036a00-81a0-11eb-8c7a-506ce8f042d8.png)
+
+Our results show that the MAE is never better than 0.4, and increases as alpha is increased.
+  
 ## Scaled Square Root Lasso
+Let us try to improve our model by scaling our data:
 ~~~
 scale = StandardScaler()
 Xs_train = scale.fit_transform(X_train)
 Xs_test  = scale.transform(X_test)
-~~~
-~~~
 model = sm.OLS(y_train,Xs_train)
 result = model.fit_regularized(method='sqrt_lasso', alpha=0.5)
 yhat_test = result.predict(Xs_test)
 MAE(y_test,yhat_test)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110674844-4bb78180-81a0-11eb-98f0-05955105c248.png)
+
+Our MAE is still extremely high. Let us look at the range of our coefficients.
+
 ~~~
 result.params
 ~~~
+
+~~~
+min(result.params)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110685400-38121800-81ac-11eb-8753-71be4400edc9.png)
+~~~
+max(result.params)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110685474-511ac900-81ac-11eb-93f3-914183b4f28d.png)
+
 ~~~
 maeSSL=[]
 for i in range(200):
