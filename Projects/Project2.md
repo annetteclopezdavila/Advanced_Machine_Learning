@@ -806,6 +806,58 @@ MAE(y_test,yhat_test)
 ![image](https://user-images.githubusercontent.com/67920563/110671461-84edf280-819c-11eb-9ad0-d5c6df414c23.png)
 
 Our MAE is 0.69 at alpha 0.01.
+~~~
+result.params
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110674528-fa0ef700-819f-11eb-8477-de0c7f4ffa9e.png)
+~~~
+maeSL=[]
+for i in range(200):
+  model = sm.OLS(y_train,X_train)
+  result = model.fit_regularized(method='sqrt_lasso', alpha=i)
+  yhat_test = result.predict(X_test)
+  maeSL.append(MAE(y_test,yhat_test))
+ ~~~
+ 
+ ~~~
+ plt.scatter(range(200),maeSL)
+ ~~~
+  ![image](https://user-images.githubusercontent.com/67920563/110674675-1f036a00-81a0-11eb-8c7a-506ce8f042d8.png)
+## Scaled Square Root Lasso
+~~~
+scale = StandardScaler()
+Xs_train = scale.fit_transform(X_train)
+Xs_test  = scale.transform(X_test)
+~~~
+~~~
+model = sm.OLS(y_train,Xs_train)
+result = model.fit_regularized(method='sqrt_lasso', alpha=0.5)
+yhat_test = result.predict(Xs_test)
+MAE(y_test,yhat_test)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110674844-4bb78180-81a0-11eb-98f0-05955105c248.png)
+~~~
+result.params
+~~~
+~~~
+maeSSL=[]
+for i in range(200):
+  model = sm.OLS(y_train,Xs_train)
+  result = model.fit_regularized(method='sqrt_lasso', alpha=0.5)
+  yhat_test = result.predict(Xs_test)
+  maeSSL.append(MAE(y_test,yhat_test))
+~~~
+~~~
+plt.scatter(range(200),maeSSL)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110675017-76a1d580-81a0-11eb-9d2b-bb2224dddee0.png)
+
+
+
+
+
+
+
 
 
 
