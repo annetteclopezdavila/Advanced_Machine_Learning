@@ -855,9 +855,10 @@ for i in range(200):
   maeSL.append(MAE(y_test,yhat_test))
  plt.scatter(range(200),maeSL)
  ~~~
-  ![image](https://user-images.githubusercontent.com/67920563/110674675-1f036a00-81a0-11eb-8c7a-506ce8f042d8.png)
+![image](https://user-images.githubusercontent.com/67920563/110690092-81189b00-81b1-11eb-863f-81c264065315.png)
 
-Our results show that the MAE is never better than 0.4, and increases as alpha is increased.
+
+Our results show that the MAE is never better than 0.340, and increases as alpha is increased.
   
 ## Scaled Square Root Lasso
 Let us try to improve our model by scaling our data:
