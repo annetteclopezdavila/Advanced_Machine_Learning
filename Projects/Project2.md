@@ -806,11 +806,31 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 model = sm.OLS(y_train,X_train)
 result = model.fit_regularized(method='sqrt_lasso', alpha=0.01)
 yhat_test = result.predict(X_test)
-MAE(y_test,yhat_test)
-~~~
-![image](https://user-images.githubusercontent.com/67920563/110671461-84edf280-819c-11eb-9ad0-d5c6df414c23.png)
 
-Our MAE is 0.69 at alpha 0.01, which is our highest MAE out of all the models. Let us look at the range of the coefficients:
+  #Turn continuous variables into discrete
+ylist=[]
+for output in yhat_test:
+  if output<0.5:
+      output=1
+      ylist.append(output)
+  elif output<4.5:
+      output=round(output)
+      ylist.append(output)
+  else:
+      output=4
+      ylist.append(output)
+
+y_hat_test_rounded=np.array(ylist)
+y_hat_test_rounded
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110687730-d7380f00-81ae-11eb-9629-925199207f3b.png)
+Let us calculate our MAE:
+~~~
+MAE(y_test,y_hat_test_rounded)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110687886-fa62be80-81ae-11eb-9e26-4ee084ad7867.png)
+
+Our MAE is 0.34 at alpha 0.01, which is on the higher end of our models. Let us look at the range of the coefficients:
 ~~~
 result.params
 ~~~
@@ -848,15 +868,35 @@ Xs_test  = scale.transform(X_test)
 model = sm.OLS(y_train,Xs_train)
 result = model.fit_regularized(method='sqrt_lasso', alpha=0.5)
 yhat_test = result.predict(Xs_test)
-MAE(y_test,yhat_test)
-~~~
-![image](https://user-images.githubusercontent.com/67920563/110674844-4bb78180-81a0-11eb-98f0-05955105c248.png)
+#Turn continuous variables into discrete
+ylist=[]
+for output in yhat_test:
+  if output<0.5:
+      output=1
+      ylist.append(output)
+  elif output<4.5:
+      output=round(output)
+      ylist.append(output)
+  else:
+      output=4
+      ylist.append(output)
 
-Our MAE is still extremely high. Let us look at the range of our coefficients.
+y_hat_test_rounded=np.array(ylist)
+y_hat_test_rounded
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110688273-647b6380-81af-11eb-9773-64a4021e02ff.png)
+Our predicted values look very off; let us look at our MAE:
+~~~
+MAE(y_test,y_hat_test_rounded)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110688387-84128c00-81af-11eb-9076-7b76ed6eff2c.png)
+
+Our MAE is now extremely high. Let us look at the range of our coefficients.
 
 ~~~
 result.params
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/110685644-7f000d80-81ac-11eb-8916-36774aed78af.png)
 
 ~~~
 min(result.params)
@@ -866,7 +906,7 @@ min(result.params)
 max(result.params)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110685474-511ac900-81ac-11eb-93f3-914183b4f28d.png)
-
+Our range of coefficients is not high, but due to our large MAE, this model may be largely biased.
 ~~~
 maeSSL=[]
 for i in range(200):
