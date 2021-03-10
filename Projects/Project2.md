@@ -721,13 +721,19 @@ print("MAE = {:,.2f}".format(mae))
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110249194-08aca280-7f43-11eb-8987-4eb281292927.png)
 
-Our MAE at the same alpha is much lower than the unstandardized data.
+Our MAE at the same alpha is much lower than the unstandardized data. Let us examine our range of coefficients:
 
 ~~~
 print('Coefficients:')
 lel.coef_
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110249211-1f52f980-7f43-11eb-9970-3ac4af8deb8f.png)
+~~~
+max(lel.coef_)
+max(lel.coef_)
+~~~
+Our range of coefficients has shrunk by over 100%, going from a difference of ~0.6 to ~0.3
+
 ~~~
 list=[]
 count=-1
@@ -745,6 +751,8 @@ for c in counted_list:
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110249268-6b9e3980-7f43-11eb-9295-b44d20bd82f6.png)
 ![image](https://user-images.githubusercontent.com/67920563/110249278-748f0b00-7f43-11eb-9398-d74e73279cff.png)
+
+Examining other alphas, we note that greater alphas have no effect on the MAE:
 ~~~
 import matplotlib.pyplot as plt
 maeSEN=[]
