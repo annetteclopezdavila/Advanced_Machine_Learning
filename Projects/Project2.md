@@ -1057,7 +1057,7 @@ min(listofoutput)
 ![image](https://user-images.githubusercontent.com/67920563/110724767-69a6d580-81e4-11eb-981d-398a12991882.png)
 We can see that the minimum MAE is 0.21 and occurs at some alpha in the range 0f 0 to 200
 
-## Standardized MAE with the IDB dataset
+## Standardized SCAD with the IDB dataset
 Let us see if standardizing our dataset can help lower our MAE:
 ~~~
 y=y.values.reshape(-1,1)
@@ -1099,14 +1099,23 @@ output = minimize(scad, b0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 
 
 output.x
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110725964-85ab7680-81e6-11eb-8cb6-193206193bb1.png)
+![image](https://user-images.githubusercontent.com/67920563/110726403-521d1c00-81e7-11eb-8297-c37b33557cfa.png)
+~~~
+min(output.x)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110726445-6234fb80-81e7-11eb-8f9e-62909e60fab4.png)
+~~~
+max(output.x)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110726460-69f4a000-81e7-11eb-85d5-380203cd1d0b.png)
+
 
 ~~~
 yhat_test_scad = X_test.dot(output.x)
 yhat_test_scad
 ~~~
 
-![image](https://user-images.githubusercontent.com/67920563/110726040-b4c1e800-81e6-11eb-85c5-e8ffb5bfd9e8.png)
+![image](https://user-images.githubusercontent.com/67920563/110726491-7aa51600-81e7-11eb-9fdc-cf22f6fd72f1.png)
 
 
 ~~~
@@ -1126,15 +1135,15 @@ y_hat_test_rounded=np.array(ylist)
 y_hat_test_rounded
 ~~~
 
-![image](https://user-images.githubusercontent.com/67920563/110726024-a7a4f900-81e6-11eb-89b9-ab897036be96.png)
+![image](https://user-images.githubusercontent.com/67920563/110726522-8690d800-81e7-11eb-8118-52534aad4cf2.png)
 
 
 ~~~
 mae = mean_absolute_error(y_test, y_hat_test_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110726060-c0151380-81e6-11eb-8e07-cb6dd0b14790.png)
 
+![image](https://user-images.githubusercontent.com/67920563/110726547-91e40380-81e7-11eb-9e88-2b935dae0727.png)
 
 
 
