@@ -1080,7 +1080,7 @@ min(listofoutput)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110724767-69a6d580-81e4-11eb-981d-398a12991882.png)
 
-We can see that the minimum MAE is 0.21 and occurs at some alpha in the range 0f 0 to 200
+We can see that the minimum MAE is 0.21 and occurs at some alpha in the range of 0 to 200
 
 ## Standardized SCAD with the IDB dataset
 Let us see if standardizing our dataset can help lower our MAE:
@@ -1125,6 +1125,7 @@ output = minimize(scad, b0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 
 output.x
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110726403-521d1c00-81e7-11eb-8297-c37b33557cfa.png)
+Our Min and Max Output:
 ~~~
 min(output.x)
 ~~~
@@ -1134,7 +1135,7 @@ max(output.x)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110726460-69f4a000-81e7-11eb-85d5-380203cd1d0b.png)
 
-
+Our y Predictions:
 ~~~
 yhat_test_scad = X_test.dot(output.x)
 yhat_test_scad
@@ -1162,13 +1163,14 @@ y_hat_test_rounded
 
 ![image](https://user-images.githubusercontent.com/67920563/110726522-8690d800-81e7-11eb-8118-52534aad4cf2.png)
 
-
+And finally...our MAE
 ~~~
 mae = mean_absolute_error(y_test, y_hat_test_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
 
 ![image](https://user-images.githubusercontent.com/67920563/110726547-91e40380-81e7-11eb-9e88-2b935dae0727.png)
+As we can see, the MAE was hardly reduced and still remains above the majority of the other models. Let us examine if it can be improved at other alphas:
 
 ~~~
 listofoutput=[]
@@ -1201,6 +1203,8 @@ min(listofoutput)
 ~~~
 
 ![image](https://user-images.githubusercontent.com/67920563/110726626-b4761c80-81e7-11eb-838a-254604095c9b.png)
+
+Our minimum MAE is close to our unstandardized SCAD MAE.
 
 ## Comparison of Regularization Techniques
 
