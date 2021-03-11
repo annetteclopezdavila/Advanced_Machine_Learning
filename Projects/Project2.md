@@ -983,7 +983,7 @@ min(output.x)
 max(output.x)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110724796-762b2e00-81e4-11eb-868d-4267d1652166.png)
-
+The range of our output is rather large, with a difference of ~5.
 ~~~
 yhat_test_scad = X_test.dot(output.x)
 yhat_test_scad
@@ -1048,7 +1048,7 @@ plt.scatter(range(200),listofoutput)
 min(listofoutput)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110724767-69a6d580-81e4-11eb-981d-398a12991882.png)
-
+We can see that the minimum MAE is 0.21 and occurs at some alpha in the range 0f 0 to 200
 
 ## Standardized MAE with the IDB dataset
 Let us see if standardizing our dataset can help lower our MAE:
