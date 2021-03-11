@@ -1201,6 +1201,9 @@ min(listofoutput)
 
 ![image](https://user-images.githubusercontent.com/67920563/110726626-b4761c80-81e7-11eb-838a-254604095c9b.png)
 
+## Comparison of Regularization Techniques
+
+![image](https://user-images.githubusercontent.com/67920563/110728267-bb525e80-81ea-11eb-823e-5faeccfc886f.png)
 
 
 
