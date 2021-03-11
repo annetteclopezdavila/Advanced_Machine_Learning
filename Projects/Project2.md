@@ -982,6 +982,7 @@ min(output.x)
 ~~~
 max(output.x)
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/110724796-762b2e00-81e4-11eb-868d-4267d1652166.png)
 
 ~~~
 yhat_test_scad = X_test.dot(output.x)
@@ -1018,6 +1019,35 @@ print("MAE = {:,.2f}".format(mae))
 
 Our MAE is extremely high for our data, as it predicted a lot of 1 values. 
 Let us try to use other alpha values:
+~~~
+listofoutput=[]
+lam = 0.5
+for i in range(200):
+  a = i
+  output = minimize(scad, b0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 'maxiter': 50000,'maxls': 25,'disp': True})
+  yhat_test_scad = X_test.dot(output.x)
+  ylist=[]
+  for output in yhat_test_scad:
+    if output<0.5:
+        output=1
+        ylist.append(output)
+    elif output<4.5:
+        output=round(output)
+        ylist.append(output)
+    else:
+        output=4
+        ylist.append(output)
+
+  y_hat_test_rounded=np.array(ylist)
+  listofoutput.append(mean_absolute_error(y_test, y_hat_test_rounded))
+  
+plt.scatter(range(200),listofoutput)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110724745-5eec4080-81e4-11eb-9975-ab8e2322f761.png)
+~~~
+min(listofoutput)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110724767-69a6d580-81e4-11eb-981d-398a12991882.png)
 
 
 ## Standardized MAE with the IDB dataset
