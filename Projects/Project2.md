@@ -1204,7 +1204,7 @@ min(listofoutput)
 ## Comparison of Regularization Techniques
 
 ![image](https://user-images.githubusercontent.com/67920563/110728267-bb525e80-81ea-11eb-823e-5faeccfc886f.png)
-
+After trying four different regularization techniques and trying both standardized and unstandardized versions of our models, we can conclude that the Standardized Ridge Regularization reduced our MAE the most. Looking further at the data table, we can note that Lasso Regularization shrunk the model the most in terms of the size of the weights. It is not a surprise that Elastic Net comes in a close second in respect to this, as it is partially made of Lasso Regularization. We can also note that at the selected alpha (a=0.01), Standardized Lasso performed best.
 
 
 
