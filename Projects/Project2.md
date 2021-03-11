@@ -974,21 +974,26 @@ yhat_test_scad = X_test.dot(output.x)
 
 output.x
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110723209-b1782d80-81e1-11eb-9879-e8984c9cdf92.png)
+![image](https://user-images.githubusercontent.com/67920563/110725703-061da780-81e6-11eb-9c9e-c5ccc8c4bd61.png)
+
 ~~~
 min(output.x)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110723267-c6ed5780-81e1-11eb-9b49-7a945b0799b6.png)
+![image](https://user-images.githubusercontent.com/67920563/110725716-0d44b580-81e6-11eb-9b30-45808ce4c4d4.png)
+
 ~~~
 max(output.x)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110724796-762b2e00-81e4-11eb-868d-4267d1652166.png)
-The range of our output is rather large, with a difference of ~5.
+![image](https://user-images.githubusercontent.com/67920563/110725744-15045a00-81e6-11eb-874e-2f7eb9d651bb.png)
+
+
+The range of our output is rather large, with a difference of ~.
 ~~~
 yhat_test_scad = X_test.dot(output.x)
 yhat_test_scad
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110723328-e3898f80-81e1-11eb-9ee3-2a01ba2b852f.png)
+![image](https://user-images.githubusercontent.com/67920563/110725764-1fbeef00-81e6-11eb-8a3a-8893ff44f40b.png)
+
 
 Let us find the predicted y values:
 ~~~
@@ -1007,14 +1012,16 @@ for output in yhat_test_scad:
 y_hat_test_rounded=np.array(ylist)
 y_hat_test_rounded
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110723367-f1d7ab80-81e1-11eb-8fa1-dfc91c6e5351.png)
+![image](https://user-images.githubusercontent.com/67920563/110725805-349b8280-81e6-11eb-96a3-5827a36e23ef.png)
+
 
 Let us find the MAE at this beta:
 ~~~
 mae = mean_absolute_error(y_test, y_hat_test_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110723397-fb611380-81e1-11eb-8893-6e1828b09500.png)
+![image](https://user-images.githubusercontent.com/67920563/110725830-40874480-81e6-11eb-9451-34675c4956b7.png)
+
 
 
 Our MAE is extremely high for our data, as it predicted a lot of 1 values. 
@@ -1092,13 +1099,15 @@ output = minimize(scad, b0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 
 
 output.x
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110723457-12076a80-81e2-11eb-8241-8c6f59302e53.png)
+![image](https://user-images.githubusercontent.com/67920563/110725964-85ab7680-81e6-11eb-8cb6-193206193bb1.png)
 
 ~~~
 yhat_test_scad = X_test.dot(output.x)
 yhat_test_scad
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110723494-221f4a00-81e2-11eb-906c-a83f722d30d4.png)
+
+![image](https://user-images.githubusercontent.com/67920563/110726040-b4c1e800-81e6-11eb-85c5-e8ffb5bfd9e8.png)
+
 
 ~~~
 ylist=[]
@@ -1117,13 +1126,14 @@ y_hat_test_rounded=np.array(ylist)
 y_hat_test_rounded
 ~~~
 
-![image](https://user-images.githubusercontent.com/67920563/110723524-33685680-81e2-11eb-9d6b-4b7df884be89.png)
+![image](https://user-images.githubusercontent.com/67920563/110726024-a7a4f900-81e6-11eb-89b9-ab897036be96.png)
+
 
 ~~~
 mae = mean_absolute_error(y_test, y_hat_test_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110723631-5a268d00-81e2-11eb-90a1-894a5113ea98.png)
+![image](https://user-images.githubusercontent.com/67920563/110726060-c0151380-81e6-11eb-8e07-cb6dd0b14790.png)
 
 
 
