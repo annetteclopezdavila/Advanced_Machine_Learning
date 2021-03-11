@@ -46,6 +46,7 @@ y.value_counts()
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110246781-fd537a00-7f36-11eb-80be-4e45460ac48c.png)
 
+
 We can see that the dataset hardly has data recorded for level 1 and 2 poverty levels, thus making it more likely that our model will not accurately predict these levels of poverty. It is likely that there were many unknown values in these categories that were deleted in our preprocessing phase. Thus, we should reconsider how we process our NaN values in the future.
 
 ## Correlation
@@ -157,6 +158,7 @@ mae = mean_absolute_error(y_test, y_hat_lm_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
 Predicted Values:
+
 ![image](https://user-images.githubusercontent.com/67920563/110247412-30e3d380-7f3a-11eb-8d89-5ed59080d54f.png)
 
 
@@ -175,9 +177,11 @@ max(lm.coef_)
 min(lm.coef_)
 ~~~
 Max:
+
 ![image](https://user-images.githubusercontent.com/67920563/110247039-1f013100-7f38-11eb-8ae3-7b088b83bb2b.png)
 
 Min:
+
 ![image](https://user-images.githubusercontent.com/67920563/110247040-232d4e80-7f38-11eb-93b0-4f8cea58cd88.png)
 
 We can see from the data that the our coefficients have a rather wide range and our MAE is high. Let us see what happens when we apply regularization to our model.
@@ -193,9 +197,11 @@ Feature selection is defined as the selection of features that best contribute t
 Lasso Regression will produce a model with high accuracy and a subset of the original features. Lasso regression puts in a constraint where the sum of absolute values of coefficients is less than a fixed value. Thus, it will lower the size of the coefficients and lead some features to have a coefficient of 0, essentially dropping it from the model.
 
 Looking back at our model without regularization, we saw that our coefficients were found with the formula:
+
 ![image](https://user-images.githubusercontent.com/67920563/110245366-ba8ea380-7f30-11eb-8613-6a577782912f.png)
 
 L1 regularization's loss function is defined by:
+
 ![image](https://user-images.githubusercontent.com/67920563/110245501-6637f380-7f31-11eb-9823-e8ccd62af23f.png)
 
 otherwise known as:
@@ -230,6 +236,7 @@ for output in yhat_ls:
 y_hat_ls_rounded=np.array(ylist)
 ~~~
 Our predicted values are:
+
 ![image](https://user-images.githubusercontent.com/67920563/110247383-042fbc00-7f3a-11eb-9b28-ed093ed0c37f.png)
 
 Let us find the mean absolute error to compare the model on the training and testing set:
@@ -416,6 +423,7 @@ for i in range(100):
 We see a similar trend in the standardized and non-standardized forms of Lasso regression; the MAE plateaus below 0.22 as alpha goes to infinity.
 
 # Ridge Regression/L2 Regularization
+
 ![image](https://user-images.githubusercontent.com/67920563/110421480-997e9d80-806b-11eb-97d9-8052466197bb.png)
 
 Ridge Regression shares many conceptual similarities with Lasso Regression; it also adds on a penalty to the loss function. The regularization term is the sum of squares of all the feature weights. Unlike Lasso Regression, this type of regression will make the weights smaller but never zero. Ridge regession is not good for data with a lot of outliers, as it blows up the error differences of the outliers and the regularization term tries to fix it by penalizing the weights. Ridge regression is also better when all the features influence the output and all the weights are roughly the same size. This regularization technique does not offer feature selection and has a non sparse solution. It should be noted that ridge regression can hel solve models in which there are less data points than parameters. Ridge regression will penalize large weight coefficients more than the smaller ones as opposed to Lasso regression which penalizes each coefficient uniformly.
@@ -476,9 +484,11 @@ max(lr.coef_)
 min(lr.coef_)
 ~~~
 Max:
+
 ![image](https://user-images.githubusercontent.com/67920563/110248636-2593a680-7f40-11eb-89a9-5bde7fa59e93.png)
 
 Min:
+
 ![image](https://user-images.githubusercontent.com/67920563/110248650-33492c00-7f40-11eb-8429-76a0556296e0.png)
 
 We once again test for optimal alpha values:
@@ -598,7 +608,9 @@ Let us more clearly compare the two regularization techniques:
 
 # ElasticNet
 ElasticNet regression combines L1 and L2 regularization:
+
 ![image](https://user-images.githubusercontent.com/67920563/110429057-60005f00-8078-11eb-86e2-68f4411a0672.png)
+
 This particular model combines feature elimination with coefficient reduction to create a better model; ElasticNet will also do well with highly correlated data. When variables are correlated, Ridge regression will shrink the two coefficients towards each other while Lasso will overlook one variable and drop it. ElasticNet will avoid such problems by combining both models.
 ~~~
 from sklearn.linear_model import  ElasticNet
@@ -639,8 +651,15 @@ lel.coef_
 ![image](https://user-images.githubusercontent.com/67920563/110249110-7a382100-7f42-11eb-9b1a-b4a308a85ef3.png)
 ~~~
 min(lel.coef_)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110727329-023f5480-81e9-11eb-95b6-2deeb3d362cc.png)
+
+~~~
 max(lel.coef_)
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/110727339-08353580-81e9-11eb-8b44-3ae7b533842e.png)
+
+
 Our range has shrunk to a difference of about 0.6. This is a great improvement from the non regularized model. We can also note that several features have coefficients of zero, meaning they have been deemed less necessary by the model.
 
 ~~~
@@ -824,6 +843,7 @@ y_hat_test_rounded=np.array(ylist)
 y_hat_test_rounded
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110687730-d7380f00-81ae-11eb-9629-925199207f3b.png)
+
 Let us calculate our MAE:
 ~~~
 MAE(y_test,y_hat_test_rounded)
@@ -843,6 +863,7 @@ min(result.params)
 max(result.params)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110684328-051b5480-81ab-11eb-88fc-b703ac8321bf.png)
+
 We can see from the results that the range of coefficients has increased; this type of regularization may not be adequate for our model.
 
 Let us examine other alpha values to see if we can improve our results:
@@ -886,7 +907,8 @@ y_hat_test_rounded=np.array(ylist)
 y_hat_test_rounded
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110688273-647b6380-81af-11eb-9773-64a4021e02ff.png)
-Our predicted values look very off; let us look at our MAE:
+
+Our predicted values look very different than our actual values. Let us look at our MAE:
 ~~~
 MAE(y_test,y_hat_test_rounded)
 ~~~
@@ -907,6 +929,7 @@ min(result.params)
 max(result.params)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110685474-511ac900-81ac-11eb-93f3-914183b4f28d.png)
+
 Our range of coefficients is not high, but due to our large MAE, this model is not adequate for our data.
 Let us examine other alpha values:
 ~~~
@@ -1055,6 +1078,7 @@ plt.scatter(range(200),listofoutput)
 min(listofoutput)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/110724767-69a6d580-81e4-11eb-981d-398a12991882.png)
+
 We can see that the minimum MAE is 0.21 and occurs at some alpha in the range 0f 0 to 200
 
 ## Standardized SCAD with the IDB dataset
