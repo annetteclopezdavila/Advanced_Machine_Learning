@@ -1145,6 +1145,37 @@ print("MAE = {:,.2f}".format(mae))
 
 ![image](https://user-images.githubusercontent.com/67920563/110726547-91e40380-81e7-11eb-9e88-2b935dae0727.png)
 
+~~~
+listofoutput=[]
+lam = 0.5
+for i in range(200):
+  a = i
+  output = minimize(scad, b0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 'maxiter': 50000,'maxls': 25,'disp': True})
+  yhat_test_scad = X_test.dot(output.x)
+  ylist=[]
+  for output in yhat_test_scad:
+    if output<0.5:
+        output=1
+        ylist.append(output)
+    elif output<4.5:
+        output=round(output)
+        ylist.append(output)
+    else:
+        output=4
+        ylist.append(output)
+
+  y_hat_test_rounded=np.array(ylist)
+  listofoutput.append(mean_absolute_error(y_test, y_hat_test_rounded))
+  
+plt.scatter(range(200),listofoutput)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110726603-a922f100-81e7-11eb-8680-f2ca4a658b0f.png)
+
+~~~
+min(listofoutput)
+~~~
+
+![image](https://user-images.githubusercontent.com/67920563/110726626-b4761c80-81e7-11eb-838a-254604095c9b.png)
 
 
 
