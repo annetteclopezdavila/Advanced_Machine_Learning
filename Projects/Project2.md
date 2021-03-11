@@ -1017,6 +1017,8 @@ print("MAE = {:,.2f}".format(mae))
 
 
 Our MAE is extremely high for our data, as it predicted a lot of 1 values. 
+Let us try to use other alpha values:
+
 
 ## Standardized MAE with the IDB dataset
 Let us see if standardizing our dataset can help lower our MAE:
