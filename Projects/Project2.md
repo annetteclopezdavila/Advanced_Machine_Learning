@@ -929,6 +929,8 @@ The last feature selection method we have is Smoothly Clipped Absolute Deviation
 
 SCAD suffers from bias but encourages sparsity, thus allowing for larger weights. This type of penalty relaxes the rate of penalization as the absolute value of the weight coefficient increases, unlike Lasso regularization which increases the penalty with respect to the weight.
 
+## Application of SCAD to IDB problem
+
 ~~~
 y=y.values.reshape(-1,1)
 X=X.values
@@ -975,8 +977,32 @@ output.x
 yhat_test_scad = X_test.dot(output.x)
 yhat_test_scad
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/110721468-9f48c000-81de-11eb-90f4-768ae9e37a50.png)
 
-    
+~~~
+ylist=[]
+for output in yhat_test_scad:
+  if output<0.5:
+      output=1
+      ylist.append(output)
+  elif output<4.5:
+      output=round(output)
+      ylist.append(output)
+  else:
+      output=4
+      ylist.append(output)
+
+y_hat_test_rounded=np.array(ylist)
+y_hat_test_rounded
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110721533-bedfe880-81de-11eb-9ba9-09c799e5ae35.png)
+
+~~~
+mae = mean_absolute_error(y_test, y_hat_test_rounded)
+print("MAE = {:,.2f}".format(mae))
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110721574-d5863f80-81de-11eb-88f5-79a7f62dd332.png)
+
 
 
 
