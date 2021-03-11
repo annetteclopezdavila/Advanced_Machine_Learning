@@ -115,7 +115,7 @@ Thus, this becomes are solution to the linear regression.
 
 ## Linear Regression Application of the IDB Dataset
 
-Note: I was so excited about finding this dataset that I did not realize that it addressed a classification problem rather than a linear regression. It was not until I finished the majority of the coding that I realized that the linear models predicts on a continuous scale rather than a discrete scale. Thus, I was seeing predicted values like 1.6 rather than 2. In order to try to make up for this error, I decided to round the values to their integers. This led to a lot more error/less accuracy than would have occurred with a different X and y. I have decided to keep the error in since this is the second time I have made this error in a Machine Learning Project, so I would like to keep this as a reminder to understand the dataset before running into the application phase.
+Note: I was so excited about finding this dataset that I did not realize that it addressed a classification problem rather than a linear regression. It was not until I finished the majority of the coding that I realized that the linear models predicts on a continuous scale rather than a discrete scale. Thus, I was seeing predicted values like 1.6 rather than 2. In order to try to make up for this error, I decided to round the values to their integers. This led to a lot more error/less accuracy than would have occurred with a different X and y. I have decided to keep the error in since this is the second time I have made this error in a Machine Learning Project, so I would like to keep this as a reminder to understand the dataset before running into the application phase. An SVM would better work for classification problems.
 
 Before applying any regularization, let us examine a linear regression model on the data:
 
@@ -927,10 +927,13 @@ As we can see, increasing or decreasing the alpha values did not have an impact 
 # SCAD
 The last feature selection method we have is Smoothly Clipped Absolute Deviations (SCAD). 
 
+![image](https://user-images.githubusercontent.com/67920563/110722689-b7214380-81e0-11eb-9864-c6611ed70b7a.png)
+
+
 SCAD suffers from bias but encourages sparsity, thus allowing for larger weights. This type of penalty relaxes the rate of penalization as the absolute value of the weight coefficient increases, unlike Lasso regularization which increases the penalty with respect to the weight.
 
 ## Application of SCAD to IDB problem
-
+We begin by reshaping the data and defining the SCAD algorithm:
 ~~~
 y=y.values.reshape(-1,1)
 X=X.values
@@ -965,19 +968,105 @@ p = X.shape[1]
 b0 = np.random.normal(1,1,p)
 
 lam = 0.5
-a = 1.001
+a = 0.001
 output = minimize(scad, b0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 'maxiter': 50000,'maxls': 25,'disp': True})
 yhat_test_scad = X_test.dot(output.x)
 
 output.x
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110720205-2d6f7700-81dc-11eb-9f7e-61c1385978c7.png)
+![image](https://user-images.githubusercontent.com/67920563/110723209-b1782d80-81e1-11eb-9879-e8984c9cdf92.png)
+~~~
+min(output.x)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110723267-c6ed5780-81e1-11eb-9b49-7a945b0799b6.png)
+~~~
+max(output.x)
+~~~
 
 ~~~
 yhat_test_scad = X_test.dot(output.x)
 yhat_test_scad
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110721468-9f48c000-81de-11eb-90f4-768ae9e37a50.png)
+![image](https://user-images.githubusercontent.com/67920563/110723328-e3898f80-81e1-11eb-9ee3-2a01ba2b852f.png)
+
+Let us find the predicted y values:
+~~~
+ylist=[]
+for output in yhat_test_scad:
+  if output<0.5:
+      output=1
+      ylist.append(output)
+  elif output<4.5:
+      output=round(output)
+      ylist.append(output)
+  else:
+      output=4
+      ylist.append(output)
+
+y_hat_test_rounded=np.array(ylist)
+y_hat_test_rounded
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110723367-f1d7ab80-81e1-11eb-8fa1-dfc91c6e5351.png)
+
+Let us find the MAE at this beta:
+~~~
+mae = mean_absolute_error(y_test, y_hat_test_rounded)
+print("MAE = {:,.2f}".format(mae))
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110723397-fb611380-81e1-11eb-8893-6e1828b09500.png)
+
+
+Our MAE is extremely high for our data, as it predicted a lot of 1 values. 
+
+## Standardized MAE with the IDB dataset
+Let us see if standardizing our dataset can help lower our MAE:
+~~~
+y=y.values.reshape(-1,1)
+X=X.values
+
+Xs = scale.fit_transform(X)
+def scad_penalty(beta_hat, lambda_val, a_val):
+    is_linear = (np.abs(beta_hat) <= lambda_val)
+    is_quadratic = np.logical_and(lambda_val < np.abs(beta_hat), np.abs(beta_hat) <= a_val * lambda_val)
+    is_constant = (a_val * lambda_val) < np.abs(beta_hat)
+    
+    linear_part = lambda_val * np.abs(beta_hat) * is_linear
+    quadratic_part = (2 * a_val * lambda_val * np.abs(beta_hat) - beta_hat**2 - lambda_val**2) / (2 * (a_val - 1)) * is_quadratic
+    constant_part = (lambda_val**2 * (a_val + 1)) / 2 * is_constant
+    return linear_part + quadratic_part + constant_part
+    
+def scad_derivative(beta_hat, lambda_val, a_val):
+    return lambda_val * ((beta_hat <= lambda_val) + (a_val * lambda_val - beta_hat)*((a_val * lambda_val - beta_hat) > 0) / ((a_val - 1) * lambda_val) * (beta_hat > lambda_val))
+    
+
+def scad(beta):
+  beta = beta.flatten()
+  beta = beta.reshape(-1,1)
+  n = len(y)
+  return 1/n*np.sum((y-X.dot(beta))**2) + np.sum(scad_penalty(beta,lam,a))
+  
+def dscad(beta):
+  beta = beta.flatten()
+  beta = beta.reshape(-1,1)
+  n = len(y)
+  return np.array(-2/n*np.transpose(X).dot(y-X.dot(beta))+scad_derivative(beta,lam,a)).flatten()
+  
+p = Xs.shape[1]
+b0 = np.random.normal(1,1,p)
+
+lam = 1
+a = 0.01
+output = minimize(scad, b0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 'maxiter': 50000,'maxls': 25,'disp': True})
+
+output.x
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110723457-12076a80-81e2-11eb-8241-8c6f59302e53.png)
+
+~~~
+yhat_test_scad = X_test.dot(output.x)
+yhat_test_scad
+~~~
+![image](https://user-images.githubusercontent.com/67920563/110723494-221f4a00-81e2-11eb-906c-a83f722d30d4.png)
 
 ~~~
 ylist=[]
@@ -995,19 +1084,14 @@ for output in yhat_test_scad:
 y_hat_test_rounded=np.array(ylist)
 y_hat_test_rounded
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110721533-bedfe880-81de-11eb-9ba9-09c799e5ae35.png)
+
+![image](https://user-images.githubusercontent.com/67920563/110723524-33685680-81e2-11eb-9d6b-4b7df884be89.png)
 
 ~~~
 mae = mean_absolute_error(y_test, y_hat_test_rounded)
 print("MAE = {:,.2f}".format(mae))
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/110721574-d5863f80-81de-11eb-88f5-79a7f62dd332.png)
-
-
-
-
-
-
+![image](https://user-images.githubusercontent.com/67920563/110723631-5a268d00-81e2-11eb-90a1-894a5113ea98.png)
 
 
 
