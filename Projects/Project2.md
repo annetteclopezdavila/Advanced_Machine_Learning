@@ -1,8 +1,9 @@
 ---
 layout: page
 title: Project 2
+subtitle: Comparing the Performance of Regularization Methods. 
 ---
-Comparing the Performance of Regularization Methods. 
+
 
 # Introducing the Data
 ## Costa Rican Household Poverty Level Prediction- IDB
