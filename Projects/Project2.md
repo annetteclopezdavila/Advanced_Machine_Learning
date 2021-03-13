@@ -1350,6 +1350,62 @@ min(lm.coef_)
 ![image](https://user-images.githubusercontent.com/67920563/111015960-3c3f6080-8379-11eb-9d6e-9967ac3eb51e.png)
 
 ## Ridge Regression
+~~~
+#Apply Ridge
+from sklearn.linear_model import Ridge
+
+lr = Ridge(alpha=0.01)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+lr.fit(X_train,y_train)
+yhat_lr=lr.predict(X_test)
+yhat_lr
+
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lr.intercept_))
+    
+mae = mean_absolute_error(y_test, yhat_lr)
+print("MAE = {:,.2f}".format(mae))
+
+print('Coefficients:')
+lr.coef_
+
+max(lr.coef_)
+min(lr.coef_)
+
+maeLR=[]
+for i in range(1000):
+  lr = Ridge(alpha=i)
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+  lr.fit(X_train,y_train)
+  yhat_lr=lr.predict(X_test)
+  #Turn continuous variables into discrete
+  
+  maeLR.append(mean_absolute_error(y_test, yhat_lr))
+  
+ plt.scatter(range(1000),maeLR)
+ ~~~
+### Predictions
+ ![image](https://user-images.githubusercontent.com/67920563/111016023-92ac9f00-8379-11eb-9c5a-e79a4a531340.png)
+
+### Intercept and MAE
+![image](https://user-images.githubusercontent.com/67920563/111016030-a0622480-8379-11eb-8781-41fe63b5998e.png)
+
+### Coefficients
+![image](https://user-images.githubusercontent.com/67920563/111016039-a952f600-8379-11eb-8858-e0d6178ec8f4.png)
+
+*Max Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016048-b8d23f00-8379-11eb-8358-0b4514eff0bc.png)
+
+*Min Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016050-c25ba700-8379-11eb-8478-a1132d7d103b.png)
+
+### MAE at other Alpha Values
+![image](https://user-images.githubusercontent.com/67920563/111016084-e5865680-8379-11eb-86f3-274696e72f7c.png)
+
+
+
+
+
 
 
 
