@@ -1455,6 +1455,80 @@ plt.scatter(range(200),maeSLR)
 ### MAE at other Alpha Values
 ![image](https://user-images.githubusercontent.com/67920563/111016213-8d038900-837a-11eb-9e42-40b84b5ed977.png)
 
+## Lasso Regularization
+~~~
+from sklearn.linear_model import Lasso
+ls = Lasso(alpha=0.01)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+ls.fit(X_train,y_train)
+yhat_ls=ls.predict(X_test)
+
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(ls.intercept_))
+    
+mae = mean_absolute_error(y_test, yhat_ls)
+print("MAE = {:,.2f}".format(mae))
+
+print('Coefficients')
+ls.coef_
+
+min(ls.coef_)
+max(ls.coef_)
+
+#get features that work
+list=[]
+count=-1
+counted_list=[]
+A=ls.coef_
+for a in A:
+  count=count+1
+  if a!=0:
+    list.append(a)
+    counted_list.append(count)
+
+print(list)
+print(counted_list)
+
+#Features
+for c in counted_list:
+  print(X.columns[c])
+
+maeLS=[]
+for i in range(100):
+  ls = Lasso(alpha=i)
+
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+  ls.fit(X_train,y_train)
+  yhat_ls=ls.predict(X_test)
+
+  maeLS.append(mean_absolute_error(y_test, yhat_ls))
+  
+plt.scatter(range(100),maeLS)
+~~~
+### Predictions
+![image](https://user-images.githubusercontent.com/67920563/111016261-d522ab80-837a-11eb-836a-8180871bbe00.png)
+### Intercept and MAE
+![image](https://user-images.githubusercontent.com/67920563/111016270-e4a1f480-837a-11eb-9967-cd627ec68a6c.png)
+### Coefficients
+![image](https://user-images.githubusercontent.com/67920563/111016276-eb306c00-837a-11eb-8e9c-5cefa00f1a2b.png)
+
+*Max Coefficients:*
+![image](https://user-images.githubusercontent.com/67920563/111016283-f71c2e00-837a-11eb-9f9c-e02eecbb7da7.png)
+
+*Min Coefficients:*
+![image](https://user-images.githubusercontent.com/67920563/111016290-013e2c80-837b-11eb-8aa2-2ed97511248b.png)
+
+### Nonzero Coefficient Features
+![image](https://user-images.githubusercontent.com/67920563/111016300-1a46dd80-837b-11eb-8608-e31c6027034e.png)
+
+![image](https://user-images.githubusercontent.com/67920563/111016327-2cc11700-837b-11eb-9240-357614908b26.png)
+
+### MAE at other Alpha Values
+![image](https://user-images.githubusercontent.com/67920563/111016346-46faf500-837b-11eb-8f91-334309fdc89f.png)
+
+
+
 
 
 
