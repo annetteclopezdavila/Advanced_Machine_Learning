@@ -5,8 +5,8 @@ subtitle: Comparing the Performance of Regularization Methods
 ---
 
 
-# Introducing the Data
-## Costa Rican Household Poverty Level Prediction- IDB
+# Costa Rican Household Poverty Level Prediction- IDB
+## Introducing the Data
 This dataset was scavenged from an old competition on Kaggle asking users to classify household poverty levels on a scale of 1 to 4 based on demographic data. 
 The dataset originally had 142 features with 9557 data entries, but was reduced during pre-processing and clean up phases. The dataset's features before preprocessing were as follows:
 
@@ -1215,7 +1215,42 @@ After trying four different regularization techniques and trying both standardiz
 Looking further at the data table, we can note that Lasso Regularization shrunk the model the most in terms of the size of the weights (~0.3 between the max and min coefficient). It is not a surprise that Elastic Net (~0.6) comes in a close second in respect to this, as it is partially made of Lasso Regularization. This confirms that Lasso Regularization will throw out the terms it does not need and will simplify the model in an extreme way. It can also be confirmed that Lasso Regularization was able to decently reduce the MAE because our data did not have strong correlations between its features. Had the data had stronger correlatations, we may have seen a larger difference between Lasso and Ridge. Because Ridge outperformed Lasso by a little in this exercise, we may assume that Lasso may have slightly oversimplified the relationship between features. However, with so many features and such little difference between Lasso and Ridge Regularization, it may be better to opt for Lasso Regularization due to its feature selection capabilities.
 We can also note that at the selected alpha (a=0.01), Standardized Lasso performed best(0.23), while the other regularization techniques were scattered. It can also be noted that SCAD worked best at greater alphas, and although at a=0.01 it had a quite large MAE, its minimum MAE was in range. Although all the regularization techniques lowered the MAE into the 0.2s, standardized square root lasso did not improve at all. 
 
+# Significant Earthquakes, 1965-2016
+The same regularization analysis can be tested on different datasets. This dataset describes major earthquakes greater than a magnitude of 5.5 from 1965 to 2016 and can be found on Kaggle. We will attempt to predict earthquake magnitude from factors such as latitude, length, and depth. 
 
+~~~
+#import libraries
+import numpy as np
+import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/content/drive/MyDrive/database.csv')
+df2=df
+df2=df2.drop('Status', axis=1)
+df2=df2.drop('Date', axis=1)
+df2=df2.drop(['Time','Type','ID', 'Source', 'Location Source', 'Magnitude Source'], axis=1)
+df2=df2.drop('Magnitude Type', axis=1)
+df2=df2.apply(pd.to_numeric)
+
+mean_value1=df2['Depth Error'].mean()
+df2['Depth Error'].fillna(mean_value1, inplace=True)
+mean_value2=df2['Depth Seismic Stations'].mean()
+df2['Depth Seismic Stations'].fillna(mean_value2, inplace=True)
+mean_value3=df2['Magnitude Error'].mean()
+df2['Magnitude Error'].fillna(mean_value3, inplace=True)
+mean_value4=df2['Magnitude Seismic Stations'].mean()
+df2['Magnitude Seismic Stations'].fillna(mean_value4, inplace=True)
+mean_value5=df2['Azimuthal Gap'].mean()
+df2['Azimuthal Gap'].fillna(mean_value5, inplace=True)
+mean_value6=df2['Horizontal Distance'].mean()
+df2['Horizontal Distance'].fillna(mean_value6, inplace=True)
+mean_value7=df2['Horizontal Error'].mean()
+df2['Horizontal Error'].fillna(mean_value7, inplace=True)
+df2=df2.drop('Root Mean Square', axis=1)
+~~~
+
+![image](https://user-images.githubusercontent.com/67920563/111014396-7442a580-8371-11eb-8d0f-ef637251c388.png)
 
 
 
