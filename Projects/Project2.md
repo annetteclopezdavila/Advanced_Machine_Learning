@@ -1217,7 +1217,7 @@ We can also note that at the selected alpha (a=0.01), Standardized Lasso perform
 
 # Significant Earthquakes, 1965-2016
 The same regularization analysis can be tested on different datasets. This dataset describes major earthquakes greater than a magnitude of 5.5 from 1965 to 2016 and can be found on Kaggle. We will attempt to predict earthquake magnitude from factors such as latitude, length, and depth. 
-
+## Data Preprocessing
 ~~~
 #import libraries
 import numpy as np
@@ -1251,6 +1251,105 @@ df2=df2.drop('Root Mean Square', axis=1)
 ~~~
 
 ![image](https://user-images.githubusercontent.com/67920563/111014396-7442a580-8371-11eb-8d0f-ef637251c388.png)
+
+## Visualizations
+~~~
+#Define X and y
+X=df2.drop('Magnitude', axis=1)
+y=df2['Magnitude']
+X.describe()
+y.describe()
+~~~
+### Feature Breakdown
+![image](https://user-images.githubusercontent.com/67920563/111015646-f59d3680-8377-11eb-8a78-7483cd499f3e.png)
+
+### Target Breakdown
+![image](https://user-images.githubusercontent.com/67920563/111015653-fe8e0800-8377-11eb-8f84-545eb9761298.png)
+~~~
+df2=df2.apply(pd.to_numeric)
+~~~
+### Magnitude vs Depth
+~~~
+import seaborn as sns
+plt.figure(figsize=(10,10))
+sns.violinplot(x=df2['Depth'], y=df2['Magnitude'])
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111015703-3e54ef80-8378-11eb-8f54-1b0a836e5514.png)
+### Data Correlations
+~~~
+corr_matrix=np.corrcoef(X)
+corr_matrix
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111015725-53318300-8378-11eb-8f1a-ef7172eca0bd.png)
+~~~
+import seaborn as sns
+plt.figure(figsize=(20,20))
+sns.heatmap(X.corr(), vmax=1, vmin=-1, cmap="spring", annot=True,fmt='.2f')
+plt.show()
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111015761-6ba19d80-8378-11eb-9f8a-fd12cd3c9793.png)
+~~~
+~~~
+### Sample Data t-test
+~~~
+from scipy import stats
+def tstat_corr(r,n):
+  t = r*np.sqrt(n-2)/np.sqrt(1-r**2)
+  pval = stats.t.sf(np.abs(t), n-1)*2  # two-sided pvalue = Prob(abs(t)>tt)
+  print('t-statistic = %6.3f pvalue = %6.4f' % (t, pval))
+
+tstat_corr(0.02,len(X)) #put in an r value from matrix
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111015882-d652d900-8378-11eb-83fa-5837ae7f7fc5.png)
+
+## Linear Regression
+~~~
+#APPLY OLS
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+
+lm = LinearRegression()
+#fit the variables to model
+lm.fit(X_train, y_train)
+#predict output by inputting test variable
+yhat_lm=lm.predict(X_test)
+yhat_lm
+
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lm.intercept_))
+    
+mae = mean_absolute_error(y_test, yhat_lm)
+print("MAE = {:,.2f}".format(mae))
+
+print('coefficients:')
+lm.coef_
+
+#max coefficient (range)
+max(lm.coef_)
+
+#min coefficient
+min(lm.coef_)
+~~~
+### Predictions
+![image](https://user-images.githubusercontent.com/67920563/111015927-174aed80-8379-11eb-9e02-47ded633d853.png)
+
+### MAE and Intercept
+![image](https://user-images.githubusercontent.com/67920563/111015938-20d45580-8379-11eb-8b04-54e2c7d9b93e.png)
+
+### Coefficients
+![image](https://user-images.githubusercontent.com/67920563/111015946-2d58ae00-8379-11eb-8926-aa9968814d77.png)
+
+*Max Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111015955-36e21600-8379-11eb-864f-e00f69a7edcd.png)
+
+*Min Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111015960-3c3f6080-8379-11eb-9d6e-9967ac3eb51e.png)
+
+## Ridge Regression
 
 
 
