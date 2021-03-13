@@ -1677,6 +1677,78 @@ plt.scatter(range(200),maeEN)
 ### MAE at other Alpha Values
 ![image](https://user-images.githubusercontent.com/67920563/111016584-d0f78d80-837c-11eb-9549-9d12bca61e82.png)
 
+## Standardized Elastic Net
+
+~~~
+from sklearn.linear_model import ElasticNet
+from sklearn.preprocessing import StandardScaler
+ss = StandardScaler()
+lel = ElasticNet(alpha=0.01)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+lel.fit(ss.fit_transform(X_train),y_train)
+yhat_lel=lel.predict(ss.fit_transform(X_test))
+
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lel.intercept_))
+    
+mae = mean_absolute_error(y_test, yhat_lel)
+print("MAE = {:,.2f}".format(mae))
+
+print('Coefficients:')
+lel.coef_
+
+max(lel.coef_)
+
+min(lel.coef_)
+
+list=[]
+count=-1
+counted_list=[]
+A=lel.coef_
+for a in A:
+  count=count+1
+  if a!=0:
+    list.append(a)
+    counted_list.append(count)
+
+print(list)
+print(counted_list)
+
+#Features
+for c in counted_list:
+  print(X.columns[c])
+
+maeSEN=[]
+for i in range(200):
+  ss = StandardScaler()
+  lel = ElasticNet(alpha=0.01)
+
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+  lel.fit(ss.fit_transform(X_train),y_train)
+  yhat_lel=lel.predict(ss.fit_transform(X_test))
+
+  maeSEN.append(mean_absolute_error(y_test, yhat_lel))
+
+plt.scatter(range(200),maeSEN)
+~~~
+### Predictions
+![image](https://user-images.githubusercontent.com/67920563/111016623-fdaba500-837c-11eb-8a2a-63ec185f47d3.png)
+
+### MAE and Intercept
+![image](https://user-images.githubusercontent.com/67920563/111016630-069c7680-837d-11eb-8269-59736aa7a22a.png)
+
+### Coefficients
+![image](https://user-images.githubusercontent.com/67920563/111016635-11efa200-837d-11eb-8418-2eddda0119bf.png)
+
+*Min Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016638-1a47dd00-837d-11eb-8ff7-ee45246898e8.png)
+
+*Max Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016649-2469db80-837d-11eb-8957-081f471d72ec.png)
+
+
+
 
 
 
