@@ -83,7 +83,7 @@ def tstat_corr(r,n):
  One of the lowest correlation values in the heatmap was chosen as the r value. We are left with the following results:
  ![image](https://user-images.githubusercontent.com/67920563/110415773-7f8b8d80-8060-11eb-9b10-009ebf673340.png)
  
- The t-value measures the size of the difference relatie to the variation in the data. The greater t is, the greater the chance is that there is a significant difference between the data. Our p value is extremly high at about 0.8, thus telling us that the data is most likely weakly correlated.
+ The t-value measures the size of the difference relative to the variation in the data. The greater t is, the greater the chance is that there is a significant difference between the data. Our p value is extremly high at about 0.8, thus telling us that the data is most likely weakly correlated.
 
 # Regularization and Feature Selection
 ## Finding the Weights Mathematically without Regularization
@@ -1252,6 +1252,8 @@ df2=df2.drop('Root Mean Square', axis=1)
 
 ![image](https://user-images.githubusercontent.com/67920563/111014396-7442a580-8371-11eb-8d0f-ef637251c388.png)
 
+Unlike the IDB dataset, the NaN values in this dataset were filled in with the mean of each column. This may have skewed our data, but removing the NaN values would have left very few viable rows.
+
 ## Visualizations
 ~~~
 #Define X and y
@@ -1265,6 +1267,8 @@ y.describe()
 
 ### Target Breakdown
 ![image](https://user-images.githubusercontent.com/67920563/111015653-fe8e0800-8377-11eb-8f84-545eb9761298.png)
+
+From the breakdowns of our Feature and Targets, we can see that standardization is most likely required, as each feature is on its own scale.
 ~~~
 df2=df2.apply(pd.to_numeric)
 ~~~
@@ -1275,6 +1279,9 @@ plt.figure(figsize=(10,10))
 sns.violinplot(x=df2['Depth'], y=df2['Magnitude'])
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111015703-3e54ef80-8378-11eb-8f54-1b0a836e5514.png)
+
+Although plotting all of the data would render a variety of plots, it is most interesting to see the relationship between the recorded depth of the Earthquake and Magnitude. It is most likely that this feature will have the most impact. From previous research, we know that earthquakes that occur at greater depths tend to cause less shaking at the surface.
+
 ### Data Correlations
 ~~~
 corr_matrix=np.corrcoef(X)
@@ -1288,8 +1295,8 @@ sns.heatmap(X.corr(), vmax=1, vmin=-1, cmap="spring", annot=True,fmt='.2f')
 plt.show()
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111015761-6ba19d80-8378-11eb-9f8a-fd12cd3c9793.png)
-~~~
-~~~
+
+The Correlation Matrix shows that the majority of the features are not correlated very much at all, with most values being close to zero. This means that regularization may not be as necessary for this particular dataset.
 ### Sample Data t-test
 ~~~
 from scipy import stats
@@ -1301,6 +1308,8 @@ def tstat_corr(r,n):
 tstat_corr(0.02,len(X)) #put in an r value from matrix
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111015882-d652d900-8378-11eb-83fa-5837ae7f7fc5.png)
+
+With a high t statistic and low p-value, our t-test supports low correlation between the features.
 
 ## Linear Regression
 ~~~
@@ -2018,7 +2027,11 @@ min(listofoutput)
 
 ![image](https://user-images.githubusercontent.com/67920563/111017328-cc34d880-8380-11eb-86d8-e067daa51912.png)
 
+## Discussion Pertaining to the Regularization Methods
 
+![image](https://user-images.githubusercontent.com/67920563/111018164-5e3ee000-8385-11eb-9b57-58a4f9a96571.png)
+
+Looking at the results, we note that none of the Regularization techniques improved the MAE. We can attribute this to the lack of correlation between the data. Looking further at the results, we also note that this dataset may not be adequate for prediction, as the features seem to have no effect on each other. We can further support this conclusion by lookig at the Lasso and Elastic Net results, where we lost anywhere in between one and five features with little to no effect on the MAE. 
 
 
 
