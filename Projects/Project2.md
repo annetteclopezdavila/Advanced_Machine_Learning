@@ -1604,6 +1604,81 @@ plt.scatter(range(100),maeSLS)
 ![image](https://user-images.githubusercontent.com/67920563/111016425-f3d57200-837b-11eb-8f18-4e8cd65017f4.png)
 
 
+## Elastic Net Regularization
+
+~~~
+from sklearn.linear_model import  ElasticNet
+lel = ElasticNet(alpha=0.01)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+lel.fit(X_train,y_train)
+yhat_lel=lel.predict(X_test)
+
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lel.intercept_))
+    
+mae = mean_absolute_error(y_test, yhat_lel)
+print("MAE = {:,.2f}".format(mae))
+
+print('Coefficients:')
+lel.coef_
+
+min(lel.coef_)
+
+max(lel.coef_)
+
+list=[]
+count=-1
+counted_list=[]
+A=lel.coef_
+for a in A:
+  count=count+1
+  if a!=0:
+    list.append(a)
+    counted_list.append(count)
+
+print(list)
+print(counted_list)
+
+#Features
+for c in counted_list:
+  print(X.columns[c])
+
+maeEN=[]
+for i in range(200):
+  lel = ElasticNet(alpha=i)
+
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+  lel.fit(X_train,y_train)
+  yhat_lel=lel.predict(X_test)
+
+  maeEN.append(mean_absolute_error(y_test, yhat_lel))
+
+plt.scatter(range(200),maeEN)
+~~~
+### Predictions
+![image](https://user-images.githubusercontent.com/67920563/111016513-75c59b00-837c-11eb-986d-4484664de207.png)
+### Intercept and MAE
+![image](https://user-images.githubusercontent.com/67920563/111016525-7c541280-837c-11eb-9816-50eb1857856c.png)
+### Coefficients
+![image](https://user-images.githubusercontent.com/67920563/111016533-87a73e00-837c-11eb-880b-9b982265849a.png)
+
+*Min Coefficient*:
+![image](https://user-images.githubusercontent.com/67920563/111016540-8f66e280-837c-11eb-864d-f07040b0d996.png)
+
+*Max Coefficients*:
+![image](https://user-images.githubusercontent.com/67920563/111016550-9a217780-837c-11eb-97e7-62cbb6a63e05.png)
+
+### Nonzero Coefficient Features
+![image](https://user-images.githubusercontent.com/67920563/111016562-ac031a80-837c-11eb-81b7-3ad79a3141ad.png)
+
+![image](https://user-images.githubusercontent.com/67920563/111016575-bfae8100-837c-11eb-9f96-a87456a47e24.png)
+
+### MAE at other Alpha Values
+![image](https://user-images.githubusercontent.com/67920563/111016584-d0f78d80-837c-11eb-9549-9d12bca61e82.png)
+
+
+
 
 
 
