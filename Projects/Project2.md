@@ -1349,7 +1349,7 @@ min(lm.coef_)
 *Min Coefficient:*
 ![image](https://user-images.githubusercontent.com/67920563/111015960-3c3f6080-8379-11eb-9d6e-9967ac3eb51e.png)
 
-## Ridge Regression
+## Ridge Regularization
 ~~~
 #Apply Ridge
 from sklearn.linear_model import Ridge
@@ -1527,6 +1527,81 @@ plt.scatter(range(100),maeLS)
 ### MAE at other Alpha Values
 ![image](https://user-images.githubusercontent.com/67920563/111016346-46faf500-837b-11eb-8f91-334309fdc89f.png)
 
+## Standardized Lasso
+~~~
+from sklearn.linear_model import Lasso
+from sklearn.preprocessing import StandardScaler
+ss = StandardScaler()
+ls = Lasso(alpha=0.01)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+ls.fit(ss.fit_transform(X_train),y_train)
+yhat_ls=ls.predict(ss.fit_transform(X_test))
+
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(ls.intercept_))
+    
+mae = mean_absolute_error(y_test, yhat_ls)
+print("MAE = {:,.2f}".format(mae))
+
+print('Coefficients')
+ls.coef_
+
+min(ls.coef_)
+max(ls.coef_)
+
+#get features that work
+list=[]
+count=-1
+counted_list=[]
+A=ls.coef_
+for a in A:
+  count=count+1
+  if a!=0:
+    list.append(a)
+    counted_list.append(count)
+
+print(list)
+print(counted_list)
+
+#Features
+for c in counted_list:
+  print(X.columns[c])
+
+maeSLS=[]
+for i in range(100):
+  ss = StandardScaler()
+  ls = Lasso(alpha=i)
+
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+  ls.fit(ss.fit_transform(X_train),y_train)
+  yhat_ls=ls.predict(ss.fit_transform(X_test))
+
+
+  maeSLS.append(mean_absolute_error(y_test, yhat_ls))
+  
+plt.scatter(range(100),maeSLS)
+~~~
+### Predictions
+![image](https://user-images.githubusercontent.com/67920563/111016391-b2dd5d80-837b-11eb-8c72-67c41c5c9e9f.png)
+### Intercept and MAE
+![image](https://user-images.githubusercontent.com/67920563/111016395-bb359880-837b-11eb-9fa1-40eb659910a9.png)
+### Coefficients
+![image](https://user-images.githubusercontent.com/67920563/111016401-c12b7980-837b-11eb-9e13-ed6e217fa30d.png)
+
+*Min Coefficent:*
+![image](https://user-images.githubusercontent.com/67920563/111016404-c8eb1e00-837b-11eb-8976-ab867a3d744c.png)
+
+*Max Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016407-d1dbef80-837b-11eb-8aff-9f8d3500683e.png)
+
+### NonZero Coefficient Features
+![image](https://user-images.githubusercontent.com/67920563/111016415-e15b3880-837b-11eb-9413-13cf2feb3491.png)
+
+![image](https://user-images.githubusercontent.com/67920563/111016418-e4eebf80-837b-11eb-9a45-59dfff2060b8.png)
+
+### MAE at other Alpha Values
+![image](https://user-images.githubusercontent.com/67920563/111016425-f3d57200-837b-11eb-8f18-4e8cd65017f4.png)
 
 
 
