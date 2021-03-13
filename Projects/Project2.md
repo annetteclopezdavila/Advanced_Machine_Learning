@@ -1934,6 +1934,90 @@ min(listofoutput)
 
 ![image](https://user-images.githubusercontent.com/67920563/111016949-9c84d100-837e-11eb-8a0f-d950d9496615.png)
 
+## Scaled SCAD
+~~~
+y=y.reshape(-1,1)
+X=X.values
+
+Xs = scale.fit_transform(X)
+
+def scad_penalty(beta_hat, lambda_val, a_val):
+    is_linear = (np.abs(beta_hat) <= lambda_val)
+    is_quadratic = np.logical_and(lambda_val < np.abs(beta_hat), np.abs(beta_hat) <= a_val * lambda_val)
+    is_constant = (a_val * lambda_val) < np.abs(beta_hat)
+    
+    linear_part = lambda_val * np.abs(beta_hat) * is_linear
+    quadratic_part = (2 * a_val * lambda_val * np.abs(beta_hat) - beta_hat**2 - lambda_val**2) / (2 * (a_val - 1)) * is_quadratic
+    constant_part = (lambda_val**2 * (a_val + 1)) / 2 * is_constant
+    return linear_part + quadratic_part + constant_part
+    
+def scad_derivative(beta_hat, lambda_val, a_val):
+    return lambda_val * ((beta_hat <= lambda_val) + (a_val * lambda_val - beta_hat)*((a_val * lambda_val - beta_hat) > 0) / ((a_val - 1) * lambda_val) * (beta_hat > lambda_val))
+
+def scad(beta):
+  beta = beta.flatten()
+  beta = beta.reshape(-1,1)
+  n = len(y)
+  return 1/n*np.sum((y-X.dot(beta))**2) + np.sum(scad_penalty(beta,lam,a))
+  
+def dscad(beta):
+  beta = beta.flatten()
+  beta = beta.reshape(-1,1)
+  n = len(y)
+  return np.array(-2/n*np.transpose(X).dot(y-X.dot(beta))+scad_derivative(beta,lam,a)).flatten()
+
+p = Xs.shape[1]
+b0 = np.random.normal(1,1,p)
+
+lam = 1
+a = 0.01
+output = minimize(scad, b0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 'maxiter': 50000,'maxls': 25,'disp': True})
+
+output.x
+
+min(output.x)
+
+max(output.x)
+
+yhat_test_scad = X_test.dot(output.x)
+yhat_test_scad
+
+mae = mean_absolute_error(y_test, yhat_test_scad)
+print("MAE = {:,.2f}".format(mae))
+
+listofoutput=[]
+lam = 0.5
+for i in range(200):
+  a = i
+  output = minimize(scad, b0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 'maxiter': 50000,'maxls': 25,'disp': True})
+  yhat_test_scad = X_test.dot(output.x)
+
+  listofoutput.append(mean_absolute_error(y_test, yhat_test_scad))
+  
+plt.scatter(range(200),listofoutput)
+
+min(listofoutput)
+~~~
+### Predictions
+![image](https://user-images.githubusercontent.com/67920563/111017306-942d9580-8380-11eb-97d8-4be7311b9c6c.png)
+
+### MAE
+![image](https://user-images.githubusercontent.com/67920563/111017307-998ae000-8380-11eb-9252-65e84f0254d4.png)
+
+### Coefficients
+![image](https://user-images.githubusercontent.com/67920563/111017313-a0b1ee00-8380-11eb-84d8-b69aaa24f37e.png)
+
+*Max Coefficients:*
+![image](https://user-images.githubusercontent.com/67920563/111017317-b58e8180-8380-11eb-90c9-f8b9f94fa296.png)
+
+*Min Coefficients:*
+![image](https://user-images.githubusercontent.com/67920563/111017321-bc1cf900-8380-11eb-80f0-3575fb910c8c.png)
+
+### MAE at other Alpha Values
+![image](https://user-images.githubusercontent.com/67920563/111017330-cfc85f80-8380-11eb-9581-eff85e952381.png)
+
+![image](https://user-images.githubusercontent.com/67920563/111017328-cc34d880-8380-11eb-86d8-e067daa51912.png)
+
 
 
 
