@@ -1747,6 +1747,64 @@ plt.scatter(range(200),maeSEN)
 *Max Coefficient:*
 ![image](https://user-images.githubusercontent.com/67920563/111016649-2469db80-837d-11eb-8957-081f471d72ec.png)
 
+### NonZero Coefficient Features
+
+![image](https://user-images.githubusercontent.com/67920563/111016672-419eaa00-837d-11eb-879a-522828f3d938.png)
+![image](https://user-images.githubusercontent.com/67920563/111016687-4cf1d580-837d-11eb-92ec-61c71d7ecfd4.png)
+
+### MAE at other Alpha Values
+![image](https://user-images.githubusercontent.com/67920563/111016699-5bd88800-837d-11eb-8028-cf5f0c325193.png)
+
+## Squared Root Lasso
+~~~
+! pip install --upgrade Cython
+! pip install --upgrade git+https://github.com/statsmodels/statsmodels
+import statsmodels.api as sm
+
+from sklearn.metrics import mean_absolute_error as MAE
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split as tts
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+
+model = sm.OLS(y_train,X_train)
+result = model.fit_regularized(method='sqrt_lasso', alpha=0.01)
+yhat_test = result.predict(X_test)
+
+MAE(y_test,yhat_test)
+
+result.params
+
+min(result.params)
+
+max(result.params)
+
+maeSL=[]
+for i in range(200):
+  model = sm.OLS(y_train,X_train)
+  result = model.fit_regularized(method='sqrt_lasso', alpha=i)
+  yhat_test = result.predict(X_test)
+  maeSL.append(MAE(y_test,yhat_test))
+
+plt.scatter(range(200),maeSL)
+~~~
+### Predictions
+![image](https://user-images.githubusercontent.com/67920563/111016757-98a47f00-837d-11eb-95e0-c057ea5029e3.png)
+
+### MAE
+![image](https://user-images.githubusercontent.com/67920563/111016763-a1955080-837d-11eb-97d8-267f79b045b1.png)
+
+### Coefficients
+![image](https://user-images.githubusercontent.com/67920563/111016771-a78b3180-837d-11eb-8f46-fee2d6f54169.png)
+
+*Max Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016781-b40f8a00-837d-11eb-8f7e-d95038e3d38e.png)
+
+*Min Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016786-bbcf2e80-837d-11eb-8f51-9979a7e6f5b7.png)
+
+### MAE at other Alpha Values
+![image](https://user-images.githubusercontent.com/67920563/111016794-c5f12d00-837d-11eb-820d-7fcf184c105e.png)
 
 
 
