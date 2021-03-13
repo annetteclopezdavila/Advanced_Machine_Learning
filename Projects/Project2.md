@@ -2031,7 +2031,10 @@ min(listofoutput)
 
 ![image](https://user-images.githubusercontent.com/67920563/111018164-5e3ee000-8385-11eb-9b57-58a4f9a96571.png)
 
-Looking at the results, we note that none of the Regularization techniques improved the MAE. We can attribute this to the lack of correlation between the data. Looking further at the results, we also note that this dataset may not be adequate for prediction, as the features seem to have no effect on each other. We can further support this conclusion by lookig at the Lasso and Elastic Net results, where we lost anywhere in between one and five features with little to no effect on the MAE. 
+Looking at the results, we note that none of the Regularization techniques improved the MAE. We can attribute this to the lack of correlation between the data. Looking further at the results, we also note that this dataset may not be adequate for prediction, as the features seem to have no effect on each other. We can further support this conclusion by lookig at the Lasso and Elastic Net results, where we lost anywhere in between one and five features with little to no effect on the MAE. In Standardized Lasso Regularization, we lost all the features which I hypothesized as having the most effect: location (latitude/longitude and depth). Thus, we can conclude that this particular dataset does not support that magnitude of an earthquake can be predicted from only latitude and depth. 
+
+We can see that regularization only worsened our results, particularly with SCAD and Square Root Lasso. It is interesting to see that when alpha was changed, most of the regularization method results either did not change or worsened the MAE as alpha approached infinity (standard ridge, square root lasso, scaled SCAD). 
+
 
 
 
