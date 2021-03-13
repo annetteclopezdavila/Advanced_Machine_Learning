@@ -1402,6 +1402,61 @@ for i in range(1000):
 ### MAE at other Alpha Values
 ![image](https://user-images.githubusercontent.com/67920563/111016084-e5865680-8379-11eb-86f3-274696e72f7c.png)
 
+## Standardized Ridge 
+~~~
+from sklearn.preprocessing import StandardScaler
+ss = StandardScaler()
+
+lr = Ridge(alpha=0.01)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+lr.fit(ss.fit_transform(X_train),y_train)
+scaled_yhat_lr=lr.predict(ss.fit_transform(X_test))
+
+from sklearn.metrics import mean_absolute_error 
+print("Intercept: {:,.3f}".format(lr.intercept_))
+    
+mae = mean_absolute_error(y_test, scaled_yhat_lr)
+print("MAE = {:,.2f}".format(mae))
+
+print('Coefficients:')
+lr.coef_
+
+max(lr.coef_)
+min(lr.coef_)
+
+maeSLR=[]
+for i in range(200):
+  lr = Ridge(alpha=i)
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=2021)
+  lr.fit(ss.fit_transform(X_train),y_train)
+  scaled_yhat_lr=lr.predict(ss.fit_transform(X_test))
+  #Turn continuous variables into discrete
+ 
+  
+  maeSLR.append( mean_absolute_error(y_test, scaled_yhat_lr))
+  
+plt.scatter(range(200),maeSLR)
+~~~
+### Predictions
+![image](https://user-images.githubusercontent.com/67920563/111016156-4b72de00-837a-11eb-91ce-922961ffa8fc.png)
+### Intercept and MAE
+![image](https://user-images.githubusercontent.com/67920563/111016171-588fcd00-837a-11eb-804d-61f5ee90ec3d.png)
+
+### Coefficients
+![image](https://user-images.githubusercontent.com/67920563/111016181-5fb6db00-837a-11eb-91d2-d28408dc4d24.png)
+
+
+*Min Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016188-69d8d980-837a-11eb-9fe2-9dba550c0dcd.png)
+
+*Max Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016198-72c9ab00-837a-11eb-8cfe-426f8584358e.png)
+
+### MAE at other Alpha Values
+![image](https://user-images.githubusercontent.com/67920563/111016213-8d038900-837a-11eb-9e42-40b84b5ed977.png)
+
+
+
 
 
 
