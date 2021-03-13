@@ -1806,9 +1806,48 @@ plt.scatter(range(200),maeSL)
 ### MAE at other Alpha Values
 ![image](https://user-images.githubusercontent.com/67920563/111016794-c5f12d00-837d-11eb-820d-7fcf184c105e.png)
 
+## Scaled Square Root Lasso
+~~~
+scale = StandardScaler()
+Xs_train = scale.fit_transform(X_train)
+Xs_test  = scale.transform(X_test)
 
+model = sm.OLS(y_train,Xs_train)
+result = model.fit_regularized(method='sqrt_lasso', alpha=0.5)
+yhat_test = result.predict(Xs_test)
+#Turn continuous variables into discrete
 
+MAE(y_test, yhat_test)
 
+result.params
+
+max(result.params)
+min(result.params)
+
+maeSSL=[]
+for i in range(200):
+  model = sm.OLS(y_train,Xs_train)
+  result = model.fit_regularized(method='sqrt_lasso', alpha=0.5)
+  yhat_test = result.predict(Xs_test)
+  maeSSL.append(MAE(y_test,yhat_test))
+
+plt.scatter(range(200),maeSSL)
+~~~
+### Predictions
+![image](https://user-images.githubusercontent.com/67920563/111016824-fb961600-837d-11eb-8706-673e58555886.png)
+### MAE
+![image](https://user-images.githubusercontent.com/67920563/111016832-03ee5100-837e-11eb-96b3-71563230b03a.png)
+### Coefficients
+![image](https://user-images.githubusercontent.com/67920563/111016836-0a7cc880-837e-11eb-91b4-81df877cc8a3.png)
+
+*Max Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016844-15375d80-837e-11eb-8712-d0cd72e1f610.png)
+
+*Min Coefficient:*
+![image](https://user-images.githubusercontent.com/67920563/111016849-1d8f9880-837e-11eb-9893-665e4e66339e.png)
+
+### MAE at other Alpha Values
+![image](https://user-images.githubusercontent.com/67920563/111016861-2da77800-837e-11eb-8a94-9239215a567f.png)
 
 
 
