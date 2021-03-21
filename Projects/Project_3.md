@@ -550,3 +550,21 @@ ax.scatter(a_range, test_mae)
 ax.plot(a_range, test_mae, c='red')
 ~~~
 
+# Kernel regression from StatsModels
+
+~~~
+# This is important: update the statsmodels package
+! pip install --upgrade Cython
+! pip install --upgrade git+https://github.com/statsmodels/statsmodels
+import statsmodels.api as sm
+
+from statsmodels.nonparametric.kernel_regression import KernelReg
+model_KernReg = KernelReg(endog=dat_train[:,-1],exog=dat_train[:,:-1],var_type='ccccccccccc')
+
+yhat_sm_test, y_std = model_KernReg.fit(dat_test[:,:-1])
+
+mae_sm = mean_absolute_error(dat_test[:,-1], yhat_sm_test)
+print("MAE StatsModels Kernel Regression = ${:,.2f}".format(1000*mae_sm))
+~~~
+
+
