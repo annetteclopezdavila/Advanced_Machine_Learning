@@ -216,41 +216,72 @@ ax.plot(a_range, test_mae, c='red')
 
 # Squart Root Lasso Regression
 ~~~
-def DoKFoldSqrtLasso(X,y,alpha,k):
+scale = StandardScaler()
+def sqrtlasso_model(X,y,alpha):
+  n = X.shape[0]
+  p = X.shape[1]
+  #we add an extra columns of 1 for the intercept
+  #X = np.c_[np.ones((n,1)),X]
+  def sqrtlasso(beta):
+    beta = beta.flatten()
+    beta = beta.reshape(-1,1)
+    n = len(y)
+    return np.sqrt(1/n*np.sum((y-X.dot(beta))**2)) + alpha*np.sum(np.abs(beta))
+  
+  def dsqrtlasso(beta):
+    beta = beta.flatten()
+    beta = beta.reshape(-1,1)
+    n = len(y)
+    return np.array((-1/np.sqrt(n))*np.transpose(X).dot(y-X.dot(beta))/np.sqrt(np.sum((y-X.dot(beta))**2))+alpha*np.sign(beta)).flatten()
+  b0 = np.ones((p,1))
+  output = minimize(sqrtlasso, b0, method='L-BFGS-B', jac=dsqrtlasso,options={'gtol': 1e-8, 'maxiter': 1e8,'maxls': 25,'disp': True})
+  return output.x
+  
+def DoKFoldSqrt(X,y,a,k,d):
   PE = []
+  scale = StandardScaler()
+  poly = PolynomialFeatures(degree=d)
   kf = KFold(n_splits=k,shuffle=True,random_state=1234)
   for idxtrain, idxtest in kf.split(X):
     X_train = X[idxtrain,:]
+    X_train_scaled = scale.fit_transform(X_train)
+    X_train_poly = poly.fit_transform(X_train_scaled)
     y_train = y[idxtrain]
     X_test  = X[idxtest,:]
+    X_test_scaled = scale.transform(X_test)
+    X_test_poly = poly.fit_transform(X_test_scaled)
     y_test  = y[idxtest]
-    model = sm.OLS(y_train,X_train)
-    result = model.fit_regularized(method='sqrt_lasso', alpha=alpha)
-    yhat_test = result.predict(X_test)
-    PE.append(MAE(y_test,yhat_test))
+    beta_sqrt = sqrtlasso_model(X_train_poly,y_train,a)
+    n = X_test_poly.shape[0]
+    p = X_test_poly.shape[1]
+    # we add an extra columns of 1 for the intercept
+    #X1_test = np.c_[np.ones((n,1)),X_test]
+    yhat_sqrt = X_test_poly.dot(beta_sqrt)
+    PE.append(MAE(y_test,yhat_sqrt))
   return 1000*np.mean(PE)
-~~~
+~~~ 
+
 ## Testing Different K-Fold Values
 ~~~  
-DoKFoldSqrtLasso(X,y,0.51161058,10)  
+DoKFoldSqrt(X,y,0.05,10,3)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/111893676-bfe0f900-89da-11eb-8692-eb0b8053e651.png)
+![image](https://user-images.githubusercontent.com/67920563/111894029-bb6a0f80-89dd-11eb-8a1a-368483a85800.png)
 
 ~~~
-DoKFoldSqrtLasso(X,y,0.51161058,30)
+DoKFoldSqrt(X,y,0.05,30,3)
 ~~~
 
-![image](https://user-images.githubusercontent.com/67920563/111893732-0f272980-89db-11eb-8bb8-f0251058730c.png)
+![image](https://user-images.githubusercontent.com/67920563/111894035-c3c24a80-89dd-11eb-9ecd-263dd8744d8a.png)
 
 ~~~
-DoKFoldSqrtLasso(X,y,0.51161058,300)
+DoKFoldSqrt(X,y,0.05,300,3)
 ~~~
 
-![image](https://user-images.githubusercontent.com/67920563/111893734-151d0a80-89db-11eb-8118-5ecec5619a7d.png)
+
 ~~~
-DoKFoldSqrtLasso(X,y,0.51161058,506)
+DoKFoldSqrt(X,y,0.05,506,3)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/111893749-2bc36180-89db-11eb-9722-742a96edb021.png)
+
 
 
 ## Test Alphas
@@ -259,7 +290,7 @@ DoKFoldSqrtLasso(X,y,0.51161058,506)
 a_range= np.linspace(0.01, 10,100)
 test_mae=[]
 for a in a_range:
-  test_mae.append(DoKFoldSqrtLasso(X,y,a,10))
+  test_mae.append(DoKFoldSqrt(X,y,a,10,3))
 
 min(test_mae)
 ~~~  
@@ -269,11 +300,17 @@ fig, ax= plt.subplots(figsize=(8,6))
 ax.scatter(a_range, test_mae)
 ax.plot(a_range, test_mae, c='red')
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/111893520-a4292300-89d9-11eb-944c-14738b175663.png)
 
+## Testing Polynomial Degrees
 
+~~~
+DoKFoldSqrt(X,y,0.05,10,2)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111894089-44814680-89de-11eb-8fd4-189b08e9f499.png)
 
-
+~~~
+DoKFoldSqrt(X,y,0.05,10,4)
+~~~
 
 
 # SCAD
