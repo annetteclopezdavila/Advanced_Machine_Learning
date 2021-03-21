@@ -129,6 +129,11 @@ ax.plot(a_range, test_mae, c='red')
 - At degree=4, k=300, alpha=0.05: 2249.1800237285274
 - At degree=4, k=506, alpha=0.05: 2260.300028069687
 
+- At degree=2, k=10, alpha=0.05: 2372.392222372545
+- At degree=2, k=30, alpha=0.05: 2398.7055509280503
+- At degree=2, k=300, alpha=0.05: 2249.1800237285274
+- At degree=2, k=506, alpha=0.05: 2366.181492366912
+
 
 # Nonlinear Ridge Regression
 ## Testing Different K -Fold Values
@@ -184,6 +189,11 @@ ax.plot(a_range, test_mae, c='red')
 - At degree=4, k=300, alpha=0.05: 8321.568943584169
 - At degree=4, k=506, alpha=0.05: 6847.485429539462
 
+- At degree=2, k=10, alpha=0.05: 2488.229549736092
+- At degree=2, k=30, alpha=0.05: 2483.8999704434805
+- At degree=2, k=300, alpha=0.05: 2497.023368589572
+- At degree=2, k=506, alpha=0.05: 2459.0769654036612
+
 # Elastic Net
 ## K-Fold Values
 ~~~
@@ -233,6 +243,11 @@ ax.plot(a_range, test_mae, c='red')
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=10: 2407.2185970338564
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=30: 2437.810000893756
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=300: 2504.4733361982912
+
+- At degree=2, k=10, alpha=0.05: 2339.2146270250955
+- At degree=2, k=30, alpha=0.05: 2348.2070459062375
+- At degree=2, k=300, alpha=0.05: 2358.871433452167
+- At degree=2, k=506, alpha=0.05: 2321.9634261020765
 
 
 # Squart Root Lasso Regression
