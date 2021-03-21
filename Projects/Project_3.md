@@ -229,9 +229,30 @@ def DoKFoldSqrtLasso(X,y,alpha,k):
     yhat_test = result.predict(X_test)
     PE.append(MAE(y_test,yhat_test))
   return 1000*np.mean(PE)
-  
+~~~
+## Testing Different K-Fold Values
+~~~  
 DoKFoldSqrtLasso(X,y,0.51161058,10)  
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/111893676-bfe0f900-89da-11eb-8692-eb0b8053e651.png)
+
+~~~
+DoKFoldSqrtLasso(X,y,0.51161058,30)
+~~~
+
+![image](https://user-images.githubusercontent.com/67920563/111893732-0f272980-89db-11eb-8bb8-f0251058730c.png)
+
+~~~
+DoKFoldSqrtLasso(X,y,0.51161058,300)
+~~~
+
+![image](https://user-images.githubusercontent.com/67920563/111893734-151d0a80-89db-11eb-8118-5ecec5619a7d.png)
+~~~
+DoKFoldSqrtLasso(X,y,0.51161058,506)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111893749-2bc36180-89db-11eb-9722-742a96edb021.png)
+
+
 ## Test Alphas
 ~~~
 #test alphas
