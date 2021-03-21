@@ -5,25 +5,25 @@ subtitle: Real Data Applications of Nonlinear Multivariate Regression Methods
 ---
 The Boston Housing dataset is a collection from the U.S. Census Service concerning Boston, MA's housing. The dataset has 506 total data points and 17 attributes. The Dataset's attributes are listed as follows:
 
-crime - per capita crime rate by town
-residential - proportion of residential land zoned for lots over 25,000 sq.ft.
-industrial - proportion of non-retail business acres per town.
-river - Charles River dummy variable (1 if tract bounds river; 0 otherwise)
-nox - nitric oxides concentration (parts per 10 million)
-rooms - average number of rooms per dwelling
-older - proportion of owner-occupied units built prior to 1940
-distance - weighted distances to five Boston employment centres
-highway - index of accessibility to radial highways
-tax - full-value property-tax rate per $10,000
-ptratio - pupil-teacher ratio by town
-town
-lstat - % lower status of the population
-cmedv - Median value of owner-occupied homes in $1000's
-tract - year
-longitude
-latitude
+- crime - per capita crime rate by town
+- residential - proportion of residential land zoned for lots over 25,000 sq.ft.
+- industrial - proportion of non-retail business acres per town.
+- river - Charles River dummy variable (1 if tract bounds river; 0 otherwise)
+- nox - nitric oxides concentration (parts per 10 million)
+- rooms - average number of rooms per dwelling
+- older - proportion of owner-occupied units built prior to 1940
+- distance - weighted distances to five Boston employment centres
+- highway - index of accessibility to radial highways
+- tax - full-value property-tax rate per $10,000
+- ptratio - pupil-teacher ratio by town
+- town
+- lstat - % lower status of the population
+- cmedv - Median value of owner-occupied homes in $1000's
+- tract - year
+- longitude
+- latitude
 
-For this project, we will only be using features 'crime','rooms','residential','industrial','nox','older','distance','highway','tax','ptratio', and 'lstat' in order to predict the housing prices using nonlinear regression methods.
+For this project, we will only be using features 'crime', 'rooms', 'residential', 'industrial', 'nox', 'older', 'distance', 'highway', 'tax', 'ptratio', and 'lstat' in order to predict the housing prices using nonlinear regression methods.
 
 # Pre-Processing the Data
 First we will load the dataset and establish it as a dataframe:
