@@ -1,0 +1,29 @@
+Nonlinear Multivariate Regression Methods
+
+# Pre-Processing
+~~~
+#Mount drive
+from google.colab import drive
+drive.mount('/content/drive')
+
+#import libraries
+import numpy as np
+import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('drive/MyDrive/BostonHousingPrices.csv')
+~~~
+
+
+
+
+#PREDICTION-split the data into training and testing
+from sklearn.model_selection import train_test_split
+
+X=df.drop(['cmedv', 'town'], axis=1)
+y = np.array(df['cmedv']).reshape(-1,1)
+
+X = X.select_dtypes(exclude=['object'])
+print(X)
+~~~
