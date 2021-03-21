@@ -473,7 +473,6 @@ ax.plot(a_range, test_mae, c='red')
  - k=506, a=0.05, lam=0.1, degree=4: 6152.504695410218
 
 
-
 # Neural Networks
 ~~~
 dat = np.concatenate([X,y], axis=1)
@@ -638,38 +637,23 @@ print("MAE StatsModels Kernel Regression = ${:,.2f}".format(1000*mae_sm))
 ![image](https://user-images.githubusercontent.com/67920563/111895244-ab572d80-89e7-11eb-87e7-07e03c5527f4.png)
 
 ~~~
-from sklearn import model_selection
-from sklearn import metrics
-
-mae_kernel=[]
-cv = model_selection.KFold(n_splits=10)
-
+from sklearn.model_selection import KFold
+mae_kernel = []
+kf = KFold(n_splits=100, shuffle=True, random_state=1234)
 for idxtrain, idxtest in kf.split(dat):
   X_train = dat[idxtrain,0:-1]
   y_train = dat[idxtrain,-1]
   X_test  = dat[idxtest,0:-1]
   y_test = dat[idxtest,-1]
 
-  # For training, fit() is used
-  model.fit(X_train, y_train)
+  yhat_sm_test, y_std = model.fit(dat_test[:,:-1])
 
-  # Default metric is R2 for regression, which can be accessed by score()
-  model.score(X_test, y_test)
+  mae_sm = mean_absolute_error(dat_test[:,-1], yhat_sm_test)
+  mae_kernel.append(mae_sm)
 
-  # For other metrics, we need the predictions of the model
-  y_pred = model.predict(X_test)
-  metrics.mean_squared_error(y_test, y_pred)
-  metrics.r2_score(y_test, y_pred)
- 
-  mae_kernel.append(mean_absolute_error(y_test, y_pred))
-  print("Validated MAE Random Forest Regression = ${:,.2f}".format(1000*np.mean(mae_kernel)))
+print("Validated MAE KernelRegression = ${:,.2f}".format(1000*np.mean(mae_kernel)))
   ~~~
   
-# K-Folds
-- k=30:
-- k=300:
-- k=506:
-
 # Random Forest Regressor
 ~~~
 from sklearn.ensemble import RandomForestRegressor
@@ -726,6 +710,69 @@ k=300:
 
 k=506:
 ![image](https://user-images.githubusercontent.com/67920563/111914025-c442fb80-8a46-11eb-8521-665ebf8ee1b4.png)
+
+# StepWise Regression
+
+~~~
+# Implementation of stepwise regression
+import statsmodels.api as sm
+def stepwise_selection(X, y, 
+                       initial_list=[], 
+                       threshold_in=0.01, 
+                       threshold_out = 0.05, 
+                       verbose=True):
+    """ Perform a forward-backward feature selection 
+    based on p-value from statsmodels.api.OLS
+    Arguments:
+        X - pandas.DataFrame with candidate features
+        y - list-like with the target
+        initial_list - list of features to start with (column names of X)
+        threshold_in - include a feature if its p-value < threshold_in
+        threshold_out - exclude a feature if its p-value > threshold_out
+        verbose - whether to print the sequence of inclusions and exclusions
+    Returns: list of selected features 
+    Always set threshold_in < threshold_out to avoid infinite looping.
+    See https://en.wikipedia.org/wiki/Stepwise_regression for the details """
+    
+    included = list(initial_list)
+    while True:
+        changed=False
+        # forward step
+        excluded = list(set(features)-set(included))
+        new_pval = pd.Series(index=excluded)
+        for new_column in excluded:
+            model = sm.OLS(y, sm.add_constant(pd.DataFrame(X[included+[new_column]]))).fit()
+            new_pval[new_column] = model.pvalues[new_column]
+        best_pval = new_pval.min()
+        if best_pval < threshold_in:
+            best_feature = new_pval.idxmin()
+            included.append(best_feature)
+            changed=True
+            if verbose:
+                print('Add  {:30} with p-value {:.6}'.format(best_feature, best_pval))
+
+        # backward step
+        model = sm.OLS(y, sm.add_constant(pd.DataFrame(X[included]))).fit()
+        # use all coefs except intercept
+        pvalues = model.pvalues.iloc[1:]
+        worst_pval = pvalues.max() # null if pvalues is empty
+        if worst_pval > threshold_out:
+            changed=True
+            worst_feature = pvalues.idxmax()
+            included.remove(worst_feature)
+            if verbose:
+                print('Drop {:30} with p-value {:.6}'.format(worst_feature, worst_pval))
+        if not changed:
+            break
+    return included
+~~~
+~~~
+X = df[features]
+stepwise_selection(X, y)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111920718-e8163980-8a66-11eb-8cec-ea6df991d32c.png)
+
+
 
 
 
