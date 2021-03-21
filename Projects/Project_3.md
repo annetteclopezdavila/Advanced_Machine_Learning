@@ -276,11 +276,42 @@ def DoKFoldScad(X,y,lam,a,k):
     PE.append(MAE(y_test,yhat_scad))
   return 1000*np.mean(PE)  
 ~~~
-# Testing K-Fold Values
+## Testing K-Fold Values
 ~~~
 DoKFoldScad(X,y,0.05,0.1, 10)
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/111892418-c159f380-89d1-11eb-917e-f5301b1deefa.png)
+~~~
+DoKFoldScad(X,y,0.05,0.1, 30)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111892423-c7e86b00-89d1-11eb-9728-6acb7a985bdf.png)
+~~~
+DoKFoldScad(X,y,0.05,0.1, 300)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111892429-ce76e280-89d1-11eb-8622-d73910c974e9.png)
+~~~
+DoKFoldScad(X,y,0.05,0.1, 506)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111892430-d6368700-89d1-11eb-9324-84d72360585d.png)
   
+## Testing Alphas
+~~~
+#test alphas
+a_range= np.linspace(0.01, 100)
+test_mae=[]
+for a in a_range:
+  test_mae.append(DoKFoldScad(X,y,0.05,a,10))
+  
+ min(test_mae)
+ ~~~
+ ~~~
+ import matplotlib.pyplot as plt
+fig, ax= plt.subplots(figsize=(8,6))
+ax.scatter(a_range, test_mae)
+ax.plot(a_range, test_mae, c='red')
+~~~
+
+ 
 
 
 
