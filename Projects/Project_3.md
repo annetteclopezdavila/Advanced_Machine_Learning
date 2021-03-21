@@ -185,6 +185,7 @@ ax.plot(a_range, test_mae, c='red')
 - At degree=4, k=506, alpha=0.05: 6847.485429539462
 
 # Elastic Net
+## K-Fold Values
 ~~~
 model = ElasticNet(alpha=0.05,l1_ratio=0.25,max_iter=12000)
 DoKFold_SK(X,y,model,10)
@@ -227,6 +228,12 @@ ax.scatter(a_range, test_mae)
 ax.plot(a_range, test_mae, c='red')
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111892001-a38a8f80-89cd-11eb-9d68-496ca06edd72.png)
+
+## Testing Polynomial Degrees
+- Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=10: 2407.2185970338564
+- Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=30: 2437.810000893756
+- Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=300: 2504.4733361982912
+
 
 # Squart Root Lasso Regression
 ~~~
@@ -533,13 +540,14 @@ yhat_xgb = model_xgb.predict(dat_test[:,:-1])
 mae_xgb = mean_absolute_error(dat_test[:,-1], yhat_xgb)
 print("MAE Polynomial Model = ${:,.2f}".format(1000*mae_xgb))
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/111893369-a474ee80-89d8-11eb-8442-dfd855b22dee.png)
+![image](https://user-images.githubusercontent.com/67920563/111896420-e9f0e600-89ef-11eb-8e76-17b31d2d93b5.png)
+
 ~~~
 
 %%timeit -n 1
 
 mae_xgb = []
-
+kf = KFold(n_splits=30, shuffle=True, random_state=1234)
 for idxtrain, idxtest in kf.split(dat):
   X_train = dat[idxtrain,0:-1]
   y_train = dat[idxtrain,-1]
@@ -550,7 +558,7 @@ for idxtrain, idxtest in kf.split(dat):
   mae_xgb.append(mean_absolute_error(y_test, yhat_xgb))
 print("Validated MAE XGBoost Regression = ${:,.2f}".format(1000*np.mean(mae_xgb)))
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/111893376-b5bdfb00-89d8-11eb-98c7-4d35d8c31628.png)
+![image](https://user-images.githubusercontent.com/67920563/111896426-f117f400-89ef-11eb-92b9-72158b82a3af.png)
 
 ## Testing Alpha Values
 ~~~
@@ -570,6 +578,18 @@ fig, ax= plt.subplots(figsize=(8,6))
 ax.scatter(a_range, test_mae)
 ax.plot(a_range, test_mae, c='red')
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/111896471-3e946100-89f0-11eb-801b-614315720535.png)
+
+# K-Folds
+- k=30:
+![image](https://user-images.githubusercontent.com/67920563/111896517-903ceb80-89f0-11eb-804d-526e81f7a247.png)
+
+- k=300:
+![image](https://user-images.githubusercontent.com/67920563/111896576-0fcaba80-89f1-11eb-97a6-0751af8c8f34.png)
+ 
+- k=506:
+![image](https://user-images.githubusercontent.com/67920563/111896735-f8d89800-89f1-11eb-94dc-16d0210e8707.png)
+
 
 # Kernel regression from StatsModels
 
@@ -580,7 +600,7 @@ ax.plot(a_range, test_mae, c='red')
 import statsmodels.api as sm
 
 from statsmodels.nonparametric.kernel_regression import KernelReg
-model_KernReg = KernelReg(endog=dat_train[:,-1],exog=dat_train[:,:-1],var_type='ccccccccccc')
+model = KernelReg(endog=dat_train[:,-1],exog=dat_train[:,:-1],var_type='ccccccccccc')
 
 yhat_sm_test, y_std = model_KernReg.fit(dat_test[:,:-1])
 
@@ -588,6 +608,39 @@ mae_sm = mean_absolute_error(dat_test[:,-1], yhat_sm_test)
 print("MAE StatsModels Kernel Regression = ${:,.2f}".format(1000*mae_sm))
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111895244-ab572d80-89e7-11eb-87e7-07e03c5527f4.png)
+
+~~~
+from sklearn import model_selection
+from sklearn import metrics
+
+mae_kernel=[]
+cv = model_selection.KFold(n_splits=10)
+
+for idxtrain, idxtest in kf.split(dat):
+  X_train = dat[idxtrain,0:-1]
+  y_train = dat[idxtrain,-1]
+  X_test  = dat[idxtest,0:-1]
+  y_test = dat[idxtest,-1]
+
+  # For training, fit() is used
+  model.fit(X_train, y_train)
+
+  # Default metric is R2 for regression, which can be accessed by score()
+  model.score(X_test, y_test)
+
+  # For other metrics, we need the predictions of the model
+  y_pred = model.predict(X_test)
+  metrics.mean_squared_error(y_test, y_pred)
+  metrics.r2_score(y_test, y_pred)
+ 
+  mae_kernel.append(mean_absolute_error(y_test, y_pred))
+  print("Validated MAE Random Forest Regression = ${:,.2f}".format(1000*np.mean(mae_kernel)))
+  ~~~
+  
+# K-Folds
+- k=30:
+- k=300:
+- k=506:
 
 # Random Forest Regressor
 ~~~
