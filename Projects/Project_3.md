@@ -277,10 +277,12 @@ DoKFoldSqrt(X,y,0.05,30,3)
 DoKFoldSqrt(X,y,0.05,300,3)
 ~~~
 
+![image](https://user-images.githubusercontent.com/67920563/111895199-6c28dc80-89e7-11eb-97de-78498cd8b9aa.png)
 
 ~~~
 DoKFoldSqrt(X,y,0.05,506,3)
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/111895205-71862700-89e7-11eb-8a06-948cc2794574.png)
 
 
 
@@ -311,6 +313,7 @@ DoKFoldSqrt(X,y,0.05,10,2)
 ~~~
 DoKFoldSqrt(X,y,0.05,10,4)
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/111895210-7ba82580-89e7-11eb-9d72-901530d434d2.png)
 
 
 # SCAD
@@ -566,5 +569,50 @@ yhat_sm_test, y_std = model_KernReg.fit(dat_test[:,:-1])
 mae_sm = mean_absolute_error(dat_test[:,-1], yhat_sm_test)
 print("MAE StatsModels Kernel Regression = ${:,.2f}".format(1000*mae_sm))
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/111895244-ab572d80-89e7-11eb-87e7-07e03c5527f4.png)
 
+# Random Forest Regressor
+~~~
+from sklearn.ensemble import RandomForestRegressor
+
+model = RandomForestRegressor(random_state=1234, max_depth=10,n_estimators=100)
+
+model.fit(X,y)
+
+importances = model.feature_importances_
+indices = np.argsort(importances)[-9:]  # top 10 features
+plt.title('Feature Importances')
+plt.barh(range(len(indices)), importances[indices], color='b', align='center')
+plt.yticks(range(len(indices)), [features[i] for i in indices])
+plt.xlabel('Relative Importance')
+plt.show()
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111895278-e9545180-89e7-11eb-94b8-a7e309a95a3c.png)
+~~~
+from sklearn import model_selection
+from sklearn import metrics
+
+mae_rf=[]
+cv = model_selection.KFold(n_splits=3)
+
+for idxtrain, idxtest in kf.split(dat):
+  X_train = dat[idxtrain,0:-1]
+  y_train = dat[idxtrain,-1]
+  X_test  = dat[idxtest,0:-1]
+  y_test = dat[idxtest,-1]
+
+  # For training, fit() is used
+  model.fit(X_train, y_train)
+
+  # Default metric is R2 for regression, which can be accessed by score()
+  model.score(X_test, y_test)
+
+  # For other metrics, we need the predictions of the model
+  y_pred = model.predict(X_test)
+  metrics.mean_squared_error(y_test, y_pred)
+  metrics.r2_score(y_test, y_pred)
+ 
+  mae_rf.append(mean_absolute_error(y_test, y_pred))
+  print("Validated MAE Random Forest Regression = ${:,.2f}".format(1000*np.mean(mae_rf)))
+  ~~~
 
