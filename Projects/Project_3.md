@@ -59,7 +59,7 @@ plt.show()
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891413-658b6c80-89c9-11eb-9177-a62d5cc46d9a.png)
 
-
+From the chart, we can see that the feature correlation is quite mixed but with many features having somewhat mid/strong correlations. 
 ~~~
 sns.pairplot(data=df, kind='scatter', hue='cmedv')
 plt.show()
