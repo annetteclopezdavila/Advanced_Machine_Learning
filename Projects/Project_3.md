@@ -126,5 +126,25 @@ ax.plot(a_range, test_mae, c='red')
 ## Testing Different Polynomial Numbers
 
 # Ridge Regression
+~~~
+model = Ridge(alpha=20)
+DoKFold_SK(X,y,model,10)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111891805-05e29080-89cc-11eb-86fb-116eb4ae0f56.png)
+~~~
+model = Ridge(alpha=20)
+DoKFold_SK(X,y,model,30)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111891812-13981600-89cc-11eb-811f-039ded3fc42a.png)
+~~~
+model = Ridge(alpha=20)
+DoKFold_SK(X,y,model,300)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111891820-23175f00-89cc-11eb-94fd-9cb25b95817d.png)
+~~~
+model = Ridge(alpha=20)
+DoKFold_SK(X,y,model,506)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111891827-2f032100-89cc-11eb-9c6c-5638fd154a01.png)
 
 
