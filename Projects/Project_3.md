@@ -133,25 +133,30 @@ ax.plot(a_range, test_mae, c='red')
 # Nonlinear Ridge Regression
 ## Testing Different K -Fold Values
 ~~~
-model = Ridge(alpha=20)
+model = Ridge(alpha=0.05)
 DoKFold_SK(X,y,model,10)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/111891805-05e29080-89cc-11eb-86fb-116eb4ae0f56.png)
+![image](https://user-images.githubusercontent.com/67920563/111896130-c167ec80-89ed-11eb-9f71-3da401872699.png)
+
 ~~~
-model = Ridge(alpha=20)
+model = Ridge(alpha=0.05)
 DoKFold_SK(X,y,model,30)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/111891812-13981600-89cc-11eb-811f-039ded3fc42a.png)
+![image](https://user-images.githubusercontent.com/67920563/111896134-caf15480-89ed-11eb-9972-2be560e847e0.png)
+
 ~~~
-model = Ridge(alpha=20)
+model = Ridge(alpha=0.05)
 DoKFold_SK(X,y,model,300)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/111891820-23175f00-89cc-11eb-94fd-9cb25b95817d.png)
+![image](https://user-images.githubusercontent.com/67920563/111896140-d2b0f900-89ed-11eb-9606-bff20d290abe.png)
+
 ~~~
-model = Ridge(alpha=20)
+model = Ridge(alpha=0.05)
 DoKFold_SK(X,y,model,506)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/111891827-2f032100-89cc-11eb-9c6c-5638fd154a01.png)
+![image](https://user-images.githubusercontent.com/67920563/111896148-dba1ca80-89ed-11eb-8ce2-a9f4fa019d63.png)
+
+
 ## Testing Different Alphas
 ~~~
 #test alphas
@@ -161,14 +166,23 @@ for a in a_range:
   test_mae.append(DoKFold_SK(X,y,model,10))
 min(test_mae)  
 ~~~  
-![image](https://user-images.githubusercontent.com/67920563/111891865-843f3280-89cc-11eb-94ca-52aeea37c5ea.png)
+![image](https://user-images.githubusercontent.com/67920563/111896196-173c9480-89ee-11eb-9339-e4f078e2ef2c.png)
+
 ~~~
 import matplotlib.pyplot as plt
 fig, ax= plt.subplots(figsize=(8,6))
 ax.scatter(a_range, test_mae)
 ax.plot(a_range, test_mae, c='red')
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/111891885-b5b7fe00-89cc-11eb-9fed-0de53f15db28.png)
+![image](https://user-images.githubusercontent.com/67920563/111896205-1efc3900-89ee-11eb-9dd1-1a7fab807190.png)
+
+
+## Testing Different Polynomial Degrees
+
+- At degree=4, k=10, alpha=0.05: 6763.16199953988
+- At degree=4, k=30, alpha=0.05: 6722.900116892813
+- At degree=4, k=300, alpha=0.05: 8321.568943584169
+- At degree=4, k=506, alpha=0.05: 6847.485429539462
 
 # Elastic Net
 ~~~
