@@ -304,12 +304,15 @@ for a in a_range:
   
  min(test_mae)
  ~~~
+![image](https://user-images.githubusercontent.com/67920563/111892498-64ab0880-89d2-11eb-9f2d-d3f96082f9d4.png)
+ 
  ~~~
  import matplotlib.pyplot as plt
 fig, ax= plt.subplots(figsize=(8,6))
 ax.scatter(a_range, test_mae)
 ax.plot(a_range, test_mae, c='red')
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/111892500-6aa0e980-89d2-11eb-824a-f05b6a07b866.png)
 
  
 
