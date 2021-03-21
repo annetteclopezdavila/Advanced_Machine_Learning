@@ -398,7 +398,6 @@ def scad_model(X,y,lam,a):
 def DoKFoldScad(X,y,lam,a,k):
   PE = []
   kf = KFold(n_splits=k,shuffle=True,random_state=1234)
-  #pipe2 = Pipeline([('scale',scale),('polynomial features',poly),('model',model)])
   for idxtrain, idxtest in kf.split(X):
     X_train = X[idxtrain,:]
     X_train_scaled=scale.fit_transform(X_train)
@@ -411,7 +410,6 @@ def DoKFoldScad(X,y,lam,a,k):
     X_test_poly=poly.fit_transform(X_test_scaled)
 
     y_test  = y[idxtest]
-    #pipe.fit(X_train, y_train)
 
     beta_scad = scad_model(X_train_poly,y_train,lam,a)
     n = X_test_poly.shape[0]
@@ -461,7 +459,18 @@ ax.plot(a_range, test_mae, c='red')
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111892500-6aa0e980-89d2-11eb-824a-f05b6a07b866.png)
 
- 
+ ## Testing Polynomial Degrees
+ - k=10, a=0.05, lam=0.1, degree=2: 2321.9634261020765
+ - k=30, a=0.05, lam=0.1, degree=2: 2636.7643610738073
+ - k=300, a=0.05, lam=0.1, degree=2: 2641.8245982508392
+ - k=506, a=0.05, lam=0.1, degree=2: 2570.5639099187447
+
+ - k=10, a=0.05, lam=0.1, degree=4: 6298.424805941869
+ - k=30, a=0.05, lam=0.1, degree=4: 5873.082574047511
+ - k=300, a=0.05, lam=0.1, degree=4: 6307.698750029237
+ - k=506, a=0.05, lam=0.1, degree=4: 6152.504695410218
+
+
 
 # Neural Networks
 ~~~
@@ -529,6 +538,8 @@ for idxtrain, idxtest in kf.split(dat):
   mae_nn.append(mean_absolute_error(y_test, yhat_nn))
 print("Validated MAE Neural Network Regression = ${:,.2f}".format(1000*np.mean(mae_nn)))
 ~~~
+## K-Folds
+At k=10:
 ![image](https://user-images.githubusercontent.com/67920563/111892757-9c1ab480-89d4-11eb-9c67-a57849aa0515.png)
 
 At k=30:
@@ -679,7 +690,7 @@ from sklearn import model_selection
 from sklearn import metrics
 
 mae_rf=[]
-cv = model_selection.KFold(n_splits=3)
+kf = KFold(n_splits=10, shuffle=True, random_state=1234)
 
 for idxtrain, idxtest in kf.split(dat):
   X_train = dat[idxtrain,0:-1]
@@ -699,8 +710,20 @@ for idxtrain, idxtest in kf.split(dat):
   metrics.r2_score(y_test, y_pred)
  
   mae_rf.append(mean_absolute_error(y_test, y_pred))
-  print("Validated MAE Random Forest Regression = ${:,.2f}".format(1000*np.mean(mae_rf)))
+print("Validated MAE Random Forest Regression = ${:,.2f}".format(1000*np.mean(mae_rf)))
   ~~~
-  ![image](https://user-images.githubusercontent.com/67920563/111895373-87481c00-89e8-11eb-8d88-c09f2009b380.png)
+![image](https://user-images.githubusercontent.com/67920563/111913596-44686180-8a45-11eb-9b55-3b8caa79f028.png)
+k=30:
+
+![image](https://user-images.githubusercontent.com/67920563/111913612-5b0eb880-8a45-11eb-9f96-9c5391e43f78.png)
+
+k=300:
+
+![image](https://user-images.githubusercontent.com/67920563/111913700-b0e36080-8a45-11eb-9f28-fd2441fc2dff.png)
+
+
+k=506:
+
+
 
 
