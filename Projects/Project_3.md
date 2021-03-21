@@ -296,12 +296,16 @@ for a in a_range:
 
 min(test_mae)
 ~~~  
+![image](https://user-images.githubusercontent.com/67920563/111895461-0b020880-89e9-11eb-9c06-9494d0744e5c.png)
+
 ~~~
 import matplotlib.pyplot as plt
 fig, ax= plt.subplots(figsize=(8,6))
 ax.scatter(a_range, test_mae)
 ax.plot(a_range, test_mae, c='red')
 ~~~
+![image](https://user-images.githubusercontent.com/67920563/111895457-076e8180-89e9-11eb-8da2-da9b7742e371.png)
+
 
 ## Testing Polynomial Degrees
 
