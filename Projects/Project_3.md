@@ -1,6 +1,32 @@
-Nonlinear Multivariate Regression Methods
+---
+layout: page
+title: Project 3
+subtitle: Real Data Applications of Nonlinear Multivariate Regression Methods
+---
+The Boston Housing dataset is a collection from the U.S. Census Service concerning Boston, MA's housing. The dataset has 506 total data points and 17 attributes. The Dataset's attributes are listed as follows:
 
-# Pre-Processing
+crime - per capita crime rate by town
+residential - proportion of residential land zoned for lots over 25,000 sq.ft.
+industrial - proportion of non-retail business acres per town.
+river - Charles River dummy variable (1 if tract bounds river; 0 otherwise)
+nox - nitric oxides concentration (parts per 10 million)
+rooms - average number of rooms per dwelling
+older - proportion of owner-occupied units built prior to 1940
+distance - weighted distances to five Boston employment centres
+highway - index of accessibility to radial highways
+tax - full-value property-tax rate per $10,000
+ptratio - pupil-teacher ratio by town
+town
+lstat - % lower status of the population
+cmedv - Median value of owner-occupied homes in $1000's
+tract - year
+longitude
+latitude
+
+For this project, we will only be using features 'crime','rooms','residential','industrial','nox','older','distance','highway','tax','ptratio', and 'lstat' in order to predict the housing prices using nonlinear regression methods.
+
+# Pre-Processing the Data
+First we will load the dataset and establish it as a dataframe:
 ~~~
 #Mount drive
 from google.colab import drive
@@ -15,10 +41,9 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('drive/MyDrive/BostonHousingPrices.csv')
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891365-eb5ae800-89c8-11eb-86ff-c48d6169890b.png)
-~~~
-#PREDICTION-split the data into training and testing
-from sklearn.model_selection import train_test_split
 
+Before applying regression methods, let us visualize the data through correlation analysis:
+~~~
 X=df.drop(['cmedv', 'town'], axis=1)
 y = np.array(df['cmedv']).reshape(-1,1)
 
@@ -33,6 +58,8 @@ sns.heatmap(X.corr(), vmax=1, vmin=-1, cmap="spring", annot=True,fmt='.2f')
 plt.show()
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891413-658b6c80-89c9-11eb-9177-a62d5cc46d9a.png)
+
+
 ~~~
 sns.pairplot(data=df, kind='scatter', hue='cmedv')
 plt.show()
