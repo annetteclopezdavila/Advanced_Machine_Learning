@@ -125,7 +125,8 @@ ax.plot(a_range, test_mae, c='red')
 
 ## Testing Different Polynomial Numbers
 
-# Ridge Regression
+# Nonlinear Ridge Regression
+## Testing Different K -Fold Values
 ~~~
 model = Ridge(alpha=20)
 DoKFold_SK(X,y,model,10)
@@ -146,5 +147,142 @@ model = Ridge(alpha=20)
 DoKFold_SK(X,y,model,506)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891827-2f032100-89cc-11eb-9c6c-5638fd154a01.png)
+## Testing Different Alphas
+~~~
+#test alphas
+a_range= np.linspace(0.01, 100)
+test_mae=[]
+for a in a_range:
+  test_mae.append(DoKFold_SK(X,y,model,10))
+min(test_mae)  
+~~~  
+![image](https://user-images.githubusercontent.com/67920563/111891865-843f3280-89cc-11eb-94ca-52aeea37c5ea.png)
+~~~
+import matplotlib.pyplot as plt
+fig, ax= plt.subplots(figsize=(8,6))
+ax.scatter(a_range, test_mae)
+ax.plot(a_range, test_mae, c='red')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111891885-b5b7fe00-89cc-11eb-9fed-0de53f15db28.png)
+
+# Elastic Net
+~~~
+model = ElasticNet(alpha=0.05,l1_ratio=0.25,max_iter=12000)
+DoKFold_SK(X,y,model,10)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111891925-029bd480-89cd-11eb-88ed-47b1d2adcdc4.png)
+~~~
+model = ElasticNet(alpha=0.05,l1_ratio=0.25,max_iter=12000)
+DoKFold_SK(X,y,model,30)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111891958-42fb5280-89cd-11eb-816c-df825e530b2f.png)
+~~~
+model = ElasticNet(alpha=0.05,l1_ratio=0.25,max_iter=12000)
+DoKFold_SK(X,y,model,300)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111892031-eea4a280-89cd-11eb-9173-c57c7bad8d40.png)
+
+~~~
+model = ElasticNet(alpha=0.05,l1_ratio=0.25,max_iter=12000)
+DoKFold_SK(X,y,model,506)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111892101-94f0a800-89ce-11eb-9d79-e69d0cac97e1.png)
+
+
+## Testing Alphas
+~~~
+#test alphas
+a_range= np.linspace(0.01, 100)
+test_mae=[]
+for a in a_range:
+  test_mae.append(DoKFold_SK(X,y,model,10))
+  
+min(test_mae)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111892105-9ae68900-89ce-11eb-8b5b-afd614f2b29a.png)
+
+~~~
+import matplotlib.pyplot as plt
+fig, ax= plt.subplots(figsize=(8,6))
+ax.scatter(a_range, test_mae)
+ax.plot(a_range, test_mae, c='red')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111892001-a38a8f80-89cd-11eb-9d68-496ca06edd72.png)
+
+# SCAD
+~~~
+from numba import jit, prange
+from scipy.optimize import minimize
+
+@jit
+def scad_penalty(beta_hat, lambda_val, a_val):
+    is_linear = (np.abs(beta_hat) <= lambda_val)
+    is_quadratic = np.logical_and(lambda_val < np.abs(beta_hat), np.abs(beta_hat) <= a_val * lambda_val)
+    is_constant = (a_val * lambda_val) < np.abs(beta_hat)
+    
+    linear_part = lambda_val * np.abs(beta_hat) * is_linear
+    quadratic_part = (2 * a_val * lambda_val * np.abs(beta_hat) - beta_hat**2 - lambda_val**2) / (2 * (a_val - 1)) * is_quadratic
+    constant_part = (lambda_val**2 * (a_val + 1)) / 2 * is_constant
+    return linear_part + quadratic_part + constant_part
+    
+def scad_derivative(beta_hat, lambda_val, a_val):
+    return lambda_val * ((beta_hat <= lambda_val) + (a_val * lambda_val - beta_hat)*((a_val * lambda_val - beta_hat) > 0) / ((a_val - 1) * lambda_val) * (beta_hat > lambda_val))
+
+def scad_model(X,y,lam,a):
+  n = X.shape[0]
+  p = X.shape[1]
+  # we add aan extra columns of 1 for the intercept
+ # X = np.c_[np.ones((n,1)),X]
+  def scad(beta):
+    beta = beta.flatten()
+    beta = beta.reshape(-1,1)
+    n = len(y)
+    return 1/n*np.sum((y-X.dot(beta))**2) + np.sum(scad_penalty(beta,lam,a))
+  
+  def dscad(beta):
+    beta = beta.flatten()
+    beta = beta.reshape(-1,1)
+    n = len(y)
+    return np.array(-2/n*np.transpose(X).dot(y-X.dot(beta))+scad_derivative(beta,lam,a)).flatten()
+  b0 = np.ones((p,1))
+  output = minimize(scad, b0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 'maxiter': 1e7,'maxls': 25,'disp': True})
+  return output.x
+  
+def DoKFoldScad(X,y,lam,a,k):
+  PE = []
+  kf = KFold(n_splits=k,shuffle=True,random_state=1234)
+  #pipe2 = Pipeline([('scale',scale),('polynomial features',poly),('model',model)])
+  for idxtrain, idxtest in kf.split(X):
+    X_train = X[idxtrain,:]
+    X_train_scaled=scale.fit_transform(X_train)
+    X_train_poly=poly.fit_transform(X_train_scaled)
+
+    y_train = y[idxtrain]
+
+    X_test  = X[idxtest,:]
+    X_test_scaled=scale.transform(X_test)
+    X_test_poly=poly.fit_transform(X_test_scaled)
+
+    y_test  = y[idxtest]
+    #pipe.fit(X_train, y_train)
+
+    beta_scad = scad_model(X_train_poly,y_train,lam,a)
+    n = X_test_poly.shape[0]
+    p = X_test_poly.shape[1]
+    # we add an extra columns of 1 for the intercept
+    #X1_test = np.c_[np.ones((n,1)),X_test]
+    #yhat_scad=pipe.predict(beta_scad)
+    yhat_scad = X_test_poly.dot(beta_scad)
+    PE.append(MAE(y_test,yhat_scad))
+  return 1000*np.mean(PE)  
+~~~
+# Testing K-Fold Values
+~~~
+DoKFoldScad(X,y,0.05,0.1, 10)
+~~~
+  
+
+
+
 
 
