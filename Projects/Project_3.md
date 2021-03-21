@@ -349,7 +349,9 @@ ax.plot(a_range, test_mae, c='red')
 DoKFoldSqrt(X,y,0.05,10,2)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111894089-44814680-89de-11eb-8fd4-189b08e9f499.png)
-
+k=30: 2525.6721888744796
+k=300: 2552.5750866904864
+k=506: 2500.3614646278525
 ~~~
 DoKFoldSqrt(X,y,0.05,10,4)
 ~~~
@@ -723,6 +725,7 @@ k=300:
 
 
 k=506:
+![image](https://user-images.githubusercontent.com/67920563/111914025-c442fb80-8a46-11eb-8521-665ebf8ee1b4.png)
 
 
 
