@@ -456,9 +456,13 @@ At k=30:
 ![image](https://user-images.githubusercontent.com/67920563/111892830-2b27cc80-89d5-11eb-909d-c46923e49556.png)
 
 At k=300:
+
 ![image](https://user-images.githubusercontent.com/67920563/111893313-41835780-89d8-11eb-8c70-6d22142de5f4.png)
 
 At k=506:
+
+![image](https://user-images.githubusercontent.com/67920563/111893932-f15ac400-89dc-11eb-982b-def94c3107ea.png)
+
 
 # XGBOOST
 ~~~
