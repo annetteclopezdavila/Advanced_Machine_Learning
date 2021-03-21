@@ -124,6 +124,11 @@ ax.plot(a_range, test_mae, c='red')
 ![image](https://user-images.githubusercontent.com/67920563/111891525-21e53280-89ca-11eb-8b50-969fdd24e7df.png)
 
 ## Testing Different Polynomial Numbers
+- At degree=4, k=10, alpha=0.05: 2334.030807616874
+- At degree=4, k=30, alpha=0.05: 2263.9195401639035
+- At degree=4, k=300, alpha=0.05: 2249.1800237285274
+- At degree=4, k=506, alpha=0.05: 2260.300028069687
+
 
 # Nonlinear Ridge Regression
 ## Testing Different K -Fold Values
@@ -208,6 +213,47 @@ ax.scatter(a_range, test_mae)
 ax.plot(a_range, test_mae, c='red')
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111892001-a38a8f80-89cd-11eb-9d68-496ca06edd72.png)
+
+# Squart Root Lasso Regression
+~~~
+def DoKFoldSqrtLasso(X,y,alpha,k):
+  PE = []
+  kf = KFold(n_splits=k,shuffle=True,random_state=1234)
+  for idxtrain, idxtest in kf.split(X):
+    X_train = X[idxtrain,:]
+    y_train = y[idxtrain]
+    X_test  = X[idxtest,:]
+    y_test  = y[idxtest]
+    model = sm.OLS(y_train,X_train)
+    result = model.fit_regularized(method='sqrt_lasso', alpha=alpha)
+    yhat_test = result.predict(X_test)
+    PE.append(MAE(y_test,yhat_test))
+  return 1000*np.mean(PE)
+  
+DoKFoldSqrtLasso(X,y,0.51161058,10)  
+~~~
+## Test Alphas
+~~~
+#test alphas
+a_range= np.linspace(0.01, 10,100)
+test_mae=[]
+for a in a_range:
+  test_mae.append(DoKFoldSqrtLasso(X,y,a,10))
+
+min(test_mae)
+~~~  
+~~~
+import matplotlib.pyplot as plt
+fig, ax= plt.subplots(figsize=(8,6))
+ax.scatter(a_range, test_mae)
+ax.plot(a_range, test_mae, c='red')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111893520-a4292300-89d9-11eb-944c-14738b175663.png)
+
+
+
+
+
 
 # SCAD
 ~~~
@@ -316,7 +362,129 @@ ax.plot(a_range, test_mae, c='red')
 
  
 
+# Neural Networks
+~~~
+dat = np.concatenate([X,y], axis=1)
+from sklearn.metrics import mean_absolute_error
+from sklearn.model_selection import train_test_split as tts
+dat_train, dat_test = tts(dat, test_size=0.3, random_state=1234)
 
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Dropout
+from sklearn.metrics import r2_score
+from keras.optimizers import Adam
+from keras.callbacks import EarlyStopping
 
+dat_train[:,:-1].shape
 
+from sklearn.preprocessing import StandardScaler
+ss = StandardScaler()
+X_train = ss.fit_transform(X_train)
+X_test = ss.transform(X_test)
+
+# Create a Neural Network model
+model = Sequential()
+model.add(Dense(128, activation="relu", input_dim=11))
+model.add(Dense(32, activation="relu"))
+model.add(Dense(8, activation="relu"))
+# Since the regression is performed, a Dense layer containing a single neuron with a linear activation function.
+# Typically ReLu-based activation are used but since it is performed regression, it is needed a linear activation.
+model.add(Dense(1, activation="relu"))
+
+# Compile model: The model is initialized with the Adam optimizer and then it is compiled.
+model.compile(loss='mean_squared_error', optimizer=Adam(lr=1e-3, decay=1e-3 / 200))
+
+# Patient early stopping
+es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=800)
+
+# Fit the model
+history = model.fit(dat_train[:,:-1], dat_train[:,11], validation_split=0.3, epochs=1000, batch_size=100, verbose=0, callbacks=[es])
+
+from sklearn.metrics import mean_absolute_error
+
+yhat_nn = model.predict(dat_test[:,:-1])
+mae_nn = mean_absolute_error(dat_test[:,-1], yhat_nn)
+print("MAE Neural Network = ${:,.2f}".format(1000*mae_nn))
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111892725-5231ce80-89d4-11eb-892a-5b2fdc76f079.png)
+~~~
+from sklearn.model_selection import KFold
+kf = KFold(n_splits=10, shuffle=True, random_state=1693)
+
+#%%timeit -n 1
+
+mae_nn = []
+
+for idxtrain, idxtest in kf.split(dat):
+  X_train = dat[idxtrain,0:-1]
+  y_train = dat[idxtrain,-1]
+  X_test  = dat[idxtest,0:-1]
+  y_test = dat[idxtest,-1]
+  es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=800)
+  model.fit(X_train,y_train,validation_split=0.3, epochs=100, batch_size=100, verbose=0, callbacks=[es])
+  yhat_nn = model.predict(X_test)
+  mae_nn.append(mean_absolute_error(y_test, yhat_nn))
+print("Validated MAE Neural Network Regression = ${:,.2f}".format(1000*np.mean(mae_nn)))
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111892757-9c1ab480-89d4-11eb-9c67-a57849aa0515.png)
+
+At k=30:
+
+![image](https://user-images.githubusercontent.com/67920563/111892830-2b27cc80-89d5-11eb-909d-c46923e49556.png)
+
+At k=300:
+![image](https://user-images.githubusercontent.com/67920563/111893313-41835780-89d8-11eb-8c70-6d22142de5f4.png)
+
+At k=506:
+
+# XGBOOST
+~~~
+import xgboost as xgb
+
+model_xgb = xgb.XGBRegressor(objective ='reg:squarederror',n_estimators=100,reg_lambda=1,alpha=1,gamma=1,max_depth=10)
+
+model_xgb.fit(dat_train[:,:-1],dat_train[:,-1])
+yhat_xgb = model_xgb.predict(dat_test[:,:-1])
+mae_xgb = mean_absolute_error(dat_test[:,-1], yhat_xgb)
+print("MAE Polynomial Model = ${:,.2f}".format(1000*mae_xgb))
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111893369-a474ee80-89d8-11eb-8442-dfd855b22dee.png)
+~~~
+
+%%timeit -n 1
+
+mae_xgb = []
+
+for idxtrain, idxtest in kf.split(dat):
+  X_train = dat[idxtrain,0:-1]
+  y_train = dat[idxtrain,-1]
+  X_test  = dat[idxtest,0:-1]
+  y_test = dat[idxtest,-1]
+  model_xgb.fit(X_train,y_train)
+  yhat_xgb = model_xgb.predict(X_test)
+  mae_xgb.append(mean_absolute_error(y_test, yhat_xgb))
+print("Validated MAE XGBoost Regression = ${:,.2f}".format(1000*np.mean(mae_xgb)))
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111893376-b5bdfb00-89d8-11eb-98c7-4d35d8c31628.png)
+
+## Testing Alpha Values
+~~~
+#alpha
+a_range= np.linspace(0.01, 100)
+test_mae=[]
+for a in a_range:
+  model_xgb = xgb.XGBRegressor(objective ='reg:squarederror',n_estimators=100,reg_lambda=1,alpha=a,gamma=1,max_depth=10)
+  model_xgb.fit(dat_train[:,:-1],dat_train[:,-1])
+  yhat_xgb = model_xgb.predict(dat_test[:,:-1])
+  mae_xgb = mean_absolute_error(dat_test[:,-1], yhat_xgb)
+  test_mae.append(mae_xgb)
+~~~
+~~~
+ import matplotlib.pyplot as plt
+fig, ax= plt.subplots(figsize=(8,6))
+ax.scatter(a_range, test_mae)
+ax.plot(a_range, test_mae, c='red')
+~~~
 
