@@ -7,3 +7,4 @@ title: Applied Machine Learning
 1. [Project 0: January 30, 2021](Projects/test0.md)
 2. [Project 1: February 16, 2021](Projects/Project1.md)
 3. [Project 2: March 10, 2021](Projects/Project2.md)
+4. [Project 3: March 21,2021](Projects/Project_3.md)
