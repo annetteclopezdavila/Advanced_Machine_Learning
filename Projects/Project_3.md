@@ -615,4 +615,6 @@ for idxtrain, idxtest in kf.split(dat):
   mae_rf.append(mean_absolute_error(y_test, y_pred))
   print("Validated MAE Random Forest Regression = ${:,.2f}".format(1000*np.mean(mae_rf)))
   ~~~
+  ![image](https://user-images.githubusercontent.com/67920563/111895373-87481c00-89e8-11eb-8d88-c09f2009b380.png)
+
 
