@@ -76,12 +76,35 @@ def DoKFold_SK(X,y,model,k):
     yhat_test = pipe.predict(X_test)
     PE.append(MAE(y_test,yhat_test))
   return 1000*np.mean(PE)
+~~~
   
+## Testing different K-Fold Numbers 
+~~~
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 model = Lasso(alpha=0.05,max_iter=5000)
 DoKFold_SK(X,y,model,10)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891504-f5311b00-89c9-11eb-9b4b-0f1575d65ff0.png)
+~~~
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+model = Lasso(alpha=0.05,max_iter=5000)
+DoKFold_SK(X,y,model,30)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111891687-0e869700-89cb-11eb-80b7-d4c3eda3a2dd.png)
+~~~
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+model = Lasso(alpha=0.05,max_iter=5000)
+DoKFold_SK(X,y,model,300)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111891691-16463b80-89cb-11eb-92cf-cfc707692281.png)
+~~~
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+model = Lasso(alpha=0.05,max_iter=5000)
+DoKFold_SK(X,y,model,506)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/111891697-1e05e000-89cb-11eb-9a2f-bda2479e338e.png)
+
+## Testing Different Alphas
 ~~~
 #test alphas
 a_range= np.linspace(0.01, 100)
@@ -100,6 +123,8 @@ ax.plot(a_range, test_mae, c='red')
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891525-21e53280-89ca-11eb-8b50-969fdd24e7df.png)
 
+## Testing Different Polynomial Numbers
 
+# Ridge Regression
 
 
