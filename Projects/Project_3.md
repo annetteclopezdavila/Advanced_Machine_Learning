@@ -107,25 +107,34 @@ def DoKFold_SK(X,y,model,k):
   return 1000*np.mean(PE)
 ~~~
   
-## Testing different K-Fold Numbers 
+## Testing different K-Fold Values
+We can analyze our MAE at different k parameters (# of folds):
+
+- When k=10 and alpha 0.05 we had an MAE of:
 ~~~
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 model = Lasso(alpha=0.05,max_iter=5000)
 DoKFold_SK(X,y,model,10)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891504-f5311b00-89c9-11eb-9b4b-0f1575d65ff0.png)
+
+- When k=30 and alpha 0.05 we had an MAE of:
 ~~~
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 model = Lasso(alpha=0.05,max_iter=5000)
 DoKFold_SK(X,y,model,30)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891687-0e869700-89cb-11eb-80b7-d4c3eda3a2dd.png)
+
+- When k=300 and alpha 0.05 we had an MAE of:
 ~~~
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 model = Lasso(alpha=0.05,max_iter=5000)
 DoKFold_SK(X,y,model,300)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891691-16463b80-89cb-11eb-92cf-cfc707692281.png)
+
+- When k=506 and alpha 0.05 we had an MAE of:
 ~~~
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 model = Lasso(alpha=0.05,max_iter=5000)
@@ -133,7 +142,10 @@ DoKFold_SK(X,y,model,506)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891697-1e05e000-89cb-11eb-9a2f-bda2479e338e.png)
 
+From the results, we can see that increasing the K-folds helped up to a certain point. At 330 folds, we had the lowest MAE ($2163.84).
+
 ## Testing Different Alphas
+We can also test other alphas to try improving the MAE:
 ~~~
 #test alphas
 a_range= np.linspace(0.01, 100)
@@ -143,7 +155,11 @@ for a in a_range:
   
 min(test_mae)  
 ~~~
+Our minimum MAE was 2210.7206. 
+
 ![image](https://user-images.githubusercontent.com/67920563/111891520-12fe8000-89ca-11eb-9b6c-fc1ba79c0443.png)
+
+The change in alpha did not affect the MAE.
 ~~~
 import matplotlib.pyplot as plt
 fig, ax= plt.subplots(figsize=(8,6))
@@ -152,7 +168,9 @@ ax.plot(a_range, test_mae, c='red')
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891525-21e53280-89ca-11eb-8b50-969fdd24e7df.png)
 
-## Testing Different Polynomial Numbers
+## Testing Different Polynomial Degrees
+The previous tests were all done with a degree of 3. Let us see what our optimal degree is:
+
 - At degree=4, k=10, alpha=0.05: 2334.030807616874
 - At degree=4, k=30, alpha=0.05: 2263.9195401639035
 - At degree=4, k=300, alpha=0.05: 2249.1800237285274
@@ -163,6 +181,7 @@ ax.plot(a_range, test_mae, c='red')
 - At degree=2, k=300, alpha=0.05: 2249.1800237285274
 - At degree=2, k=506, alpha=0.05: 2366.181492366912
 
+Although changing the degrees did not drastically change the MAE, we can see that a degree of 3 did much better than the function at degree 2 or 4. Particularly we see the functioning worsening the most when we subtract degrees. It can be noted that the pattern we observed when changing the K-Folds holds when we change the degree of the function.
 
 # Nonlinear Ridge Regression
 ## Testing Different K -Fold Values
