@@ -928,6 +928,8 @@ Below we have the stepwise regression selector, showing us which p-values should
 
 # Comparison of Models
 
+![image](https://user-images.githubusercontent.com/67920563/111938619-c8036c00-8aa0-11eb-8fbb-57e9c0aafae6.png)
+
 
 
 
