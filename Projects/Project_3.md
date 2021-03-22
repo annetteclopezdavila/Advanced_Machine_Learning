@@ -325,7 +325,7 @@ Let us now look at different polynomial degrees:
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=10: 2407.2185970338564
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=30: 2437.810000893756
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=300: 2504.4733361982912
-- 
+- Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=506: 2504.4733361982912
 
 - At degree=2, k=10, alpha=0.05: 2339.2146270250955
 - At degree=2, k=30, alpha=0.05: 2348.2070459062375
@@ -334,7 +334,8 @@ Let us now look at different polynomial degrees:
 
 We can see from the results that a degree of 3 gives us the best results, as the MAE increases both when the degrees of freedom are added and subtracted.
 
-# Squart Root Lasso Regression
+# Squart Root Lasso Regularization
+We can also apply square root lasso regularization. We will need to create a function for square root lasso as well as a Kfold function:
 ~~~
 scale = StandardScaler()
 def sqrtlasso_model(X,y,alpha):
@@ -382,42 +383,55 @@ def DoKFoldSqrt(X,y,a,k,d):
 ~~~ 
 
 ## Testing Different K-Fold Values
+Let us now test different K-Folds:
+
+- When k=10 and alpha 0.05 we had an MAE of:
+
 ~~~  
 DoKFoldSqrt(X,y,0.05,10,3)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111894029-bb6a0f80-89dd-11eb-8a1a-368483a85800.png)
 
+
+- When k=30 and alpha 0.05 we had an MAE of:
 ~~~
 DoKFoldSqrt(X,y,0.05,30,3)
 ~~~
 
 ![image](https://user-images.githubusercontent.com/67920563/111894035-c3c24a80-89dd-11eb-9ecd-263dd8744d8a.png)
 
+- When k=300 and alpha 0.05 we had an MAE of:
 ~~~
 DoKFoldSqrt(X,y,0.05,300,3)
 ~~~
 
 ![image](https://user-images.githubusercontent.com/67920563/111895199-6c28dc80-89e7-11eb-97de-78498cd8b9aa.png)
 
+When k=506 and alpha 0.05 we had an MAE of:
 ~~~
 DoKFoldSqrt(X,y,0.05,506,3)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111895205-71862700-89e7-11eb-8a06-948cc2794574.png)
 
+From the results we can see that K-Fold at 300 folds performed best with an MAE of 2371.69
 
-
-## Test Alphas
+## Test Alpha Values
+Let us now test alpha values:
 ~~~
 #test alphas
-a_range= np.linspace(0.01, 10,100)
+a_range= np.linspace(0.01, 10)
 test_mae=[]
 for a in a_range:
   test_mae.append(DoKFoldSqrt(X,y,a,10,3))
 
 min(test_mae)
 ~~~  
+The minimum alpha is: 
 ![image](https://user-images.githubusercontent.com/67920563/111895461-0b020880-89e9-11eb-9c06-9494d0744e5c.png)
 
+This minimum is most likely smaller than our K-Fold test MAE's because of the range linspace; it divided the range from 0.01 to 10  in 50 groups. 
+
+As we can see in the graph, the MAE increases after alpha=~0.5.
 ~~~
 import matplotlib.pyplot as plt
 fig, ax= plt.subplots(figsize=(8,6))
@@ -428,21 +442,29 @@ ax.plot(a_range, test_mae, c='red')
 
 
 ## Testing Polynomial Degrees
+Let us now test different polynomial degrees:
+- k=10 at degree=2:
 
 ~~~
 DoKFoldSqrt(X,y,0.05,10,2)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111894089-44814680-89de-11eb-8fd4-189b08e9f499.png)
-k=30: 2525.6721888744796
-k=300: 2552.5750866904864
-k=506: 2500.3614646278525
+
+- k=30 at degree=2: 2525.6721888744796
+- k=300 at degree=2: 2552.5750866904864
+- k=506 at degree=2: 2500.3614646278525
+
+-k=10 at degree=4
 ~~~
 DoKFoldSqrt(X,y,0.05,10,4)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111895210-7ba82580-89e7-11eb-9d72-901530d434d2.png)
+* Other K-fold validations greater than 10 at degree 4 could not be calculated due to extremely long run times that would crash colab- will try in different browser next time *
 
+It can be seen that a degree of 3 did better than a degree of 4 or 2, all which had more inflated MAEs.
 
-# SCAD
+# SCAD Regularization
+Let us now apply SCAD regularization for which we need to define the SCAD function and K-fold function:
 ~~~
 from numba import jit, prange
 from scipy.optimize import minimize
