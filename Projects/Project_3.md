@@ -90,6 +90,7 @@ poly = PolynomialFeatures(degree=3)
 In python, we can apply the polynomial features transform in the PolynomialFeatures class. This will transform the raw data by the corresponding degrees. In order to apply this to our data, a pipeline may be used. This will apply the transforms sequentially. 
  
 # Lasso Regularization
+We can apply regularization to our nonlinear regressions. For this project we will also be using K-Fold cross validation rather than singular cross validation. In K-Fold validation, the dataset will be split and cross validated several times. The boston housing data set has 506 rows of observations. If we divide it into ten folds, each group will have about 50 rows of observations. The first fold will be used as a validation set and the rest as a training set. This process is repeated using different folds as the validation set.
 ~~~
 def DoKFold_SK(X,y,model,k):
   PE = []
