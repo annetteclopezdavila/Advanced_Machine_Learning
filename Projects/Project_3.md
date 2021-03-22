@@ -600,6 +600,7 @@ From the data we can see that a degree of 2 is generally better than higher degr
 
 
 # Neural Networks
+Let us compare the nonlinear regression methods with other nonlinear methods such as neural networks. By choosing nonlinear activation layers, we can form a model. It should also be noted that the data was slightly preprocessed differently in order to satisfy certain shaping concerns.
 ~~~
 dat = np.concatenate([X,y], axis=1)
 from sklearn.metrics import mean_absolute_error
@@ -665,24 +666,30 @@ for idxtrain, idxtest in kf.split(dat):
   mae_nn.append(mean_absolute_error(y_test, yhat_nn))
 print("Validated MAE Neural Network Regression = ${:,.2f}".format(1000*np.mean(mae_nn)))
 ~~~
-## K-Folds
-At k=10:
+## Testing K-Fold Values
+Let us attempt to try different K-fold values:
+
+- At k=10:
 ![image](https://user-images.githubusercontent.com/67920563/111892757-9c1ab480-89d4-11eb-9c67-a57849aa0515.png)
 
-At k=30:
+- At k=30:
 
 ![image](https://user-images.githubusercontent.com/67920563/111892830-2b27cc80-89d5-11eb-909d-c46923e49556.png)
 
-At k=300:
+- At k=300:
 
 ![image](https://user-images.githubusercontent.com/67920563/111893313-41835780-89d8-11eb-8c70-6d22142de5f4.png)
 
-At k=506:
+- At k=506:
 
 ![image](https://user-images.githubusercontent.com/67920563/111893932-f15ac400-89dc-11eb-982b-def94c3107ea.png)
 
 
+It can be noted that the MAE increased dramatically as K-folds increased.
+
 # XGBOOST
+Let us now use a model based on trees:
+
 ~~~
 import xgboost as xgb
 
@@ -696,7 +703,6 @@ print("MAE Polynomial Model = ${:,.2f}".format(1000*mae_xgb))
 ![image](https://user-images.githubusercontent.com/67920563/111896420-e9f0e600-89ef-11eb-8e76-17b31d2d93b5.png)
 
 ~~~
-
 %%timeit -n 1
 
 mae_xgb = []
@@ -711,7 +717,21 @@ for idxtrain, idxtest in kf.split(dat):
   mae_xgb.append(mean_absolute_error(y_test, yhat_xgb))
 print("Validated MAE XGBoost Regression = ${:,.2f}".format(1000*np.mean(mae_xgb)))
 ~~~
+## Testing K-Fold Values
+
+- k=10: 
 ![image](https://user-images.githubusercontent.com/67920563/111896426-f117f400-89ef-11eb-92b9-72158b82a3af.png)
+
+- k=30:
+![image](https://user-images.githubusercontent.com/67920563/111896517-903ceb80-89f0-11eb-804d-526e81f7a247.png)
+
+- k=300:
+![image](https://user-images.githubusercontent.com/67920563/111896576-0fcaba80-89f1-11eb-97a6-0751af8c8f34.png)
+ 
+- k=506:
+![image](https://user-images.githubusercontent.com/67920563/111896735-f8d89800-89f1-11eb-94dc-16d0210e8707.png)
+
+From the data, we can see that as the number of folds increases, the MAE decreases. Our best MAE occurs at 506 folds and an MAE of $1,903.36
 
 ## Testing Alpha Values
 ~~~
@@ -724,28 +744,19 @@ for a in a_range:
   yhat_xgb = model_xgb.predict(dat_test[:,:-1])
   mae_xgb = mean_absolute_error(dat_test[:,-1], yhat_xgb)
   test_mae.append(mae_xgb)
-~~~
-~~~
+
  import matplotlib.pyplot as plt
 fig, ax= plt.subplots(figsize=(8,6))
 ax.scatter(a_range, test_mae)
 ax.plot(a_range, test_mae, c='red')
 ~~~
+From the graph, we can note that alpha values did not affect the MAE at all.
+
 ![image](https://user-images.githubusercontent.com/67920563/111896471-3e946100-89f0-11eb-801b-614315720535.png)
 
-# K-Folds
-- k=30:
-![image](https://user-images.githubusercontent.com/67920563/111896517-903ceb80-89f0-11eb-804d-526e81f7a247.png)
 
-- k=300:
-![image](https://user-images.githubusercontent.com/67920563/111896576-0fcaba80-89f1-11eb-97a6-0751af8c8f34.png)
- 
-- k=506:
-![image](https://user-images.githubusercontent.com/67920563/111896735-f8d89800-89f1-11eb-94dc-16d0210e8707.png)
-
-
-# Kernel regression from StatsModels
-
+# Kernel Regression from StatsModels
+Let us now try a Kernel Regression Model. This type of regression attempts to find a nonlinear relation between the target and features.
 ~~~
 # This is important: update the statsmodels package
 ! pip install --upgrade Cython
@@ -758,11 +769,7 @@ model = KernelReg(endog=dat_train[:,-1],exog=dat_train[:,:-1],var_type='cccccccc
 yhat_sm_test, y_std = model_KernReg.fit(dat_test[:,:-1])
 
 mae_sm = mean_absolute_error(dat_test[:,-1], yhat_sm_test)
-print("MAE StatsModels Kernel Regression = ${:,.2f}".format(1000*mae_sm))
-~~~
-![image](https://user-images.githubusercontent.com/67920563/111895244-ab572d80-89e7-11eb-87e7-07e03c5527f4.png)
 
-~~~
 from sklearn.model_selection import KFold
 mae_kernel = []
 kf = KFold(n_splits=100, shuffle=True, random_state=1234)
@@ -779,8 +786,12 @@ for idxtrain, idxtest in kf.split(dat):
 
 print("Validated MAE KernelRegression = ${:,.2f}".format(1000*np.mean(mae_kernel)))
   ~~~
+We can see that our MAE is also in range with the other nonlinear models:  
+  
+![image](https://user-images.githubusercontent.com/67920563/111895244-ab572d80-89e7-11eb-87e7-07e03c5527f4.png)
   
 # Random Forest Regressor
+Let us now apply random forest regressors:
 ~~~
 from sklearn.ensemble import RandomForestRegressor
 
@@ -796,7 +807,12 @@ plt.yticks(range(len(indices)), [features[i] for i in indices])
 plt.xlabel('Relative Importance')
 plt.show()
 ~~~
+Our image ranks the importance of features to the model prediction:
+
 ![image](https://user-images.githubusercontent.com/67920563/111895278-e9545180-89e7-11eb-94b8-a7e309a95a3c.png)
+
+From the image, we note that random forest regressors determined the number of rooms as the most important predictor with % lower status of the population coming in a close second. In a future study, it would be interesting to compare this with the beta values assigned in regularization methods.
+## Testing K-Fold Values
 ~~~
 from sklearn import model_selection
 from sklearn import metrics
@@ -824,17 +840,21 @@ for idxtrain, idxtest in kf.split(dat):
   mae_rf.append(mean_absolute_error(y_test, y_pred))
 print("Validated MAE Random Forest Regression = ${:,.2f}".format(1000*np.mean(mae_rf)))
   ~~~
+- k=10:
+
 ![image](https://user-images.githubusercontent.com/67920563/111913596-44686180-8a45-11eb-9b55-3b8caa79f028.png)
-k=30:
+
+- k=30:
 
 ![image](https://user-images.githubusercontent.com/67920563/111913612-5b0eb880-8a45-11eb-9f96-9c5391e43f78.png)
 
-k=300:
+- k=300:
 
 ![image](https://user-images.githubusercontent.com/67920563/111913700-b0e36080-8a45-11eb-9f28-fd2441fc2dff.png)
 
 
-k=506:
+- k=506:
+
 ![image](https://user-images.githubusercontent.com/67920563/111914025-c442fb80-8a46-11eb-8521-665ebf8ee1b4.png)
 
 # StepWise Regression
