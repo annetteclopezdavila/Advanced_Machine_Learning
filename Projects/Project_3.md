@@ -325,7 +325,7 @@ Let us now look at different polynomial degrees:
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=10: 2407.2185970338564
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=30: 2437.810000893756
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=300: 2504.4733361982912
-- Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=506: 2504.4733361982912
+
 
 - At degree=2, k=10, alpha=0.05: 2339.2146270250955
 - At degree=2, k=30, alpha=0.05: 2348.2070459062375
@@ -922,7 +922,7 @@ def stepwise_selection(X, y,
 X = df[features]
 stepwise_selection(X, y)
 ~~~
-Below we have the stepwise regression selector, showing us which p-values should most likely be added into the model.
+Below we have the stepwise regression selector, showing us which p-values should most likely be added into the model. These P-Values tend to match up similarly to the Random Forest Feature Ranking Chart.
 
 ![image](https://user-images.githubusercontent.com/67920563/111920718-e8163980-8a66-11eb-8cec-ea6df991d32c.png)
 
@@ -930,7 +930,7 @@ Below we have the stepwise regression selector, showing us which p-values should
 
 ![image](https://user-images.githubusercontent.com/67920563/111938732-000aaf00-8aa1-11eb-9a7d-b106674160f2.png)
 
-Looking at the chart of comparisons, we can see that the XGBOOSt algorithm had the lowest MAE overall ($1903.36) while the Kernel Regression Algorithm had the highest (2854.57). All of the models' MAEs stayed within the range of $1,000. The chart also shows us that the worst MAE was calculated by the MAE at different parameters.
+Looking at the chart of comparisons, we can see that the XGBOOSt algorithm had the lowest MAE overall ($1903.36) while the Kernel Regression Algorithm had the highest (2854.57). All of the models' MAEs stayed within the range of $1,000. The chart also shows us that the overall worst MAE was calculated by the Neural Network at different parameters. It is also interesting to note that the optimal degree for this model was between 2 and 3 degrees of freedom and high K-folds. With a larger numbr of observations, choosing the maximum K-Fold value most likely would have overfit the model. It is also worth noting that the amount of groups chosen to split the data in the alpha testing was not very accurate, as the minimum MAE at all the alphas was hardly ever near the optimal MAE at the third degree. If this project were to be carried out further with more time, I would attempt to change depth, lambda, and gamma parameters in XGBOOST, SCAD, and Kernel Regression to see if the MAE can be further optimized
 
 
 
