@@ -529,25 +529,40 @@ def DoKFoldScad(X,y,lam,a,k):
     PE.append(MAE(y_test,yhat_scad))
   return 1000*np.mean(PE)  
 ~~~
-## Testing K-Fold Values
+## Testing K-Fold Values 
+Let us evaluate K-Folds:
+- k=10:
+
 ~~~
 DoKFoldScad(X,y,0.05,0.1, 10)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111892418-c159f380-89d1-11eb-917e-f5301b1deefa.png)
+
+-k=30:
+
 ~~~
 DoKFoldScad(X,y,0.05,0.1, 30)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111892423-c7e86b00-89d1-11eb-9728-6acb7a985bdf.png)
+
+-k=300:
+
 ~~~
 DoKFoldScad(X,y,0.05,0.1, 300)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111892429-ce76e280-89d1-11eb-8622-d73910c974e9.png)
+
+-k=506:
+
 ~~~
 DoKFoldScad(X,y,0.05,0.1, 506)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111892430-d6368700-89d1-11eb-9324-84d72360585d.png)
+
+The maximum amount of folds performed best for this model with an MAE of 2565.61.
   
-## Testing Alphas
+## Testing Alpha Values
+Let us test alpha values:
 ~~~
 #test alphas
 a_range= np.linspace(0.01, 100)
@@ -557,8 +572,11 @@ for a in a_range:
   
  min(test_mae)
  ~~~
+ The minimum alpha value is:
+ 
 ![image](https://user-images.githubusercontent.com/67920563/111892498-64ab0880-89d2-11eb-9f2d-d3f96082f9d4.png)
  
+ From the graph we can observe a slight decline in the MAE but with a wave like pattern. This suggests the optimal alpha value in this range is close to 100.
  ~~~
  import matplotlib.pyplot as plt
 fig, ax= plt.subplots(figsize=(8,6))
@@ -577,6 +595,8 @@ ax.plot(a_range, test_mae, c='red')
  - k=30, a=0.05, lam=0.1, degree=4: 5873.082574047511
  - k=300, a=0.05, lam=0.1, degree=4: 6307.698750029237
  - k=506, a=0.05, lam=0.1, degree=4: 6152.504695410218
+
+From the data we can see that a degree of 2 is generally better than higher degrees, with our best MAE being 2321.9634261020765. This test did not match the pattern of the K-Fold test, as higher K-fold validations seemed to increase the MAE for the second degree but had no established patter for the fourth degree polynomials.
 
 
 # Neural Networks
