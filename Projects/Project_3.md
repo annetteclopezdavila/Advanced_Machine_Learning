@@ -926,9 +926,11 @@ Below we have the stepwise regression selector, showing us which p-values should
 
 ![image](https://user-images.githubusercontent.com/67920563/111920718-e8163980-8a66-11eb-8cec-ea6df991d32c.png)
 
-# Comparison of Models
+# Comparison of Models and Summary
 
-![image](https://user-images.githubusercontent.com/67920563/111938619-c8036c00-8aa0-11eb-8fbb-57e9c0aafae6.png)
+![image](https://user-images.githubusercontent.com/67920563/111938732-000aaf00-8aa1-11eb-9a7d-b106674160f2.png)
+
+Looking at the chart of comparisons, we can see that the XGBOOSt algorithm had the lowest MAE overall ($1903.36) while the Kernel Regression Algorithm had the highest (2854.57). All of the models' MAEs stayed within the range of $1,000. The chart also shows us that the worst MAE was calculated by the MAE at different parameters.
 
 
 
