@@ -293,9 +293,10 @@ DoKFold_SK(X,y,model,506)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111892101-94f0a800-89ce-11eb-9d79-e69d0cac97e1.png)
 
-The maximum K-fold delivered the lowest MAE ($2157.30) while a K-fold value of 30 gave us the lowest MAE($2197.613).
+The maximum K-fold delivered the lowest MAE ($2157.30) while a K-fold value of 30 gave us the highest MAE($2197.613).
 
-## Testing Alphas
+## Testing Alpha Values
+Let us observe the change in alpha values:
 ~~~
 #test alphas
 a_range= np.linspace(0.01, 100)
@@ -305,8 +306,11 @@ for a in a_range:
   
 min(test_mae)
 ~~~
+The minimum MAE is:
+
 ![image](https://user-images.githubusercontent.com/67920563/111892105-9ae68900-89ce-11eb-8b5b-afd614f2b29a.png)
 
+From the graph we can see that changing the alpha value had no effect on the MAE.
 ~~~
 import matplotlib.pyplot as plt
 fig, ax= plt.subplots(figsize=(8,6))
@@ -316,15 +320,19 @@ ax.plot(a_range, test_mae, c='red')
 ![image](https://user-images.githubusercontent.com/67920563/111892001-a38a8f80-89cd-11eb-9d68-496ca06edd72.png)
 
 ## Testing Polynomial Degrees
+Let us now look at different polynomial degrees:
+
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=10: 2407.2185970338564
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=30: 2437.810000893756
 - Degree=4, Alpha= 0.05, l1 ratio=0.25, K-fold=300: 2504.4733361982912
+- 
 
 - At degree=2, k=10, alpha=0.05: 2339.2146270250955
 - At degree=2, k=30, alpha=0.05: 2348.2070459062375
 - At degree=2, k=300, alpha=0.05: 2358.871433452167
 - At degree=2, k=506, alpha=0.05: 2321.9634261020765
 
+We can see from the results that a degree of 3 gives us the best results, as the MAE increases both when the degrees of freedom are added and subtracted.
 
 # Squart Root Lasso Regression
 ~~~
