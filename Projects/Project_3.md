@@ -183,34 +183,45 @@ The previous tests were all done with a degree of 3. Let us see what our optimal
 
 Although changing the degrees did not drastically change the MAE, we can see that a degree of 3 did much better than the function at degree 2 or 4. Particularly we see the functioning worsening the most when we subtract degrees. It can be noted that the pattern we observed when changing the K-Folds holds when we change the degree of the function.
 
-# Nonlinear Ridge Regression
-## Testing Different K -Fold Values
+# Ridge Regularization
+Ridge Regularization will utilize the same polynomial feature transformation function and the same K-Fold function. Thus, we only need to specify a change in model and insert our parameters.
+
+## Testing Different K-Fold Values
+
+Let us observe the MAE with K-Fold Cross Validation at different numbers of folds:
+
+- At k=10 and alpha=0.05:
 ~~~
 model = Ridge(alpha=0.05)
 DoKFold_SK(X,y,model,10)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111896130-c167ec80-89ed-11eb-9f71-3da401872699.png)
 
+- At k=30 and alpha=0.05:
 ~~~
 model = Ridge(alpha=0.05)
 DoKFold_SK(X,y,model,30)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111896134-caf15480-89ed-11eb-9972-2be560e847e0.png)
 
+- At k=300 and alpha=0.05:
 ~~~
 model = Ridge(alpha=0.05)
 DoKFold_SK(X,y,model,300)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111896140-d2b0f900-89ed-11eb-9606-bff20d290abe.png)
 
+- At k=300 and alpha=0.05:
 ~~~
 model = Ridge(alpha=0.05)
 DoKFold_SK(X,y,model,506)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111896148-dba1ca80-89ed-11eb-8ce2-a9f4fa019d63.png)
 
+For Ridge Regularization, choosing the maximum number of K-Folds delivered the best MAE ($3333.06305). From the different MAEs we can see that the MAE decreases as folds increases.
 
-## Testing Different Alphas
+## Testing Different Alpha Values
+We can also detect our optimal alpha value:
 ~~~
 #test alphas
 a_range= np.linspace(0.01, 100)
@@ -219,8 +230,11 @@ for a in a_range:
   test_mae.append(DoKFold_SK(X,y,model,10))
 min(test_mae)  
 ~~~  
+Our minimum MAE is:
+
 ![image](https://user-images.githubusercontent.com/67920563/111896196-173c9480-89ee-11eb-9339-e4f078e2ef2c.png)
 
+We can see from the graph that alpha values do not seem to affect the MAE in this case.
 ~~~
 import matplotlib.pyplot as plt
 fig, ax= plt.subplots(figsize=(8,6))
@@ -231,6 +245,7 @@ ax.plot(a_range, test_mae, c='red')
 
 
 ## Testing Different Polynomial Degrees
+Let us examine other polynomial degrees:
 
 - At degree=4, k=10, alpha=0.05: 6763.16199953988
 - At degree=4, k=30, alpha=0.05: 6722.900116892813
@@ -241,6 +256,8 @@ ax.plot(a_range, test_mae, c='red')
 - At degree=2, k=30, alpha=0.05: 2483.8999704434805
 - At degree=2, k=300, alpha=0.05: 2497.023368589572
 - At degree=2, k=506, alpha=0.05: 2459.0769654036612
+
+Interestingly enough, the MAE is decreasing as the degrees are lowered. Once again, the K-Fold pattern holds. Our lowest MAE is $2459.07 at 2 degrees.
 
 # Elastic Net
 ## K-Fold Values
