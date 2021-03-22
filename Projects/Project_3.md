@@ -59,22 +59,18 @@ plt.show()
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891413-658b6c80-89c9-11eb-9177-a62d5cc46d9a.png)
 
-From the chart, we can see that the feature correlation is quite mixed but with many features having somewhat mid/strong correlations. 
+From the chart, we can see that the feature correlation is quite mixed but many features have a somewhat mid/strong correlations. Let us look at plots of the data:
 ~~~
 sns.pairplot(data=df, kind='scatter', hue='cmedv')
 plt.show()
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891428-9075c080-89c9-11eb-8ce8-1710086928aa.png)
-~~~
-from scipy import stats
-def tstat_corr(r,n):
-  t = r*np.sqrt(n-2)/np.sqrt(1-r**2)
-  pval = stats.t.sf(np.abs(t), n-1)*2  # two-sided pvalue = Prob(abs(t)>tt)
-  print('t-statistic = %6.3f pvalue = %6.4f' % (t, pval))
-  
-tstat_corr(0.06,len(X)) #put in an r value from matrix
-~~~
-# Nonlinear Lasso Regularization
+
+# Nonlinear Regression
+Nonlinear Regression is a regression model in which the components x are not linear in nature. In other words, a function will be nonlinear if we cannot express it as a linear combination of its \beta . A nonlinear multivariate model will have many independent variables/features while preserving nonlinearity. 
+
+One machine learning method for creating nonlinear models is polynomial regression. Polynomial regression engineers features by raising the feature components x to an exponent. We can decide the degree of a polynomial; this will control the number of features added to feature components x. Large degrees are usually avoided, as they may overfit the model. Changing the degrees of a function will affect the probability distribution, perhaps helping minimize the MAE.
+
 ~~~
 features = ['crime','rooms','residential','industrial','nox','older','distance','highway','tax','ptratio','lstat']
 X = np.array(df[features])
@@ -89,7 +85,12 @@ import statsmodels.api as sm
 
 scale = StandardScaler()
 poly = PolynomialFeatures(degree=3)
+~~~
 
+In python, we can apply the polynomial features transform in the PolynomialFeatures class. This will transform the raw data by the corresponding degrees. In order to apply this to our data, a pipeline may be used. This will apply the transforms sequentially. 
+ 
+# Lasso Regularization
+~~~
 def DoKFold_SK(X,y,model,k):
   PE = []
   kf = KFold(n_splits=k,shuffle=True,random_state=1234)
