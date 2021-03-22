@@ -811,8 +811,10 @@ Our image ranks the importance of features to the model prediction:
 
 ![image](https://user-images.githubusercontent.com/67920563/111895278-e9545180-89e7-11eb-94b8-a7e309a95a3c.png)
 
-From the image, we note that random forest regressors determined the number of rooms as the most important predictor with % lower status of the population coming in a close second. In a future study, it would be interesting to compare this with the beta values assigned in regularization methods.
+From the image, we note that random forest regressors determined the number of rooms as the most important predictor with % lower status of the population coming in a close second. In a future study, it would be interesting to compare this with the beta values assigned in regularization methods. Stepwise regression can be both linear and nonlinear.
+
 ## Testing K-Fold Values
+Let us examine this model at different K-Folds:
 ~~~
 from sklearn import model_selection
 from sklearn import metrics
@@ -840,6 +842,8 @@ for idxtrain, idxtest in kf.split(dat):
   mae_rf.append(mean_absolute_error(y_test, y_pred))
 print("Validated MAE Random Forest Regression = ${:,.2f}".format(1000*np.mean(mae_rf)))
   ~~~
+Note that the final number is the MAE while the previous MAEs describe the change in mean as it loops.
+
 - k=10:
 
 ![image](https://user-images.githubusercontent.com/67920563/111913596-44686180-8a45-11eb-9b55-3b8caa79f028.png)
@@ -857,8 +861,10 @@ print("Validated MAE Random Forest Regression = ${:,.2f}".format(1000*np.mean(ma
 
 ![image](https://user-images.githubusercontent.com/67920563/111914025-c442fb80-8a46-11eb-8521-665ebf8ee1b4.png)
 
-# StepWise Regression
+From the data, we note that the maximum folds gave us the smallest MAE($2144.14)
 
+# StepWise Regression
+Let us now attempt stepwise regression. Stepwise regression builds a model by adding and subtracting in features in a step like manner. The predictors are added into the model based on a t-test. Those predictors with a small P-value are added into the model.
 ~~~
 # Implementation of stepwise regression
 import statsmodels.api as sm
@@ -916,7 +922,11 @@ def stepwise_selection(X, y,
 X = df[features]
 stepwise_selection(X, y)
 ~~~
+Below we have the stepwise regression selector, showing us which p-values should most likely be added into the model.
+
 ![image](https://user-images.githubusercontent.com/67920563/111920718-e8163980-8a66-11eb-8cec-ea6df991d32c.png)
+
+# Comparison of Models
 
 
 
