@@ -211,7 +211,7 @@ DoKFold_SK(X,y,model,300)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111896140-d2b0f900-89ed-11eb-9606-bff20d290abe.png)
 
-- At k=300 and alpha=0.05:
+- At k=506 and alpha=0.05:
 ~~~
 model = Ridge(alpha=0.05)
 DoKFold_SK(X,y,model,506)
@@ -259,30 +259,41 @@ Let us examine other polynomial degrees:
 
 Interestingly enough, the MAE is decreasing as the degrees are lowered. Once again, the K-Fold pattern holds. Our lowest MAE is $2459.07 at 2 degrees.
 
-# Elastic Net
+# Elastic Net Regularization
+
+Let us now try using elastic net regularization. Once again, this type of regularization will use the polynomial features class previously specified as well as the K-Fold function.
+
 ## K-Fold Values
+
+- When k=10 and alpha 0.05 we have an MAE of:
 ~~~
 model = ElasticNet(alpha=0.05,l1_ratio=0.25,max_iter=12000)
 DoKFold_SK(X,y,model,10)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891925-029bd480-89cd-11eb-88ed-47b1d2adcdc4.png)
+
+- When k=30 and alpha 0.05 we have an MAE of:
 ~~~
 model = ElasticNet(alpha=0.05,l1_ratio=0.25,max_iter=12000)
 DoKFold_SK(X,y,model,30)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111891958-42fb5280-89cd-11eb-816c-df825e530b2f.png)
+
+- When k=300 and alpha 0.05 we have an MAE of:
 ~~~
 model = ElasticNet(alpha=0.05,l1_ratio=0.25,max_iter=12000)
 DoKFold_SK(X,y,model,300)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111892031-eea4a280-89cd-11eb-9173-c57c7bad8d40.png)
 
+- When k=506 and alpha 0.05 we have an MAE of:
 ~~~
 model = ElasticNet(alpha=0.05,l1_ratio=0.25,max_iter=12000)
 DoKFold_SK(X,y,model,506)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/111892101-94f0a800-89ce-11eb-9d79-e69d0cac97e1.png)
 
+The maximum K-fold delivered the lowest MAE ($2157.30) while a K-fold value of 30 gave us the lowest MAE($2197.613).
 
 ## Testing Alphas
 ~~~
