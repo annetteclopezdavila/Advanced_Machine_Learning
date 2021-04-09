@@ -52,6 +52,7 @@ gam = LinearGAM(n_splines=6).gridsearch(Xs_train, y_train,objective='GCV')
 gam.summary()
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/114226726-f3f86b80-9941-11eb-8b12-657cbf421dd6.png)
+### RMSE
 ~~~
 from sklearn.metrics import mean_squared_error
 yhat=gam.predict(Xs_test)
@@ -59,6 +60,16 @@ rms = mean_squared_error(y_test, yhat, squared=False)
 rms
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/114226775-0a9ec280-9942-11eb-88b9-1f0986d7b0f4.png)
+### R2
+~~~
+from sklearn.metrics import r2_score as R2
+yhat=gam.predict(Xs_test)
+R_2= R2(y_test, yhat)
+R_2
+~~~
+![image](https://user-images.githubusercontent.com/67920563/114230190-d11c8600-9946-11eb-836d-8aff769dfa45.png)
+
+
 
 ~~~
 plt.rcParams['figure.figsize'] = (28, 8)
@@ -82,7 +93,72 @@ plt.show()
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/114226809-15595780-9942-11eb-94ad-e833c20ee122.png)
 
+## Different Splines
+~~~
+listt=[]
+listr=[]
+for i in range(4, 30):
+  gam = LinearGAM(n_splines=i).gridsearch(Xs_train, y_train,objective='GCV')
 
+  yhat=gam.predict(Xs_test)
+  rms = mean_squared_error(y_test, yhat, squared=False)
+  R_2= R2(y_test, yhat)
+  listt.append(rms)
+  listr.append(R_2)
+~~~
+
+
+### RMSE Plot Splines
+~~~
+import matplotlib.pyplot as plt
+fig, ax= plt.subplots(figsize=(8,6))
+a_range=range(4, 30)
+ax.scatter(a_range, listt)
+ax.plot(a_range, listt, c='red')  
+min(listt)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/114231778-e1356500-9948-11eb-8632-3d0d6f9db8ad.png)
+![image](https://user-images.githubusercontent.com/67920563/114232006-36717680-9949-11eb-8fd7-c5d4e32f40f7.png)
+
+
+
+### R2 Plot Splines
+~~~
+import matplotlib.pyplot as plt
+fig, ax= plt.subplots(figsize=(8,6))
+a_range=range(4, 30)
+ax.scatter(a_range, listt)
+ax.plot(a_range, listt, c='red')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/114231920-1b066b80-9949-11eb-8e94-4f50fd588ee4.png)
+
+
+
+## KFold Split
+~~~
+def do_kfold(X,y,k,rs, n_splines):
+  PE_internal_validation=[]
+  PE_external_validation=[]
+  kf=KFold(n_splits=k, shuffle=True, random_state=rs)
+  for idxtrain, idxtest in kf.split(X):
+    X_train=X[idxtrain,:]
+    y_train=y[idxtrain]
+    X_test=X[idxtest,:]
+    y_test=y[idxtest]
+    gam = LinearGAM(n_splines=n_splines).gridsearch(X_train, y_train,objective='GCV')
+    yhat_test=gam.predict(X_test)
+    yhat_train=gam.predict(X_train)
+    PE_internal_validation.append(MAE(y_train,yhat_train))
+    PE_external_validation.append(MAE(y_test,yhat_test))
+  return np.mean(PE_internal_validation), np.mean(PE_external_validation)
+  
+do_kfold(X,y,10,2021,6)  
+~~~
+![image](https://user-images.githubusercontent.com/67920563/114232364-c0214400-9949-11eb-9a80-b706ef75dcf9.png)
+
+
+  
+  
 
 
 
