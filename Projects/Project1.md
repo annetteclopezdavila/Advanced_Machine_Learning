@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Project 1
-cover-img: /assets/img/NN.PNG
+cover-img: /assets/img/NNN.PNG
 ---
 
 Comparing the performance of different regressors with the goal of predicting housing prices from the number of rooms.
