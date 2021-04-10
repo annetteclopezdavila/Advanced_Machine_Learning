@@ -713,7 +713,7 @@ def DoKFold(X,y,k):
   
 DoKFold(X,y,10)  
   ~~~
-Unfortunately, the results to this never were loaded; the code is still running  
+Unfortunately, the results to this never were loaded; the code has been running for a very long time.
   
 # Comparison between GAM and Nadaraya-Watson Regression
 
