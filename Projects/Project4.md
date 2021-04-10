@@ -2,6 +2,7 @@
 layout: page
 title: Project 4
 subtitle: Real Data Applications of GAM and Nadaraya-Watson Regression
+cover-img: /assets/img/NNN.PNG
 ---
 This project will be showing the application of Generalized Additive Models and Nadaraya-Watson Regression.
 
