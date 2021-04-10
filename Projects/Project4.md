@@ -1,5 +1,24 @@
-# Introducing the Data
+This project will be showing the application of Generalized Additive Models and Nadaraya-Watson Regression.
 
+# Introducing the Data
+This dataset examines physicochemical properties of protein tertiary structure. It is a multivariate dataset with 45,730 samples. Our Attributes are as follows:
+
+### *Target*:
+RMSD-Size of the residue.
+
+### *Features*:
+F1 - Total surface area.
+F2 - Non polar exposed area.
+F3 - Fractional area of exposed non polar residue.
+F4 - Fractional area of exposed non polar part of residue.
+F5 - Molecular mass weighted exposed area.
+F6 - Average deviation from standard exposed area of residue.
+F7 - Euclidian distance.
+F8 - Secondary structure penalty.
+F9 - Spacial Distribution constraints (N,K Value).
+
+## Setting up the DataFrame
+Below is the python code used to set up the dataframe:
 ~~~
 #Mount google drive to access data  
 from google.colab import drive
@@ -30,6 +49,7 @@ df
 
 ![image](https://user-images.githubusercontent.com/67920563/114226574-b5fb4780-9941-11eb-8919-ed6df2a8675a.png)
 
+We then can divide the dataset into its independent and dependent variables, as well as splitting the training and testing sets and standardizing the data.
 ~~~
 features = ['F1', 'F2','F3','F4','F5', 'F6','F7','F8','F9']
 X = np.array(df[features])
@@ -45,14 +65,26 @@ Xs_test =scale.transform(X_test)
 ~~~
 
 # Generalized Additive Modeling (GAM)
-6 splines
+
+![image](https://user-images.githubusercontent.com/67920563/114255223-01cde100-9982-11eb-8355-8413c9598e56.png)
+
+Additive models estimate an additive approximation to multivariate regression functions. They can deal with highly non-linear and non-monotonic relationships by using the data to shape the predictor functions. This type of model helps avoid the curse of dimensionality by using univariate smoothers. The individual term estimates will also explain the relationship between variables. GAM models should be used when non-linearity in partial residual plots suggest the need for semi-parametric models(relationships among variables are not restricted to any shape generally).
+
+![image](https://user-images.githubusercontent.com/67920563/114255092-31c8b480-9981-11eb-887a-6fb1671dfecf.png)
+
+GAM models will separate predictors into sections and will fit the data in each section using spline functions. All the functions are then added to predict the link function. The link function is then smoothed by LOESS.
+
+## Python Code
+Let us attempt to fit a GAM with the pyGAM library. Generally, high splines are used (~20), but let us begin with 6.
 ~~~
 #fit the GAM with 6 splines
 gam = LinearGAM(n_splines=6).gridsearch(Xs_train, y_train,objective='GCV')
 gam.summary()
 ~~~
+Below we see the summary of our model: we can use AIC, GCV, and R-Squared indeces to help us understand our model. This also tells us the smoothing pentalty used which is lambda=0.001. This controls the strength of the regularization penalty on each term. 
 ![image](https://user-images.githubusercontent.com/67920563/114226726-f3f86b80-9941-11eb-8b12-657cbf421dd6.png)
 ### RMSE
+For this particular project, we will be comparing our models with the root mean square error. The RMSE represents the standard deviation of the prediction errors, known as residuals. The residuals show how far a data po is from the regression line.
 ~~~
 from sklearn.metrics import mean_squared_error
 yhat=gam.predict(Xs_test)
