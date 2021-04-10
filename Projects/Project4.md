@@ -110,30 +110,35 @@ The closer an R-squared value is to one or negative one, the better the regressi
 ![image](https://user-images.githubusercontent.com/67920563/114230190-d11c8600-9946-11eb-836d-8aff769dfa45.png)
 
 
+## Residual Plots
+Residual values measure the difference between the regression lines and the data points. A residual plot will have the residuals on the y axis and the y target on the x axis. Let us now see the residual plots for this model:
 ~~~
-plt.rcParams['figure.figsize'] = (28, 8)
-fig = plt.figure()
-titles = df[features].columns
+residuals=gam.deviance_residuals(X_train,y_train)
+residualst=gam.deviance_residuals(X_test,y_test)
 
-fig.set_figheight(16)
-fig.set_figwidth(8)
+import matplotlib.pyplot as plt
+plt.scatter(residuals, y_train, c="pink", s=20, alpha=0.5)
+plt.scatter(residualst, y_test, c="green", s=20, alpha=0.5)
 
-for i, term in enumerate(gam.terms):
-    if term.isintercept:
-        continue
-    XX = gam.generate_X_grid(term=i)
-    pdep, confi = gam.partial_dependence(term=i, X=XX, width=0.95)
-    ax = fig.add_subplot(6, 2, i+1)
-    ax.plot(XX[:, term.feature], pdep)
-    ax.plot(XX[:, term.feature], confi, c='r', ls='--')
-    ax.set_title(titles[i])
-    fig.tight_layout()
+plt.xlabel("Predicted Value")
+plt.ylabel("Deviance Residuals")
 plt.show()
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/114226809-15595780-9942-11eb-94ad-e833c20ee122.png)
+We can also plot a histogram of our residuals in order to see whether the variance has a particular distribution.
+~~~
+import matplotlib.pyplot as plt
+import numpy as np
+from numpy.lib.histograms import histogram
 
-## Residual Plots
+plt.hist(residuals, label='residuals train', alpha=.5, color='pink')
+plt.hist(residualst, label='residuals test', alpha=.5, color='green')
+plt.legend()
+plt.show()
+
+~~~
+From the Residuals Plot, we can see that there is a large cluster that travels diagonally. This is a warning sign that our model may not be a good fit for this dataset. A good fitting model will have a residual plot with scattered points. We can note that the pink dots are the training set and the green are the testing set.
 ![image](https://user-images.githubusercontent.com/67920563/114253347-d940e980-9977-11eb-8c8e-703154361eb9.png)
+
 ![image](https://user-images.githubusercontent.com/67920563/114253388-fc6b9900-9977-11eb-8c04-a911162321fa.png)
 
 ## Different Splines
