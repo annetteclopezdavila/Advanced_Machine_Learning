@@ -124,7 +124,7 @@ plt.xlabel("Predicted Value")
 plt.ylabel("Deviance Residuals")
 plt.show()
 ~~~
-We can also plot a histogram of our residuals in order to see whether the variance has a particular distribution.
+We can also plot a histogram of our residuals in order to see whether the variance has a particular distribution. A histogram will clarify the frequency of the residuals.
 ~~~
 import matplotlib.pyplot as plt
 import numpy as np
@@ -137,8 +137,10 @@ plt.show()
 
 ~~~
 From the Residuals Plot, we can see that there is a large cluster that travels diagonally. This is a warning sign that our model may not be a good fit for this dataset. A good fitting model will have a residual plot with scattered points. We can note that the pink dots are the training set and the green are the testing set.
+
 ![image](https://user-images.githubusercontent.com/67920563/114253347-d940e980-9977-11eb-8c8e-703154361eb9.png)
 
+Our histogram below is skewed to the right:
 ![image](https://user-images.githubusercontent.com/67920563/114253388-fc6b9900-9977-11eb-8c04-a911162321fa.png)
 
 ## Different Splines
