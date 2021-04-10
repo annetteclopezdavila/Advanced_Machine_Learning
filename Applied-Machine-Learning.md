@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Applied Machine Learning
+cover-img: /assets/img/NNN.PNG
 ---
 
 ## Project Repository
