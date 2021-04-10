@@ -2,6 +2,7 @@
 layout: page
 title: Project 2
 subtitle: Comparing the Performance of Regularization Methods
+cover-img: /assets/img/NNN.PNG
 ---
 
 
