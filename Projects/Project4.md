@@ -708,7 +708,7 @@ def DoKFold(X,y,k):
     y_test  = y[idxtest]
     model.fit(X_train,y_train)
     yhat_test = model.predict(X_test)
-    PE.append(MAE(y_test,yhat_test))
+    PE.append(mean_squared_error(y_test, yhat, squared=False))
   return np.mean(PE)
   
 DoKFold(X,y,10)  
