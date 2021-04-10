@@ -149,6 +149,7 @@ Our histogram below is skewed to the right:
 ![image](https://user-images.githubusercontent.com/67920563/114253388-fc6b9900-9977-11eb-8c04-a911162321fa.png)
 
 ## Different Splines
+Let us see if changing the amount of splines can improve our RMSE and R-squared. We can test splines in the range of 4 through 30:
 ~~~
 listt=[]
 listr=[]
@@ -172,9 +173,12 @@ ax.scatter(a_range, listt)
 ax.plot(a_range, listt, c='red')  
 min(listt)
 ~~~
+Our lowest RMSE is:
 ![image](https://user-images.githubusercontent.com/67920563/114231778-e1356500-9948-11eb-8632-3d0d6f9db8ad.png)
-![image](https://user-images.githubusercontent.com/67920563/114232006-36717680-9949-11eb-8fd7-c5d4e32f40f7.png)
 
+but does not change in an extreme manner.
+
+![image](https://user-images.githubusercontent.com/67920563/114232006-36717680-9949-11eb-8fd7-c5d4e32f40f7.png)
 
 
 ### R2 Plot Splines
@@ -185,11 +189,12 @@ a_range=range(4, 30)
 ax.scatter(a_range, listt)
 ax.plot(a_range, listt, c='red')
 ~~~
+The R^2 value seems to improve when splines are increased:
 ![image](https://user-images.githubusercontent.com/67920563/114231920-1b066b80-9949-11eb-8e94-4f50fd588ee4.png)
 
 
-
 ## KFold Split
+Let us now try K-fold cross validation on this model with a k=10:
 ~~~
 def do_kfold(X,y,k,rs, n_splines):
   PE_internal_validation=[]
@@ -203,16 +208,21 @@ def do_kfold(X,y,k,rs, n_splines):
     gam = LinearGAM(n_splines=n_splines).gridsearch(X_train, y_train,objective='GCV')
     yhat_test=gam.predict(X_test)
     yhat_train=gam.predict(X_train)
-    PE_internal_validation.append(MAE(y_train,yhat_train))
-    PE_external_validation.append(MAE(y_test,yhat_test))
+    PE_internal_validation.append(mean_squared_error(y_test, yhat, squared=False))
+    PE_external_validation.append(mean_squared_error(y_test, yhat, squared=False))
   return np.mean(PE_internal_validation), np.mean(PE_external_validation)
   
 do_kfold(X,y,10,2021,6)  
 ~~~
+The internal and external RMSE validations are:
 ![image](https://user-images.githubusercontent.com/67920563/114232364-c0214400-9949-11eb-9a80-b706ef75dcf9.png)
 
 # Nadaraya-Watson Regression
+Let us now apply kernel regression to our dataset and see if it improves. We have previously explored Kernel Regression in a previous project.
+## Code Application
+First, we must either import the Nadaraya-Watson Regression Code or place it into our file:
 ~~~
+#from nadaraya_watson import NadarayaWatson, NadarayaWatsonCV
 """
 Nadaraya-Watson Regression.
 """
@@ -628,7 +638,7 @@ class NadarayaWatsonCV(NadarayaWatson):
         return self
         
 ~~~
-
+Once this is done, we can move onto applying the model to our dataset.
 ~~~
 import time
 import numpy as np
@@ -653,18 +663,24 @@ model=NadarayaWatson(kernel='rbf', gamma=35)
 model.fit(X_train, y_train)
 
 yhat= model.predict(X_test)
-~~~
 
+~~~
+## R-Squared and RMSE
+We can find the R-squared value with the predicted and known set:
 ~~~
 R2(y_test, yhat)
 ~~~
+The R-squared value is:
 ![image](https://user-images.githubusercontent.com/67920563/114253522-93385580-9978-11eb-847e-9dd917ab714b.png)
 
+Our RMSE is:
 ~~~
 mse(y_test, yhat)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/114253552-a0554480-9978-11eb-82db-4149cd4c4258.png)
+![image](https://user-images.githubusercontent.com/67920563/114256882-64c37600-998a-11eb-9719-59edc59e2aa5.png)
 
+## Residuals Plot
+Let us now see the Residuals Plot:
 ~~~
 from yellowbrick.regressor import ResidualsPlot
 visualizer = ResidualsPlot(model)
@@ -673,8 +689,12 @@ visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
 visualizer.score(X_test, y_test)  # Evaluate the model on the test data
 visualizer.poof() 
 ~~~
+The Residuals Plot also shows an upwards diagonal trend, thus also showing that this model may not have worked well for this dataset.
+
 ![image](https://user-images.githubusercontent.com/67920563/114254070-4bff9400-997b-11eb-82e4-33ad5a71a989.png)
 
+## K-Fold Validation
+Let us now cross validate the test and training set at k=10:
 ~~~
 def DoKFold(X,y,k):
   PE = []
