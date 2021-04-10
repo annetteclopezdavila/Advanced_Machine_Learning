@@ -713,6 +713,13 @@ def DoKFold(X,y,k):
   
 DoKFold(X,y,10)  
   ~~~
+Unfortunately, the results to this never were loaded; the code is still running  
+  
+# Comparison between GAM and Nadaraya-Watson Regression
+
+![image](https://user-images.githubusercontent.com/67920563/114257250-8d4c6f80-998c-11eb-8bc9-23cfa18b8f2e.png)
+
+We can see from the dataset that GAM had better results in context of the RMSE; however, both were fairly low. Neither model showed that it performed better than the other when comparing it to the R-squared value. Both models' residual plots also showed that this dataset most likely does not work well with GAM or Kernel Regression, as there were clusters in both that sloped diagonally.
 
 
 
