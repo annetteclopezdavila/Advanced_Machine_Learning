@@ -2,6 +2,7 @@
 layout: page
 title: Project 3
 subtitle: Real Data Applications of Nonlinear Multivariate Regression Methods
+cover-img: /assets/img/NNN.PNG
 ---
 The Boston Housing dataset is a collection from the U.S. Census Service concerning Boston, MA's housing. The dataset has 506 total data points and 17 attributes. The Dataset's attributes are listed as follows:
 
