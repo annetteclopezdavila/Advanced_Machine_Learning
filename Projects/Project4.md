@@ -84,23 +84,30 @@ gam.summary()
 Below we see the summary of our model: we can use AIC, GCV, and R-Squared indeces to help us understand our model. This also tells us the smoothing pentalty used which is lambda=0.001. This controls the strength of the regularization penalty on each term. 
 ![image](https://user-images.githubusercontent.com/67920563/114226726-f3f86b80-9941-11eb-8b12-657cbf421dd6.png)
 ### RMSE
-For this particular project, we will be comparing our models with the root mean square error. The RMSE represents the standard deviation of the prediction errors, known as residuals. The residuals show how far a data po is from the regression line.
+For this particular project, we will be comparing our models with the root mean square error. The RMSE represents the standard deviation of the prediction errors, known as residuals. The residuals show how far a data point is from the regression line. The RMSE formula is as follows:
+
+![image](https://user-images.githubusercontent.com/67920563/114255926-8faacb80-9984-11eb-9a6f-500244f0f775.png)
+
+In order to find the RMSE, we can use the sklearn library and add the parameter "squared=False" in order to find the RMSE instead of the MSE. This is shown below:
 ~~~
 from sklearn.metrics import mean_squared_error
 yhat=gam.predict(Xs_test)
 rms = mean_squared_error(y_test, yhat, squared=False)
 rms
 ~~~
+We must try to minimize our RMSE value. Our RMSE must be evaluated in context of the range of the dataset. Our RMSE for this model at 6 splines is:
+
 ![image](https://user-images.githubusercontent.com/67920563/114226775-0a9ec280-9942-11eb-88b9-1f0986d7b0f4.png)
-### R2
+### R^2
+We can also use R^2 to evaluate our models. R-Squared values show how well the data fits the regression model by determining the proportion of variance in y that is captured by the model. 
 ~~~
 from sklearn.metrics import r2_score as R2
 yhat=gam.predict(Xs_test)
 R_2= R2(y_test, yhat)
 R_2
 ~~~
+The closer an R-squared value is to one or negative one, the better the regression describes the data. Our R-squared value here is:
 ![image](https://user-images.githubusercontent.com/67920563/114230190-d11c8600-9946-11eb-836d-8aff769dfa45.png)
-
 
 
 ~~~
