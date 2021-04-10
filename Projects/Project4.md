@@ -614,6 +614,34 @@ mse(y_test, yhat)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/114253552-a0554480-9978-11eb-82db-4149cd4c4258.png)
 
+~~~
+from yellowbrick.regressor import ResidualsPlot
+visualizer = ResidualsPlot(model)
+model = GridSearchCV(NadarayaWatson(), scoring='neg_mean_squared_error', cv=5, param_grid=param_grid)
+visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
+visualizer.score(X_test, y_test)  # Evaluate the model on the test data
+visualizer.poof() 
+~~~
+![image](https://user-images.githubusercontent.com/67920563/114254070-4bff9400-997b-11eb-82e4-33ad5a71a989.png)
+
+~~~
+def DoKFold(X,y,k):
+  PE = []
+  kf = KFold(n_splits=k,shuffle=True,random_state=2021)
+  for idxtrain, idxtest in kf.split(X):
+    param_grid=dict(kernel=["rbf"],gamma=np.linspace(30, 50, 50))
+    model = GridSearchCV(NadarayaWatson(), scoring='neg_mean_squared_error', cv=5, param_grid=param_grid)
+    X_train = X[idxtrain,:]
+    y_train = y[idxtrain]
+    X_test  = X[idxtest,:]
+    y_test  = y[idxtest]
+    model.fit(X_train,y_train)
+    yhat_test = model.predict(X_test)
+    PE.append(MAE(y_test,yhat_test))
+  return np.mean(PE)
+  
+DoKFold(X,y,10)  
+  ~~~
 
 
 
