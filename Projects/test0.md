@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Project 0
+cover-img: /assets/img/NNN.PNG
 ---
 
 ## Headings
