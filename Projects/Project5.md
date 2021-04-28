@@ -42,3 +42,27 @@ for col in target:
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/116353098-32a47780-a7c4-11eb-913b-250eefa70c15.png)
 
+In this project, we will be using computer vision to categorize and detect products. The following images are example images from the dataset:
+~~~
+from matplotlib import pyplot as plt
+import cv2
+
+for i in range(1, 10):
+    
+    thisId = str(df[i:i+1].id.values[0])
+    
+    imageName = '/kaggle/input/fashion-product-images-small/myntradataset/images/'+ thisId +'.jpg'
+    image = cv2.imread(imageName)
+    image = RGB_im = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    
+    plt.imshow(image)
+    plt.title(f'Image {thisId}')
+    plt.show()
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116353296-82833e80-a7c4-11eb-8c15-e9ca7c2e0187.png)
+![image](https://user-images.githubusercontent.com/67920563/116353321-8dd66a00-a7c4-11eb-8cf2-61af3179b311.png)
+![image](https://user-images.githubusercontent.com/67920563/116353345-962ea500-a7c4-11eb-9627-d1dab75c264b.png)
+
+
+
+
