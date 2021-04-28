@@ -99,7 +99,7 @@ for i in range(1, 10):
 # Data Visualizations
 Let us explore frequency of labels in each category:
 ### Master Category
-In the following graph, we can see that the majority of the images contain apparel with accessories coming in second. Apparel makes us slightly less than half of the sampled group.
+In the following graph, we can see that the majority of the images contain apparel (~9,000) with accessories coming in second (~5,000). Apparel labels are slightly less than half of the sampled group.
 ~~~
 plt.figure(figsize=(7,20))
 df.masterCategory.value_counts().sort_values().plot(kind='barh')
@@ -107,13 +107,14 @@ df.masterCategory.value_counts().sort_values().plot(kind='barh')
 ![image](https://user-images.githubusercontent.com/67920563/116354795-edce1000-a7c6-11eb-8408-98dd0c06a4f4.png)
 
 ### Article type
-
+In the chart below, our most frequent labels are as follows: tshirt, shirt, casual shoes, watches, kurtas, tops, and handbags. There are almost 3,000 labels for tshirts. All other article types previously listed are between the ranges of 1500 and 1000.
 ~~~
 plt.figure(figsize=(7,20))
 df.articleType.value_counts().sort_values().plot(kind='barh')
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/116354681-c37c5280-a7c6-11eb-9e8d-fcb2a0b5b899.png)
 ### SubCategory
+The chart shows that topwear and shoes are the most frequent labels, both having a frequency between 4,000 and 6,000.
 ~~~
 plt.figure(figsize=(7,20))
 df.subCategory.value_counts().sort_values().plot(kind='barh')
@@ -121,7 +122,7 @@ df.subCategory.value_counts().sort_values().plot(kind='barh')
 ![image](https://user-images.githubusercontent.com/67920563/116354844-fd4d5900-a7c6-11eb-9f4b-43c6267530c9.png)
 
 ### Season
-In the graph below, we see that a little less than half of the items are summer items. The second most frequent season label is fall, with about 5,000 images.
+In the graph below, we see that a little less than half of the items are summer items (~10,000). The second most frequent season label is fall, with about 5,000 images.
 ~~~
 plt.figure(figsize=(7,20))
 df.season.value_counts().sort_values().plot(kind='barh')
@@ -137,12 +138,14 @@ df.year.value_counts().sort_values().plot(kind='barh')
 ![image](https://user-images.githubusercontent.com/67920563/116355071-54532e00-a7c7-11eb-9a53-83bd0fa30c08.png)
 
 ### Usage
+The bar chart is heavily skewed, showing that the majority of images are for casual usage. In fact, out of the 20,000 images, about 15,000 are casual fashionwear.
 ~~~
 plt.figure(figsize=(7,20))
 df.usage.value_counts().sort_values().plot(kind='barh')
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/116355129-67fe9480-a7c7-11eb-8e68-3b0bf069e3cc.png)
 ### Gender
+This graph shows that the most frequent gender label is man, with woman coming in close second. Both have about 8,000-9,000 images
 ~~~
 plt.figure(figsize=(7,20))
 df.gender.value_counts().sort_values().plot(kind='barh')
@@ -150,11 +153,14 @@ df.gender.value_counts().sort_values().plot(kind='barh')
 ![image](https://user-images.githubusercontent.com/67920563/116355208-88c6ea00-a7c7-11eb-8fb3-1bb66095c703.png)
 
 ### Color
+This graph shows that the most frequent color labels are black, white, blue, brown, gray, and red. Black dominates all other colors, with a frequency of about 4,000.
 ~~~
 plt.figure(figsize=(7,20))
 df.baseColour.value_counts().sort_values().plot(kind='barh')
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/116355324-af852080-a7c7-11eb-8f05-595a31bf8dbd.png)
+
+From the charts, we can see that some categories are quite skewed in frequency, thus leaving our model to be susceptible to bias. For example, the color black dominated the color category. If we introduce a fluorescent green item (the least frequent color), the probability that the model will accurately label it is much lower than if we introduced a black item. This is because the model has not been able to train itself equally in all color subcategories. The color category, article type category, and subcategory will be most affected by this uneven data. Other categories such as usage and year may see similar trends due to uneven data. 
 
 # Data Preprocessing
 
