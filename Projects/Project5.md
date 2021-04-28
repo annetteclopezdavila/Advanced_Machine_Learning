@@ -44,6 +44,9 @@ for col in target:
 
 For this project, the input variable will be images while the output variable (target) will be the above categories. Because we have more than one target classification, we will need to create a system in which an image may be classified as multiple labels. Because the labels are not mutually exclusive, we cannot formulate a multi-class problem. 
 
+Below is an example of what a multi label/multi class neural network may look like:
+![image](https://user-images.githubusercontent.com/67920563/116484552-4cdb6580-a857-11eb-83ab-fa3b2c0e0a32.png)
+
 
 ## Computer Vision & FAST Methods
 
