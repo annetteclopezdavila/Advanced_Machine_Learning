@@ -1,6 +1,6 @@
 ---
 layout: page
-title:Multi-Label Classification of Fashion Products 
+title: Multi-Label Classification of Fashion Products 
 subtitle: Capstone Project
 cover-img: /assets/img/NNN.PNG
 ---
