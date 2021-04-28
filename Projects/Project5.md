@@ -32,3 +32,13 @@ df.head(10)
 
 
 This dataset is a collection of 44,000 products which are classified into 7 categories: Gender, a masterCategory, articleType, baseColour, season, year, and usage. Within these categories, the images are classified into specific labels. Below are the unique labels within each category in a sample size of 20,000 images:
+~~~
+target = ['gender', 'masterCategory', 'subCategory', 'articleType',
+       'baseColour', 'season', 'year', 'usage']
+for col in target:
+    print(col)
+    print(df[col].unique())
+    print('-------------------------')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116353098-32a47780-a7c4-11eb-913b-250eefa70c15.png)
+
