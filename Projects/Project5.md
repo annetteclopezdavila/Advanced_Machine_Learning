@@ -42,7 +42,9 @@ for col in target:
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/116353098-32a47780-a7c4-11eb-913b-250eefa70c15.png)
 
-For this project, the input variable will be images while the output variable (target) will be the above categories.
+For this project, the input variable will be images while the output variable (target) will be the above categories. Because we have more than one target classification, we will need to create a system in which an image may be classified as multiple labels. Because the labels are not mutually exclusive, we cannot formulate a multi-class problem. 
+
+
 ## Computer Vision & FAST Methods
 
 In this project, we will be using computer vision to categorize and detect products. The following images are example images from the dataset:
