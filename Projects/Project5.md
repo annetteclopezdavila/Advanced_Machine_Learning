@@ -152,6 +152,75 @@ df.baseColour.value_counts().sort_values().plot(kind='barh')
 
 # Data Preprocessing
 
+~~~
+data = []
+
+# Reading all the images and processing the data in them 
+
+from tensorflow.keras.preprocessing.image import img_to_array
+import cv2
+
+IX = 80
+IY = 60
+
+invalid_ids = []
+
+for name in df.id:
+
+    try:
+        image = cv2.imread('/kaggle/input/fashion-product-images-small/myntradataset/images/'+str(name)+'.jpg')
+        image = cv2.resize(image, (IX,IY) )
+        image = img_to_array(image)
+        data.append(image)        
+    except: 
+        # Images for certain ids are missing, so they are not added to the dataset  
+        invalid_ids.append(name)
+~~~
+
+~~~
+labels = []
+
+
+# getting labels for the columns used
+
+for index, row in df.iterrows():
+
+    if row['id'] in invalid_ids:
+        continue
+
+    tags = []
+
+    for col in target:
+        tags.append(row[col])
+
+    labels.append(tags)
+~~~
+
+~~~
+import numpy as np
+
+# converting data into numpy arrays
+
+data = np.array(data, dtype="float") / 255.0
+labels = np.array(labels)
+
+print(labels)
+~~~
+~~~
+from sklearn.preprocessing import MultiLabelBinarizer
+
+# creating a binary vector for the input labels 
+
+mlb = MultiLabelBinarizer()
+labels = mlb.fit_transform(labels)
+
+print(mlb.classes_)
+print(labels[0])
+~~~
+
+
+
+
 
 
 
