@@ -208,17 +208,20 @@ for index, row in df.iterrows():
 #append the sublist to the labels list
     labels.append(tags)
 ~~~
-
+We can convert both the data and labels into numpy arrays:
 ~~~
 import numpy as np
-
-# converting data into numpy arrays
 
 data = np.array(data, dtype="float") / 255.0
 labels = np.array(labels)
 
 print(labels)
 ~~~
+Our Labels Array will now look as follows:
+
+![image](https://user-images.githubusercontent.com/67920563/116483836-e275f580-a855-11eb-8aa6-4550d6aa4d14.png)
+
+When working with categorical data, we often need to one hot encode our data into numbers. One hot encoding will assign binary vectors to categorical data. On the first attempt, the entire dataset was one-hot encoded, but the method expanded the dataframe to over 222 columns. Because we are one hot encoding the target variables, we can use the Label Binarizer from Sklearn. In this project we have multiple categories, and thus must use the MultiLabelBinarizer to one hot encode our categories.
 ~~~
 from sklearn.preprocessing import MultiLabelBinarizer
 
