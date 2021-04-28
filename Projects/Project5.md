@@ -99,6 +99,7 @@ for i in range(1, 10):
 # Data Visualizations
 Let us explore frequency of labels in each category:
 ### Master Category
+In the following graph, we can see that the majority of the images contain apparel with accessories coming in second. Apparel makes us slightly less than half of the sampled group.
 ~~~
 plt.figure(figsize=(7,20))
 df.masterCategory.value_counts().sort_values().plot(kind='barh')
@@ -106,6 +107,7 @@ df.masterCategory.value_counts().sort_values().plot(kind='barh')
 ![image](https://user-images.githubusercontent.com/67920563/116354795-edce1000-a7c6-11eb-8408-98dd0c06a4f4.png)
 
 ### Article type
+
 ~~~
 plt.figure(figsize=(7,20))
 df.articleType.value_counts().sort_values().plot(kind='barh')
@@ -119,6 +121,7 @@ df.subCategory.value_counts().sort_values().plot(kind='barh')
 ![image](https://user-images.githubusercontent.com/67920563/116354844-fd4d5900-a7c6-11eb-9f4b-43c6267530c9.png)
 
 ### Season
+In the graph below, we see that a little less than half of the items are summer items. The second most frequent season label is fall, with about 5,000 images.
 ~~~
 plt.figure(figsize=(7,20))
 df.season.value_counts().sort_values().plot(kind='barh')
@@ -126,6 +129,7 @@ df.season.value_counts().sort_values().plot(kind='barh')
 ![image](https://user-images.githubusercontent.com/67920563/116354984-3259ab80-a7c7-11eb-8629-b226bd59650f.png)
 
 ### Year
+Below we can see that the most frequent year labels are 2012, 2011, 2016, and 2017 all in respective order of most to least frequent. Items labeled 2012 carry number to about 7,000 with 2011 taking a close second at ~6,000
 ~~~
 plt.figure(figsize=(7,20))
 df.year.value_counts().sort_values().plot(kind='barh')
