@@ -163,22 +163,24 @@ df.baseColour.value_counts().sort_values().plot(kind='barh')
 From the charts, we can see that some categories are quite skewed in frequency, thus leaving our model to be susceptible to bias. For example, the color black dominated the color category. If we introduce a fluorescent green item (the least frequent color), the probability that the model will accurately label it is much lower than if we introduced a black item. This is because the model has not been able to train itself equally in all color subcategories. The color category, article type category, and subcategory will be most affected by this uneven data. Other categories such as usage and year may see similar trends due to uneven data. 
 
 # Data Preprocessing
-
+Before creating a model, the data will need to be preprocessed. In previous sections, we have downloaded the dataset, created a dataframe, and established target categories. We must now process the image dataset. We must be able to read all images, reset them to a particular size, and insert them into a data list.
 ~~~
-data = []
-
-# Reading all the images and processing the data in them 
-
 from tensorflow.keras.preprocessing.image import img_to_array
 import cv2
 
+#Create Data List
+data = []
+
+#Resizing Numbers
 IX = 80
 IY = 60
 
+#List holding invalid images
 invalid_ids = []
 
-for name in df.id:
+#Read and Resize Images
 
+for name in df.id:
     try:
         image = cv2.imread('/kaggle/input/fashion-product-images-small/myntradataset/images/'+str(name)+'.jpg')
         image = cv2.resize(image, (IX,IY) )
@@ -188,23 +190,22 @@ for name in df.id:
         # Images for certain ids are missing, so they are not added to the dataset  
         invalid_ids.append(name)
 ~~~
-
+Now that we have a list of resized images, we must move on to processing the target labels. We must go through each row and add each labels to a list while making sure each label combination is kept together.
 ~~~
 labels = []
 
-
-# getting labels for the columns used
-
 for index, row in df.iterrows():
-
+     #invalid ids
     if row['id'] in invalid_ids:
         continue
-
+     
     tags = []
-
+    
+    # go through each column in the specified row and add to list
     for col in target:
         tags.append(row[col])
 
+#append the sublist to the labels list
     labels.append(tags)
 ~~~
 
