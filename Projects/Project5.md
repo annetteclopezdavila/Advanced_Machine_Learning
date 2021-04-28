@@ -22,6 +22,7 @@ import os
 PATH = "/kaggle/input/fashion-product-images-dataset/fashion-dataset/fashion-dataset/"
 print(os.listdir(PATH))
 
+#create df
 df = pd.read_csv(PATH + "styles.csv",nrows=20000, error_bad_lines=False)
 df['image'] = df.apply(lambda row: str(row['id']) + ".jpg", axis=1)
 df = df.reset_index(drop=True)
@@ -226,9 +227,8 @@ Our Labels Array will now look as follows:
 
 When working with categorical data, we often need to one hot encode our data into numbers. One hot encoding will assign binary vectors to categorical data. On the first attempt, the entire dataset was one-hot encoded, but the method expanded the dataframe to over 222 columns. Because we are one hot encoding the target variables, we can use the Label Binarizer from Sklearn. In this project we have multiple categories, and thus must use the MultiLabelBinarizer to one hot encode our categories.
 ~~~
+#binary vectors for each row
 from sklearn.preprocessing import MultiLabelBinarizer
-
-# creating a binary vector for the input labels 
 
 mlb = MultiLabelBinarizer()
 labels = mlb.fit_transform(labels)
