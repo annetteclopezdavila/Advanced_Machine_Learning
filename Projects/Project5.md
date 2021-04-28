@@ -67,5 +67,34 @@ for i in range(1, 10):
 
 One way in method in which a machine can detect products is by applying a corner detection test known as features from accelerated segment test (FAST). This method extracts corner points by using a circle of sixteen pixels around the point in question and uses a brightness threshold value to identify whether pixels around the point are white space. 
 
+We can apply a FAST algorithm to the example images to visualize this method:
+~~~
+from matplotlib import pyplot as plt
+import cv2
+
+for i in range(1, 10):
+    
+    thisId = str(df[i:i+1].id.values[0])
+    
+    imageName = '/kaggle/input/fashion-product-images-small/myntradataset/images/'+ thisId +'.jpg'
+    image = cv2.imread(imageName)
+    image = RGB_im = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    
+    plt.imshow(image)
+    fast = cv2.FastFeatureDetector_create(50)
+    kp = fast.detect(image,None)
+    img2 = cv2.drawKeypoints(image, kp, None, color=(255,0,0))
+    print( "Total Keypoints with nonmaxSuppression: {}".format(len(kp)))
+    fast_image=cv2.drawKeypoints(image,kp,image)
+    plt.imshow(fast_image);plt.title('FAST Detector')
+    plt.show()
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116354217-173a6c00-a7c6-11eb-840b-2a535a6618bc.png)
+![image](https://user-images.githubusercontent.com/67920563/116354242-21f50100-a7c6-11eb-93d9-3bf532c62f24.png)
+![image](https://user-images.githubusercontent.com/67920563/116354283-2e795980-a7c6-11eb-80a0-6505f9c7f3d7.png)
+
+
+
+
 
 
