@@ -42,6 +42,8 @@ for col in target:
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/116353098-32a47780-a7c4-11eb-913b-250eefa70c15.png)
 
+## Computer Vision & FAST Methods
+
 In this project, we will be using computer vision to categorize and detect products. The following images are example images from the dataset:
 ~~~
 from matplotlib import pyplot as plt
@@ -63,6 +65,7 @@ for i in range(1, 10):
 ![image](https://user-images.githubusercontent.com/67920563/116353321-8dd66a00-a7c4-11eb-8cf2-61af3179b311.png)
 ![image](https://user-images.githubusercontent.com/67920563/116353345-962ea500-a7c4-11eb-9627-d1dab75c264b.png)
 
+One way in method in which a machine can detect products is by applying a corner detection test known as features from accelerated segment test (FAST). This method extracts corner points by using a circle of sixteen pixels around the point in question and uses a brightness threshold value to identify whether pixels around the point are white space. 
 
 
 
