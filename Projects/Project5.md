@@ -42,6 +42,7 @@ for col in target:
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/116353098-32a47780-a7c4-11eb-913b-250eefa70c15.png)
 
+For this project, the input variable will be images while the output variable (target) will be the above categories.
 ## Computer Vision & FAST Methods
 
 In this project, we will be using computer vision to categorize and detect products. The following images are example images from the dataset:
@@ -92,6 +93,64 @@ for i in range(1, 10):
 ![image](https://user-images.githubusercontent.com/67920563/116354217-173a6c00-a7c6-11eb-840b-2a535a6618bc.png)
 ![image](https://user-images.githubusercontent.com/67920563/116354242-21f50100-a7c6-11eb-93d9-3bf532c62f24.png)
 ![image](https://user-images.githubusercontent.com/67920563/116354283-2e795980-a7c6-11eb-80a0-6505f9c7f3d7.png)
+
+# Data Visualizations
+Let us explore frequency of labels in each category:
+### Master Category
+~~~
+plt.figure(figsize=(7,20))
+df.masterCategory.value_counts().sort_values().plot(kind='barh')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116354795-edce1000-a7c6-11eb-8408-98dd0c06a4f4.png)
+
+### Article type
+~~~
+plt.figure(figsize=(7,20))
+df.articleType.value_counts().sort_values().plot(kind='barh')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116354681-c37c5280-a7c6-11eb-9e8d-fcb2a0b5b899.png)
+### SubCategory
+~~~
+plt.figure(figsize=(7,20))
+df.subCategory.value_counts().sort_values().plot(kind='barh')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116354844-fd4d5900-a7c6-11eb-9f4b-43c6267530c9.png)
+
+### Season
+~~~
+plt.figure(figsize=(7,20))
+df.season.value_counts().sort_values().plot(kind='barh')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116354984-3259ab80-a7c7-11eb-8629-b226bd59650f.png)
+
+### Year
+~~~
+plt.figure(figsize=(7,20))
+df.year.value_counts().sort_values().plot(kind='barh')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116355071-54532e00-a7c7-11eb-9a53-83bd0fa30c08.png)
+
+### Usage
+~~~
+plt.figure(figsize=(7,20))
+df.usage.value_counts().sort_values().plot(kind='barh')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116355129-67fe9480-a7c7-11eb-8e68-3b0bf069e3cc.png)
+### Gender
+~~~
+plt.figure(figsize=(7,20))
+df.gender.value_counts().sort_values().plot(kind='barh')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116355208-88c6ea00-a7c7-11eb-8fb3-1bb66095c703.png)
+
+### Color
+~~~
+plt.figure(figsize=(7,20))
+df.baseColour.value_counts().sort_values().plot(kind='barh')
+~~~
+![image](https://user-images.githubusercontent.com/67920563/116355324-af852080-a7c7-11eb-8f05-595a31bf8dbd.png)
+
+
 
 
 
