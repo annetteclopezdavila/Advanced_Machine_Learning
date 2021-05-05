@@ -239,6 +239,33 @@ print(labels[0])
 
 ![image](https://user-images.githubusercontent.com/67920563/116485241-b3ad4e80-a858-11eb-8209-690580d0dd1d.png)
 
+# Model
+For this classification problem, we will be using a convolutional neural network. 
+
+~~~
+from sklearn.model_selection import train_test_split
+
+# splitting data into testing and training set 
+(trainX, testX, trainY, testY) = train_test_split(data,labels, test_size=0.2, random_state=2021)
+~~~
+
+~~~
+from numpy import mean
+from numpy import std
+import tensorflow as tf
+from sklearn.model_selection import KFold
+from keras.models import Sequential
+from keras.layers import Conv2D
+from keras.layers import MaxPooling2D
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers import Dropout
+from keras.layers import LeakyReLU
+from keras.optimizers import SGD, Adam
+
+inputShape = (IY, IX, 3) #shape,shape,color
+~~~
+
 
 
 
