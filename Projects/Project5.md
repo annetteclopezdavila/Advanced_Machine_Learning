@@ -240,7 +240,7 @@ print(labels[0])
 ![image](https://user-images.githubusercontent.com/67920563/116485241-b3ad4e80-a858-11eb-8209-690580d0dd1d.png)
 
 # Model
-For this classification problem, we will be using a convolutional neural network. 
+For this classification problem, we will be using a convolutional neural network. We must first split the training and test data. For this model, we will be using an 80:20 split. 
 
 ~~~
 from sklearn.model_selection import train_test_split
@@ -248,7 +248,7 @@ from sklearn.model_selection import train_test_split
 # splitting data into testing and training set 
 (trainX, testX, trainY, testY) = train_test_split(data,labels, test_size=0.2, random_state=2021)
 ~~~
-
+Let us load the necessary libraries:
 ~~~
 from numpy import mean
 from numpy import std
@@ -262,9 +262,122 @@ from keras.layers import Flatten
 from keras.layers import Dropout
 from keras.layers import LeakyReLU
 from keras.optimizers import SGD, Adam
-
+~~~
+We must also define the input shape of the pictures in the Neural Network. These will signify the shape and colors used in the pictures. 2 signifies black and white, 3 signifies the color wheel.
+~~~
 inputShape = (IY, IX, 3) #shape,shape,color
 ~~~
+## Model 1
+Before we attempt a model, let us consider possible factors. Because this is a classification problem, we will have one output neuron per class and must use the binary cross-entropy loss function.
+~~~
+model = tf.keras.models.Sequential([
+  tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
+  tf.keras.layers.MaxPooling2D(2, 2), #downsize
+  tf.keras.layers.Dropout(0.25),   #to prevent having dead neurons
+  
+  tf.keras.layers.Dense(64,  activation='relu'),    
+  tf.keras.layers.Flatten(),
+  tf.keras.layers.Dense(64, activation=tf.nn.softmax),
+  tf.keras.layers.Dense(1)
+])
+
+optimizer = tf.keras.optimizers.RMSprop(0.001)
+model.compile(optimizer = optimizer,
+              loss = 'binary_crossentropy',
+              metrics=['accuracy'])
+              
+history= model.fit(trainX, trainY, epochs=100, steps_per_epoch = 1, batch_size = 5)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/118379504-e5d4e500-b5a8-11eb-968f-a2e15a78d82b.png)
+
+
+## Model 2
+~~~
+model = tf.keras.models.Sequential([
+  tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
+  tf.keras.layers.MaxPooling2D(2, 2), #downsize
+  tf.keras.layers.Dropout(0.25),   #to prevent having dead neurons
+  
+  tf.keras.layers.Dense(64,  activation='relu'),    
+  tf.keras.layers.Flatten(),
+  tf.keras.layers.Dense(64, activation=tf.nn.softmax),
+  tf.keras.layers.Dense(1)
+])
+
+from keras.preprocessing.image import ImageDataGenerator
+data_augmentation = True
+batch_size=1
+epochs=1
+optimizer = tf.keras.optimizers.RMSprop(0.001)
+model.compile(optimizer = optimizer,
+              loss = 'binary_crossentropy',
+              metrics=['accuracy'])
+
+#history= model.fit(trainX, trainY, epochs=100, steps_per_epoch = 1, batch_size = 5)
+x_train = trainX.astype('float32')
+x_test = testX.astype('float32')
+x_train /= 255
+x_test /= 255
+
+if not data_augmentation:
+    print('Not using data augmentation.')
+    model.fit(x_train, trainY,
+              batch_size=batch_size,
+              epochs=epochs,
+              validation_data=(x_test, testY),
+              shuffle=True)
+else:
+    print('Using real-time data augmentation.')
+    # This will do preprocessing and realtime data augmentation:
+    datagen = ImageDataGenerator(
+        featurewise_center=False,  # set input mean to 0 over the dataset
+        samplewise_center=False,  # set each sample mean to 0
+        featurewise_std_normalization=False,  # divide inputs by std of the dataset
+        samplewise_std_normalization=False,  # divide each input by its std
+        zca_whitening=False,  # apply ZCA whitening
+        zca_epsilon=1e-06,  # epsilon for ZCA whitening
+        rotation_range=0,  # randomly rotate images in the range (degrees, 0 to 180)
+        # randomly shift images horizontally (fraction of total width)
+        width_shift_range=0.1,
+        # randomly shift images vertically (fraction of total height)
+        height_shift_range=0.1,
+        shear_range=0.,  # set range for random shear
+        zoom_range=0.,  # set range for random zoom
+        channel_shift_range=0.,  # set range for random channel shifts
+        # set mode for filling points outside the input boundaries
+        fill_mode='nearest',
+        cval=0.,  # value used for fill_mode = "constant"
+        horizontal_flip=True,  # randomly flip images
+        vertical_flip=False,  # randomly flip images
+        # set rescaling factor (applied before any other transformation)
+        rescale=None,
+        # set function that will be applied on each input
+        preprocessing_function=None,
+        # image data format, either "channels_first" or "channels_last"
+        data_format=None,
+        # fraction of images reserved for validation (strictly between 0 and 1)
+        validation_split=0.0)
+
+    # Compute quantities required for feature-wise normalization
+    # (std, mean, and principal components if ZCA whitening is applied).
+    datagen.fit(x_train)
+
+    # Fit the model on the batches generated by datagen.flow().
+    model.fit_generator(datagen.flow(x_train, trainY,
+                                     batch_size=batch_size),
+                        epochs=epochs,
+                        validation_data=(x_test, testY),
+                        workers=8)
+# Score trained model.
+scores = model.evaluate(x_test, testY, verbose=1)
+print('Test loss:', scores[0])
+print('Test accuracy:', scores[1])
+~~~
+![image](https://user-images.githubusercontent.com/67920563/118379321-86c2a080-b5a7-11eb-807a-fbcc74728b86.png)
+
+![image](https://user-images.githubusercontent.com/67920563/118379324-90e49f00-b5a7-11eb-9fc4-e7d449266a11.png)
+
+
 
 
 
