@@ -240,7 +240,7 @@ print(labels[0])
 ![image](https://user-images.githubusercontent.com/67920563/116485241-b3ad4e80-a858-11eb-8209-690580d0dd1d.png)
 
 # Model
-For this classification problem, we will be using a convolutional neural network. We must first split the training and test data. For this model, we will be using an 80:20 split. 
+For this classification problem, we will be using a convolutional neural network. We must first split the training and test data. For this model, we will be using an 80:20 split. A typical CNN design begins with feature extraction and finishes with classification. Feature extraction is performed by alternating convolution layers with subsambling layers. Classification is performed with dense layers followed by a final softmax layer.
 
 ~~~
 from sklearn.model_selection import train_test_split
@@ -289,6 +289,7 @@ model.compile(optimizer = optimizer,
 history= model.fit(trainX, trainY, epochs=100, steps_per_epoch = 1, batch_size = 5)
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/118379504-e5d4e500-b5a8-11eb-968f-a2e15a78d82b.png)
+![image](https://user-images.githubusercontent.com/67920563/118379324-90e49f00-b5a7-11eb-9fc4-e7d449266a11.png)
 
 
 ## Model 2
@@ -375,7 +376,33 @@ print('Test accuracy:', scores[1])
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/118379321-86c2a080-b5a7-11eb-807a-fbcc74728b86.png)
 
-![image](https://user-images.githubusercontent.com/67920563/118379324-90e49f00-b5a7-11eb-9fc4-e7d449266a11.png)
+# Model 3
+~~~
+model = tf.keras.models.Sequential([
+  tf.keras.layers.Conv2D(128, (3, 3), activation='relu',padding="same", input_shape=inputShape),
+  tf.keras.layers.MaxPooling2D(2, 2), #downsize
+  tf.keras.layers.Dropout(0.25),   #to prevent having dead neurons
+  
+  tf.keras.layers.Conv2D(64, (3, 3)),  
+  tf.keras.layers.MaxPooling2D(2, 2),  
+  tf.keras.layers.Flatten(),
+    
+  tf.keras.layers.Dense(256,  activation='relu'),    
+  tf.keras.layers.Dense(10, activation=tf.nn.softmax),
+  tf.keras.layers.Dense(1)
+])
+
+optimizer = tf.keras.optimizers.RMSprop(0.001)
+model.compile(optimizer = optimizer,
+              loss = 'binary_crossentropy',
+              metrics=['accuracy'])
+
+history= model.fit(trainX, trainY, epochs=100, steps_per_epoch = 1, batch_size = 5)
+~~~
+![image](https://user-images.githubusercontent.com/67920563/118379916-4fa2be00-b5ac-11eb-9318-6866624a4799.png)
+
+
+
 
 
 
