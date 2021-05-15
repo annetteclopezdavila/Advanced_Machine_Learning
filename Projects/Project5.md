@@ -376,30 +376,7 @@ print('Test accuracy:', scores[1])
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/118379321-86c2a080-b5a7-11eb-807a-fbcc74728b86.png)
 
-# Model 3
-~~~
-model = tf.keras.models.Sequential([
-  tf.keras.layers.Conv2D(128, (3, 3), activation='relu',padding="same", input_shape=inputShape),
-  tf.keras.layers.MaxPooling2D(2, 2), #downsize
-  tf.keras.layers.Dropout(0.25),   #to prevent having dead neurons
-  
-  tf.keras.layers.Conv2D(64, (3, 3)),  
-  tf.keras.layers.MaxPooling2D(2, 2),  
-  tf.keras.layers.Flatten(),
-    
-  tf.keras.layers.Dense(256,  activation='relu'),    
-  tf.keras.layers.Dense(10, activation=tf.nn.softmax),
-  tf.keras.layers.Dense(1)
-])
 
-optimizer = tf.keras.optimizers.RMSprop(0.001)
-model.compile(optimizer = optimizer,
-              loss = 'binary_crossentropy',
-              metrics=['accuracy'])
-
-history= model.fit(trainX, trainY, epochs=100, steps_per_epoch = 1, batch_size = 5)
-~~~
-![image](https://user-images.githubusercontent.com/67920563/118379916-4fa2be00-b5ac-11eb-9318-6866624a4799.png)
 
 
 
