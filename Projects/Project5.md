@@ -267,8 +267,8 @@ We must also define the input shape of the pictures in the Neural Network. These
 ~~~
 inputShape = (IY, IX, 3) #shape,shape,color
 ~~~
-## Model 1
-Before we attempt a model, let us consider possible factors. Because this is a classification problem, we will have one output neuron per class. We must also choose activation functions for hidden and output layers. We will use the R and must use the binary cross-entropy loss function. We can 
+### Model 1
+Before we attempt a model, let us consider possible factors. We must choose activation functions for hidden and output layers. We will use the Relu activation function for the hidden layers and the sigmoid function for the output. Since the model is multi-label, we must use the binary cross-entropy loss function with accuracy as our metrics. We can use dropout in the model in order to discard any unnecessary neurons.
 ~~~
 model = tf.keras.models.Sequential([
   tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
@@ -289,11 +289,41 @@ model.compile(optimizer = optimizer,
 history= model.fit(trainX, trainY, epochs=100, steps_per_epoch = 1, batch_size = 5)
 model.evaluate(testX, testY)
 ~~~
+We can see that the model runs with a 96% accuracy:
 ![image](https://user-images.githubusercontent.com/67920563/118382463-e75fd680-b5c3-11eb-905d-c27fe91ff35b.png)
 ![image](https://user-images.githubusercontent.com/67920563/118382466-f6df1f80-b5c3-11eb-8f5d-93213753ac16.png)
 
+### Model 2
+Let us now apply k-fold cross validation to further verify our results:
+~~~
+def evaluate_model(dataX, dataY, n_folds):
+	scores, histories = list(), list()
+	# prepare cross validation
+	kfold = KFold(n_folds, shuffle=True, random_state=2021)
+	# enumerate splits
+	for train_ix, test_ix in kfold.split(dataX):
+		# define model
+		model = define_model()
+		# select rows for train and test
+		trainX, trainY, testX, testY = dataX[train_ix], dataY[train_ix], dataX[test_ix], dataY[test_ix]
+		# fit model
+		history = model.fit(trainX, trainY, epochs=15, batch_size=32, validation_data=(testX, testY), verbose=0)
+		# evaluate model
+		_, acc = model.evaluate(testX, testY, verbose=0)
+		print('> %.3f' % (acc * 100.0))
+		# stores scores
+		scores.append(acc)
+		histories.append(history)
+	return scores, histories
+ 
+evaluate_model(trainX, trainY, n_folds=3)    
+~~~
+Our cross validation results are consistent with our previous analysis.
+![image](https://user-images.githubusercontent.com/67920563/118407152-5fbeaa00-b64d-11eb-8f44-70ca77c68900.png)
 
-## Model 2
+
+### Model 3
+Because we are feeding certain types of pictures into the model, we can perform data augmentation on our dataset in order to train the model to recognize all images at all angles. Data Augmentation can rotate, crop, zoom, brighten, or flip the current images and add them to the dataset. This technique can be done manually or done algorithmically and should help improve the accuracy. 
 ~~~
 model = tf.keras.models.Sequential([
   tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
