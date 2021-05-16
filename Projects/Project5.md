@@ -240,13 +240,13 @@ print(labels[0])
 ![image](https://user-images.githubusercontent.com/67920563/116485241-b3ad4e80-a858-11eb-8209-690580d0dd1d.png)
 
 # Model
-For this classification problem, we will be using a convolutional neural network. We must first split the training and test data. For this model, we will be using an 80:20 split. A typical CNN design begins with feature extraction and finishes with classification. Feature extraction is performed by alternating convolution layers with subsambling layers. Classification is performed with dense layers followed by a final softmax layer.
+For this classification problem, we will be using a convolutional neural network. We must first split the training and test data. For this model, we will be using an 70:30 split. A typical CNN design begins with feature extraction and finishes with classification. Feature extraction is performed by alternating convolution layers with sublayers. 
 
 ~~~
 from sklearn.model_selection import train_test_split
 
 # splitting data into testing and training set 
-(trainX, testX, trainY, testY) = train_test_split(data,labels, test_size=0.2, random_state=2021)
+(x_train, x_test, y_train, y_test) = train_test_split(data,labels, test_size=0.3, random_state=2021)
 ~~~
 Let us load the necessary libraries:
 ~~~
@@ -275,29 +275,113 @@ Before we attempt a model, let us consider possible factors. Since we are making
 - Binary cross-entropy loss function 
 - Dropout to discard neurons
 It is important to note that the sigmoid activation function predicts the probability of the image belonging to a specific label, so the output will be a vector of numbers pertaining to each class.
+**When I first started this project, I did not plan out my CNN's architecture. I reduced the architecture to one output neuron and had a prediction accuracy of 98%. I did not realize that the sigmoid function returned probabilities, and thus did not think there was anything wrong with the model until I started printing/checking the algorithm and doing the writeup. My new algorithm covers each bullet point above and does place multiple labels on images.
 ~~~
-model = tf.keras.models.Sequential([
-  tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
-  tf.keras.layers.MaxPooling2D(2, 2), #downsize
-  tf.keras.layers.Dropout(0.25),   #to prevent having dead neurons
-  
-  tf.keras.layers.Dense(64,  activation='relu'),    
-  tf.keras.layers.Flatten(),
-  tf.keras.layers.Dense(64, activation='sigmoid'),
-  tf.keras.layers.Dense(1)
-])
+def define_model():
+    model = tf.keras.models.Sequential([
+      tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
+      tf.keras.layers.MaxPooling2D(2, 2), #downsize
+      tf.keras.layers.Dropout(0.25),   #to prevent having dead neurons
 
-optimizer = tf.keras.optimizers.RMSprop(0.001)
-model.compile(optimizer = optimizer,
-              loss = 'binary_crossentropy',
-              metrics=['accuracy'])
-              
-history= model.fit(trainX, trainY, epochs=100, steps_per_epoch = 1, batch_size = 5)
-model.evaluate(testX, testY)
+      tf.keras.layers.Dense(64,  activation='relu'),    
+      tf.keras.layers.Flatten(),
+      tf.keras.layers.Dense(64, activation='relu'),
+      tf.keras.layers.Dense(len(mlb.classes_), activation='sigmoid')
+    ])
+    
+    model.compile(optimizer = 'adam',
+              loss = 'binary_crossentropy')
+    return model
+model.summary()
 ~~~
-We can see that the model runs with a 96% accuracy:
-![image](https://user-images.githubusercontent.com/67920563/118382463-e75fd680-b5c3-11eb-905d-c27fe91ff35b.png)
-![image](https://user-images.githubusercontent.com/67920563/118382466-f6df1f80-b5c3-11eb-8f5d-93213753ac16.png)
+![image](https://user-images.githubusercontent.com/67920563/118415564-fd7b9e80-b678-11eb-886f-c409b639e680.png)
+
+~~~
+history= model.fit(x_train, y_train, epochs=100, steps_per_epoch = 1, batch_size = 5)
+%matplotlib inline
+
+import matplotlib.image  as mpimg
+import matplotlib.pyplot as plt
+
+loss=history.history['loss']
+epochs=range(0, 100) # Get number of epochs
+
+plt.plot(epochs, loss, 'r', "Training Loss")
+plt.figure()
+~~~
+![image](https://user-images.githubusercontent.com/67920563/118416232-a677c880-b67c-11eb-9442-ff73d53895b4.png)
+
+~~~
+yhat = model.predict(x_train)
+yhat = yhat.round()
+true_test_labels = mlb.inverse_transform(y_train)
+pred_test_labels = mlb.inverse_transform(yhat)
+
+correct = 0
+wrong = 0
+
+# Evaluating the predictions of the model
+
+for i in range(len(y_test)):
+
+    true_labels = list(true_test_labels[i])
+
+    pred_labels = list(pred_test_labels[i])
+
+    label1 = true_labels[0]
+    label2 = true_labels[1]
+
+    if label1 in pred_labels:
+        correct+=1
+    else:
+        wrong+=1
+
+    if label2 in pred_labels:
+        correct+=1
+    else:
+        wrong+=1    
+
+print('correct: ', correct)
+print('missing/wrong: ', wrong)
+print('Accuracy: ',correct/(correct+wrong))   
+~~~
+![image](https://user-images.githubusercontent.com/67920563/118415997-7b40a980-b67b-11eb-9337-c73a070868b7.png)
+
+
+#### Prediction
+~~~
+yhat = model.predict(x_test)
+yhat = yhat.round()
+true_test_labels = mlb.inverse_transform(y_test)
+pred_test_labels = mlb.inverse_transform(yhat)
+
+correct = 0
+wrong = 0
+# Evaluating the predictions of the model
+for i in range(len(y_test)):
+    true_labels = list(true_test_labels[i])
+    pred_labels = list(pred_test_labels[i])
+    label1 = true_labels[0]
+    label2 = true_labels[1]
+
+    if label1 in pred_labels:
+        correct+=1
+    else:
+        wrong+=1
+
+    if label2 in pred_labels:
+        correct+=1
+    else:
+        wrong+=1    
+
+print('correct: ', correct)
+print('missing/wrong: ', wrong)
+print('Accuracy: ',correct/(correct+wrong))   
+~~~
+![image](https://user-images.githubusercontent.com/67920563/118416013-8dbae300-b67b-11eb-9504-8deb1b8c844e.png)
+
+
+
 
 ### Model 2
 Let us now apply k-fold cross validation to further verify our results:
