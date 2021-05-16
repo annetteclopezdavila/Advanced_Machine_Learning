@@ -384,33 +384,33 @@ print('Accuracy: ',correct/(correct+wrong))
 
 
 ### Model 2
-Let us now apply k-fold cross validation to further verify our results:
-Note: the first code snippet will need to be changed by defining the model (define_model())
 ~~~
-def evaluate_model(dataX, dataY, n_folds):
-	scores, histories = list(), list()
-	# prepare cross validation
-	kfold = KFold(n_folds, shuffle=True, random_state=2021)
-	# enumerate splits
-	for train_ix, test_ix in kfold.split(dataX):
-		# define model
-		model = define_model()
-		# select rows for train and test
-		trainX, trainY, testX, testY = dataX[train_ix], dataY[train_ix], dataX[test_ix], dataY[test_ix]
-		# fit model
-		history = model.fit(trainX, trainY, epochs=15, batch_size=32, validation_data=(testX, testY), verbose=0)
-		# evaluate model
-		_, acc = model.evaluate(testX, testY, verbose=0)
-		print('> %.3f' % (acc * 100.0))
-		# stores scores
-		scores.append(acc)
-		histories.append(history)
-	return scores, histories
- 
-evaluate_model(trainX, trainY, n_folds=3)    
+def define_model():
+    model = tf.keras.models.Sequential([
+      tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
+      tf.keras.layers.MaxPooling2D(2, 2), #downsize
+      tf.keras.layers.Dropout(0.5),   #to prevent having dead neurons
+
+      tf.keras.layers.Dense(32,  activation='relu'),    
+      tf.keras.layers.Flatten(),
+      tf.keras.layers.Dense(64, activation='relu'),
+      tf.keras.layers.Dense(len(mlb.classes_), activation='sigmoid')
+    ])
+    
+    model.compile(optimizer = 'adam',
+              loss = 'binary_crossentropy')
+    return model
+    
+history= model.fit(x_train, y_train, epochs=100, steps_per_epoch = 15, batch_size = 32)
 ~~~
-Our cross validation results are consistent with our previous analysis.
-![image](https://user-images.githubusercontent.com/67920563/118407152-5fbeaa00-b64d-11eb-8f44-70ca77c68900.png)
+Training Accuracy:
+![image](https://user-images.githubusercontent.com/67920563/118416950-0328b280-b680-11eb-9a55-5470668f7ba0.png)
+
+
+Testing Accuracy:
+![image](https://user-images.githubusercontent.com/67920563/118416960-0c198400-b680-11eb-9c98-30d8a58f2be9.png)
+
+
 
 
 ### Model 3
