@@ -268,7 +268,7 @@ We must also define the input shape of the pictures in the Neural Network. These
 inputShape = (IY, IX, 3) #shape,shape,color
 ~~~
 ## Model 1
-Before we attempt a model, let us consider possible factors. Because this is a classification problem, we will have one output neuron per class and must use the binary cross-entropy loss function.
+Before we attempt a model, let us consider possible factors. Because this is a classification problem, we will have one output neuron per class. We must also choose activation functions for hidden and output layers and must use the binary cross-entropy loss function. We can 
 ~~~
 model = tf.keras.models.Sequential([
   tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
@@ -277,7 +277,7 @@ model = tf.keras.models.Sequential([
   
   tf.keras.layers.Dense(64,  activation='relu'),    
   tf.keras.layers.Flatten(),
-  tf.keras.layers.Dense(64, activation=tf.nn.softmax),
+  tf.keras.layers.Dense(64, activation='sigmoid'),
   tf.keras.layers.Dense(1)
 ])
 
@@ -287,9 +287,10 @@ model.compile(optimizer = optimizer,
               metrics=['accuracy'])
               
 history= model.fit(trainX, trainY, epochs=100, steps_per_epoch = 1, batch_size = 5)
+model.evaluate(testX, testY)
 ~~~
-![image](https://user-images.githubusercontent.com/67920563/118379504-e5d4e500-b5a8-11eb-968f-a2e15a78d82b.png)
-![image](https://user-images.githubusercontent.com/67920563/118379324-90e49f00-b5a7-11eb-9fc4-e7d449266a11.png)
+![image](https://user-images.githubusercontent.com/67920563/118382463-e75fd680-b5c3-11eb-905d-c27fe91ff35b.png)
+![image](https://user-images.githubusercontent.com/67920563/118382466-f6df1f80-b5c3-11eb-8f5d-93213753ac16.png)
 
 
 ## Model 2
