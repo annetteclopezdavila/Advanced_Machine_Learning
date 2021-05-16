@@ -268,7 +268,13 @@ We must also define the input shape of the pictures in the Neural Network. These
 inputShape = (IY, IX, 3) #shape,shape,color
 ~~~
 ### Model 1
-Before we attempt a model, let us consider possible factors. We must choose activation functions for hidden and output layers. We will use the Relu activation function for the hidden layers and the sigmoid function for the output. Since the model is multi-label, we must use the binary cross-entropy loss function with accuracy as our metrics. We can use dropout in the model in order to discard any unnecessary neurons.
+Before we attempt a model, let us consider possible factors. Since we are making a multi-label classification algorithm we need:
+	- Input should match the shape and dimensions
+	- The output layer must have the same amount of neurons as the number of labels
+	- A sigmoid function for the activation function in the output layer (softmax for multiclass)
+	- Binary cross-entropy loss function 
+	- dropout to discard neurons
+It is important to note that the sigmoid activation function predicts the probability of the image belonging to a specific label, so the output will be a vector of numbers pertaining to each class.
 ~~~
 model = tf.keras.models.Sequential([
   tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
@@ -333,7 +339,7 @@ model = tf.keras.models.Sequential([
   
   tf.keras.layers.Dense(64,  activation='relu'),    
   tf.keras.layers.Flatten(),
-  tf.keras.layers.Dense(64, activation=tf.nn.softmax),
+  tf.keras.layers.Dense(64, activation='sigmoid'),
   tf.keras.layers.Dense(1)
 ])
 
@@ -406,7 +412,10 @@ scores = model.evaluate(x_test, testY, verbose=1)
 print('Test loss:', scores[0])
 print('Test accuracy:', scores[1])
 ~~~
+We can see that data augmentation is not improving our accuracy. This may be due to already having a large dataset.
 ![image](https://user-images.githubusercontent.com/67920563/118379321-86c2a080-b5a7-11eb-807a-fbcc74728b86.png)
+
+
 
 
 
