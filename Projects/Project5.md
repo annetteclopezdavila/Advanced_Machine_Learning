@@ -268,7 +268,7 @@ We must also define the input shape of the pictures in the Neural Network. These
 inputShape = (IY, IX, 3) #shape,shape,color
 ~~~
 ## Model 1
-Before we attempt a model, let us consider possible factors. Because this is a classification problem, we will have one output neuron per class. We must also choose activation functions for hidden and output layers and must use the binary cross-entropy loss function. We can 
+Before we attempt a model, let us consider possible factors. Because this is a classification problem, we will have one output neuron per class. We must also choose activation functions for hidden and output layers. We will use the R and must use the binary cross-entropy loss function. We can 
 ~~~
 model = tf.keras.models.Sequential([
   tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
