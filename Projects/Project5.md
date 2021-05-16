@@ -269,11 +269,11 @@ inputShape = (IY, IX, 3) #shape,shape,color
 ~~~
 ### Model 1
 Before we attempt a model, let us consider possible factors. Since we are making a multi-label classification algorithm we need:
-	- Input should match the shape and dimensions
-	- The output layer must have the same amount of neurons as the number of labels
-	- A sigmoid function for the activation function in the output layer (softmax for multiclass)
-	- Binary cross-entropy loss function 
-	- dropout to discard neurons
+- Input should match the shape and dimensions
+- The output layer must have the same amount of neurons as the number of labels
+- A sigmoid function for the activation function in the output layer (softmax for multiclass)
+- Binary cross-entropy loss function 
+- Dropout to discard neurons
 It is important to note that the sigmoid activation function predicts the probability of the image belonging to a specific label, so the output will be a vector of numbers pertaining to each class.
 ~~~
 model = tf.keras.models.Sequential([
