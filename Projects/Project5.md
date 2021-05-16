@@ -295,6 +295,7 @@ We can see that the model runs with a 96% accuracy:
 
 ### Model 2
 Let us now apply k-fold cross validation to further verify our results:
+Note: the first code snippet will need to be changed by defining the model (define_model())
 ~~~
 def evaluate_model(dataX, dataY, n_folds):
 	scores, histories = list(), list()
