@@ -242,6 +242,7 @@ print(labels[0])
 # Model
 For this classification problem, we will be using a convolutional neural network. We must first split the training and test data. For this model, we will be using an 70:30 split. A typical CNN design begins with feature extraction and finishes with classification. Feature extraction is performed by alternating convolution layers with sublayers. 
 
+Let us split the train and test set:
 ~~~
 from sklearn.model_selection import train_test_split
 
@@ -275,7 +276,10 @@ Before we attempt a model, let us consider possible factors. Since we are making
 - Binary cross-entropy loss function 
 - Dropout to discard neurons
 It is important to note that the sigmoid activation function predicts the probability of the image belonging to a specific label, so the output will be a vector of numbers pertaining to each class.
-**When I first started this project, I did not plan out my CNN's architecture. I reduced the architecture to one output neuron and had a prediction accuracy of 98%. I did not realize that the sigmoid function returned probabilities, and thus did not think there was anything wrong with the model until I started printing/checking the algorithm and doing the writeup. My new algorithm covers each bullet point above and does place multiple labels on images.
+
+**When I first started this project, I did not plan out my CNN's architecture. I reduced the architecture to one output neuron and had a prediction accuracy of 98%. I did not realize that the sigmoid function returned probabilities, and thus did not think there was anything wrong with the model until I started printing/checking the algorithm and doing the writeup. My new algorithm covers each bullet point above and does place multiple labels on images.**
+
+
 ~~~
 def define_model():
     model = tf.keras.models.Sequential([
@@ -295,7 +299,7 @@ def define_model():
 model.summary()
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/118415564-fd7b9e80-b678-11eb-886f-c409b639e680.png)
-
+Let us plot the loss function over 100 epochs:
 ~~~
 history= model.fit(x_train, y_train, epochs=100, steps_per_epoch = 1, batch_size = 5)
 %matplotlib inline
@@ -311,6 +315,7 @@ plt.figure()
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/118416232-a677c880-b67c-11eb-9442-ff73d53895b4.png)
 
+Because our model returns probabilities, we must convert the output to binary to resemble the labels. We can do this by rounding and then tranforming the binary back to labels.
 ~~~
 yhat = model.predict(x_train)
 yhat = yhat.round()
@@ -319,10 +324,10 @@ pred_test_labels = mlb.inverse_transform(yhat)
 
 correct = 0
 wrong = 0
-
-# Evaluating the predictions of the model
-
-for i in range(len(y_test)):
+~~~
+We then must make an accuracy function in order to evaluate the model:
+~~~
+for i in range(len(y_train)):
 
     true_labels = list(true_test_labels[i])
 
@@ -346,9 +351,10 @@ print('missing/wrong: ', wrong)
 print('Accuracy: ',correct/(correct+wrong))   
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/118415997-7b40a980-b67b-11eb-9337-c73a070868b7.png)
+Model 1's accuracy is 72.3 % showing that there is room for improvement in the model.
 
-
-#### Prediction
+#### Predictions on the Testing Set
+In order to cross validate our results, we must now predict the labels for the testing set:
 ~~~
 yhat = model.predict(x_test)
 yhat = yhat.round()
@@ -379,8 +385,11 @@ print('missing/wrong: ', wrong)
 print('Accuracy: ',correct/(correct+wrong))   
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/118416013-8dbae300-b67b-11eb-9504-8deb1b8c844e.png)
+The testing set's accuracy is slightly less than the training set, thus signifying the model may be slightly overfit.
 
+Let us now compare this model at other hyperparameters:
 
+![pic](https://user-images.githubusercontent.com/67920563/118417956-759b9180-b684-11eb-8438-461ea171a817.png)
 
 
 ### Model 2
