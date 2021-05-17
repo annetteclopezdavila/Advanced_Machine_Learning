@@ -8,7 +8,7 @@ cover-img: /assets/img/NNN.PNG
 This capstone project will attempt to complete Phase 1 of a wardrobe recommendation algorithm. In Phase 1, we will classify images of fashion items by gender, item category, type of item, season worn, colors, year, and usage. In order to classify the image, we will need to create a multi-label system rather than a binary label system. Then, a CNN will be used to predict classifications.
 
 # Introducing the Data
-In order to make a prototype model, I have found a Fashion Product Image Dataset. This dataset can be downloaded from [Kaggle](https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset). Due to time, memory, and RAM constrictions, we will be using the smaller version of the dataset (280 MB instead of 15GB). 
+In order to make a prototype model, I have found a Fashion Product Image Dataset. This dataset can be downloaded from [Kaggle](https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset). Due to time, memory, and RAM constrictions, we will be using the smaller version of the dataset (280 MB instead of 15GB, the images are reduced in size). 
 
 ~~~
 from mpl_toolkits.mplot3d import Axes3D
@@ -539,9 +539,35 @@ print('Accuracy: ',correct/(correct+wrong))
 Unfortunately, it seems that I may have applied this wrong as it severly impacted the model. Due to time constraints, I will continue to try to apply this in my free time.
 
 # Conclusion
+From the results, it is clear that the model still needs a lot of work. Perhaps eliminating some of the labels that would be hard to predict in the small image datset should be removed such as the year of the clothes or the season it is worn in. Another major error in the pre-processing concerns the class imbalance of the dataset. In the future, it would be recommended to create synthetic data for the model or add futher images to the dataset. Early stopping or a higher dropout may regularize the neural network in the future. 
 
+In the future, I would also like to make the accuracy function an actual python function that can be placed as a DIY metric in order to be able to track overfitting over epochs. I also would like to modify the below algorithm in order to prompt the user for an image:
+~~~
+import numpy as np
+from google.colab import files
+from keras.preprocessing import image
 
+uploaded = files.upload()
 
+for fn in uploaded.keys():
+ 
+  # predicting images
+  path = '/content/' + fn
+  img = image.load_img(path, target_size=(150, 150))
+  x = image.img_to_array(img)
+  x = np.expand_dims(x, axis=0)
+
+  images = np.vstack([x])
+  classes = model.predict(images, batch_size=10)
+  print(classes[0])
+  if classes[0]>0.5:
+    print(fn + " is a dog")
+  else:
+    print(fn + " is a cat")
+~~~    
+This algorithm was taken from the google colab tensorflow tutorials on youtube. It prompts the user for an image and predicts the classification. The above code is a binary classification model but it may be applicable for a multi-label model.
+
+Lastly, it would be interesting to see if this model could be completely reimagined. The dataset is divided into categories with subcategories with smaller subcategories. For example, perhaps a neural network can be designed to designate an image as an accessory, apparel, footwear, etc (the master category). Then, depending on which category it chooses, the image could be released into another neural network that divides it into a subcategory. The question would then be whether this is more computationally expensive and perhaps has greater overall error. Perhaps there is a way to design a more complex neural network in which optimization constraints are stronger. 
 
 
 
