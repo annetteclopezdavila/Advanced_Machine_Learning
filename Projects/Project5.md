@@ -567,7 +567,8 @@ for fn in uploaded.keys():
 ~~~    
 This algorithm was taken from the google colab tensorflow tutorials on youtube. It prompts the user for an image and predicts the classification. The above code is a binary classification model but it may be applicable for a multi-label model.
 
-Lastly, it would be interesting to see if this model could be completely reimagined. The dataset is divided into categories with subcategories with smaller subcategories. For example, perhaps a neural network can be designed to designate an image as an accessory, apparel, footwear, etc (the master category). Then, depending on which category it chooses, the image could be released into another neural network that divides it into a subcategory. The question would then be whether this is more computationally expensive and perhaps has greater overall error. Perhaps there is a way to design a more complex neural network in which optimization constraints are stronger. 
+Lastly, it would be interesting to see if this model could be completely reimagined. The dataset is divided into categories with subcategories with smaller subcategories. For example, perhaps a neural network can be designed to designate an image as an accessory, apparel, footwear, etc (the master category). Then, depending on which category it chooses, the image could be released into another neural network that divides it into a subcategory. The question would then be whether this is more computationally expensive and perhaps has greater overall error. Perhaps there is a way to design a more complex neural network in which optimization constraints are stronger. I will be further looking at current machine learning algorithms such as the Pin2Vec Pinterest Algorithm and Image Similarity Batch Pipeline (image below). These algorithms may help future phases of the project.
+![image](https://user-images.githubusercontent.com/67920563/118421559-60783000-b68f-11eb-97ac-e5b30684f48f.png)
 
 
 
