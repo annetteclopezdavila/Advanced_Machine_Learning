@@ -239,7 +239,7 @@ print(labels[0])
 
 ![image](https://user-images.githubusercontent.com/67920563/116485241-b3ad4e80-a858-11eb-8209-690580d0dd1d.png)
 
-# Model
+# Models
 For this classification problem, we will be using a convolutional neural network. We must first split the training and test data. For this model, we will be using an 70:30 split. A typical CNN design begins with feature extraction and finishes with classification. Feature extraction is performed by alternating convolution layers with sublayers. 
 
 Let us split the train and test set:
@@ -393,6 +393,7 @@ Let us now compare this model at other hyperparameters:
 
 
 ### Model 2
+Let us try to improve the architecture of our Neural Network and see if it may increase the accuracy. Below we have increased the dropout and reduced the amount of neurons.
 ~~~
 def define_model():
     model = tf.keras.models.Sequential([
@@ -413,17 +414,21 @@ def define_model():
 history= model.fit(x_train, y_train, epochs=100, steps_per_epoch = 15, batch_size = 32)
 ~~~
 Training Accuracy:
+
 ![image](https://user-images.githubusercontent.com/67920563/118416950-0328b280-b680-11eb-9a55-5470668f7ba0.png)
 
 
 Testing Accuracy:
+
 ![image](https://user-images.githubusercontent.com/67920563/118416960-0c198400-b680-11eb-9c98-30d8a58f2be9.png)
 
+
+Our Training and Testing accuracy scored higher with this model. 
 
 
 
 ### Model 3
-Because we are feeding certain types of pictures into the model, we can perform data augmentation on our dataset in order to train the model to recognize all images at all angles. Data Augmentation can rotate, crop, zoom, brighten, or flip the current images and add them to the dataset. This technique can be done manually or done algorithmically and should help improve the accuracy. 
+Because we are feeding certain types of pictures into the model, we can perform data augmentation on our dataset in order to train the model to recognize all images at all angles. Data Augmentation can rotate, crop, zoom, brighten, or flip the current images and add them to the dataset. This technique can be done manually or done algorithmically and should help improve the accuracy. My attempt is below:
 ~~~
 model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu',padding="same", input_shape=inputShape),
@@ -531,8 +536,11 @@ print('Accuracy: ',correct/(correct+wrong))
 ~~~
 ![image](https://user-images.githubusercontent.com/67920563/118417515-63b8ef00-b682-11eb-93aa-e5ed5dd6c8fd.png)
 
+Unfortunately, it seems that I may have applied this wrong as it severly impacted the model. Due to time constraints, I will continue to try to apply this in my free time.
 
-We can see that data augmentation is not improving our accuracy. 
+# Conclusion
+
+
 
 
 
