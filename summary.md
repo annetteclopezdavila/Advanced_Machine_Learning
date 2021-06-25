@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Summary Notes
+title: Summary & Notes
 cover-img: /assets/img/NNN.PNG
 ---
 ## Machine Learning
@@ -11,6 +11,9 @@ cover-img: /assets/img/NNN.PNG
   - There are several types of cross-validation methods such as k-fold cross validation, stratified k-fold, leave-p-out cross validation, and the holdout method.
   
 - Is it better to design robust or accurate algorithms?
+  -   It depends on the model but there are tradeoffs:
+    - A model that is too simple may not capture the complexities of the system (underfitting)
+    - A model that is too complex may capture patterns that are more specialized to the dataset and thus not general enough to accurately work on other datasets (overfitting)
 How to define/select metrics?
 Explain what regularization is and why it is useful. What are the benefits and drawbacks of specific methods, such as ridge regression and lasso?
 Explain what a local optimum is and why it is important in a specific context, such as K-means clustering. What are specific ways of determining if you have a local optimum problem? What can be done to avoid local optima?
